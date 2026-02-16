@@ -53,6 +53,29 @@ const DEFAULT_RSS_SOURCES = [
   { id: "google-blog", name: "Google Blog", url: "https://blog.google/rss/", enabled: true },
 ];
 
+// Curated starter feeds that are generally stable for this project style.
+const RECOMMENDED_RSS_SOURCES = [
+  { name: "少数派", url: "https://sspai.com/feed" },
+  { name: "Google Blog", url: "https://blog.google/rss/" },
+  { name: "simonwillison.net", url: "https://simonwillison.net/atom/everything/" },
+  { name: "mitchellh.com", url: "https://mitchellh.com/feed.xml" },
+  { name: "overreacted.io", url: "https://overreacted.io/rss.xml" },
+  { name: "dynomight.net", url: "https://dynomight.net/feed.xml" },
+  { name: "devblogs.microsoft.com/oldnewthing", url: "https://devblogs.microsoft.com/oldnewthing/feed" },
+  { name: "skyfall.dev", url: "https://skyfall.dev/rss.xml" },
+  { name: "matklad.github.io", url: "https://matklad.github.io/feed.xml" },
+  { name: "computer.rip", url: "https://computer.rip/rss.xml" },
+  { name: "jyn.dev", url: "https://jyn.dev/atom.xml" },
+  { name: "minimaxir.com", url: "https://minimaxir.com/index.xml" },
+];
+
+const RSS_STATUS_LABEL = {
+  direct_ok: "可直连",
+  proxy_needed: "需代理",
+  unavailable: "不可用",
+  unknown: "待检测",
+};
+
 // These hosts are known to block browser-side direct fetch in this deployment style.
 const NO_DIRECT_FETCH_HOSTS = new Set([
   "www.ifanr.com",
@@ -110,6 +133,9 @@ const state = {
     openMode: "preview",
     rssSources: [],
   },
+  rssDiagnostics: new Map(),
+  rssManageQuery: "",
+  rssManageFilter: "all",
   dailyFeed: {
     loading: false,
     items: [],
@@ -174,6 +200,14 @@ const ui = {
   rssOpmlInput: document.getElementById("rssOpmlInput"),
   rssReloadBtn: document.getElementById("rssReloadBtn"),
   rssResetBtn: document.getElementById("rssResetBtn"),
+  rssRecommendedList: document.getElementById("rssRecommendedList"),
+  rssAddRecommendedBtn: document.getElementById("rssAddRecommendedBtn"),
+  rssManageSearchInput: document.getElementById("rssManageSearchInput"),
+  rssManageFilter: document.getElementById("rssManageFilter"),
+  rssEnableFilteredBtn: document.getElementById("rssEnableFilteredBtn"),
+  rssDisableFilteredBtn: document.getElementById("rssDisableFilteredBtn"),
+  rssDeleteFilteredBtn: document.getElementById("rssDeleteFilteredBtn"),
+  rssSourceMeta: document.getElementById("rssSourceMeta"),
   rssSourceList: document.getElementById("rssSourceList"),
   rssColorLegend: document.getElementById("rssColorLegend"),
   rssColorLegendInline: document.getElementById("rssColorLegendInline"),
@@ -1881,19 +1915,36 @@ function buildDailyFallbackItems() {
 async function reloadDailyFeed({ silent = false } = {}) {
   state.dailyFeed.loading = true;
   state.dailyFeed.errors = [];
+  const diagnostics = new Map();
+  const checkedAt = new Date().toISOString();
+  const markDiagnostic = (source, classification, reason = "", itemCount = 0) => {
+    const sourceId = String(source?.id || "").trim();
+    if (!sourceId) return;
+    diagnostics.set(sourceId, {
+      classification,
+      reason,
+      checkedAt,
+      itemCount: Number(itemCount || 0),
+    });
+  };
   renderOverviewList();
 
   const enabledSources = state.appSettings.rssSources.filter((s) => s.enabled && isHttpUrl(s.url));
   const directSources = enabledSources.filter((s) => canFetchSourceDirectly(s));
   const blockedSources = enabledSources.filter((s) => !canFetchSourceDirectly(s));
-  const preErrors = blockedSources.map((s) => `${s.name}: 当前站点前端直连受限，需后端代理`);
+  const preErrors = blockedSources.map((s) => {
+    markDiagnostic(s, "proxy_needed", "当前站点前端直连受限，需后端代理");
+    return `${s.name}: 当前站点前端直连受限，需后端代理`;
+  });
 
   if (directSources.length === 0) {
     state.dailyFeed.items = buildDailyFallbackItems();
     state.dailyFeed.loading = false;
     state.dailyFeed.errors = preErrors;
-    state.dailyFeed.updatedAt = new Date().toISOString();
+    state.dailyFeed.updatedAt = checkedAt;
+    state.rssDiagnostics = diagnostics;
     renderOverviewList();
+    renderRssSourceList();
     renderRssColorLegend();
     if (state.engine && state.overviewMode !== OVERVIEW_MODE_CORE) {
       buildEngineAndSeed();
@@ -1919,8 +1970,11 @@ async function reloadDailyFeed({ silent = false } = {}) {
     const res = results[i];
     if (res.ok) {
       merged.push(...res.items);
+      markDiagnostic(res.source, "direct_ok", `抓取成功，条目 ${res.items.length}`, res.items.length);
     } else {
-      const message = `${res.source.name}: ${res.err?.message || "抓取失败"}`;
+      const reason = res.err?.message || "抓取失败";
+      markDiagnostic(res.source, "unavailable", reason, 0);
+      const message = `${res.source.name}: ${reason}`;
       errors.push(message);
     }
   }
@@ -1929,8 +1983,10 @@ async function reloadDailyFeed({ silent = false } = {}) {
   state.dailyFeed.items = finalItems.length > 0 ? finalItems : buildDailyFallbackItems();
   state.dailyFeed.loading = false;
   state.dailyFeed.errors = errors;
-  state.dailyFeed.updatedAt = new Date().toISOString();
+  state.dailyFeed.updatedAt = checkedAt;
+  state.rssDiagnostics = diagnostics;
   renderOverviewList();
+  renderRssSourceList();
   renderRssColorLegend();
 
   if (state.engine && state.overviewMode !== OVERVIEW_MODE_CORE) {
@@ -3102,10 +3158,217 @@ function renderOverviewList() {
   syncSavedBatchUi();
 }
 
+function getRecommendedRssSources() {
+  const merged = [...DEFAULT_RSS_SOURCES, ...RECOMMENDED_RSS_SOURCES];
+  const deduped = [];
+  const seen = new Set();
+  for (let i = 0; i < merged.length; i += 1) {
+    const raw = merged[i];
+    const normalized = normalizeRssSource(
+      {
+        id: `recommended-${hashString(`${raw.name}|${raw.url}`)}`,
+        name: raw.name,
+        url: raw.url,
+        enabled: true,
+      },
+      i,
+    );
+    const key = String(normalized.url || "").trim().toLowerCase();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    deduped.push(normalized);
+  }
+  return deduped;
+}
+
+function addRssSourceIfNotExists(source, { prepend = false } = {}) {
+  const normalized = normalizeRssSource(source, (state.appSettings.rssSources || []).length);
+  const urlKey = String(normalized.url || "").trim().toLowerCase();
+  if (!urlKey || !isHttpUrl(normalized.url)) {
+    return { added: false, reason: "invalid" };
+  }
+  const exists = (state.appSettings.rssSources || [])
+    .some((s) => String(s.url || "").trim().toLowerCase() === urlKey);
+  if (exists) return { added: false, reason: "duplicate" };
+
+  if (!Array.isArray(state.appSettings.rssSources)) {
+    state.appSettings.rssSources = [];
+  }
+  if (prepend) {
+    state.appSettings.rssSources.unshift(normalized);
+  } else {
+    state.appSettings.rssSources.push(normalized);
+  }
+  return { added: true, source: normalized };
+}
+
+function getRssStatusForSource(source) {
+  const sourceId = String(source?.id || "").trim();
+  if (sourceId && state.rssDiagnostics.has(sourceId)) {
+    const hit = state.rssDiagnostics.get(sourceId);
+    return {
+      classification: hit.classification || "unknown",
+      label: RSS_STATUS_LABEL[hit.classification] || RSS_STATUS_LABEL.unknown,
+      reason: hit.reason || "",
+      checkedAt: hit.checkedAt || "",
+      itemCount: Number(hit.itemCount || 0),
+    };
+  }
+
+  const url = String(source?.url || "").trim();
+  if (!isHttpUrl(url)) {
+    return {
+      classification: "unavailable",
+      label: RSS_STATUS_LABEL.unavailable,
+      reason: "URL 非法",
+      checkedAt: "",
+      itemCount: 0,
+    };
+  }
+
+  let protocol = "";
+  try {
+    protocol = new URL(url).protocol || "";
+  } catch (_err) {
+    protocol = "";
+  }
+  if (protocol && protocol !== "https:") {
+    return {
+      classification: "proxy_needed",
+      label: RSS_STATUS_LABEL.proxy_needed,
+      reason: "HTTP 源在 HTTPS 页面会受限",
+      checkedAt: "",
+      itemCount: 0,
+    };
+  }
+
+  if (!canFetchSourceDirectly(source)) {
+    return {
+      classification: "proxy_needed",
+      label: RSS_STATUS_LABEL.proxy_needed,
+      reason: "当前前端直连受限",
+      checkedAt: "",
+      itemCount: 0,
+    };
+  }
+
+  return {
+    classification: "unknown",
+    label: RSS_STATUS_LABEL.unknown,
+    reason: source?.enabled ? "等待刷新检测" : "源已停用",
+    checkedAt: "",
+    itemCount: 0,
+  };
+}
+
+function getFilteredRssSourceItems() {
+  const sources = Array.isArray(state.appSettings.rssSources) ? state.appSettings.rssSources : [];
+  const query = String(state.rssManageQuery || "").trim().toLowerCase();
+  const filter = String(state.rssManageFilter || "all");
+
+  const mapped = sources.map((source) => {
+    const status = getRssStatusForSource(source);
+    const host = getHostFromUrl(source.url || "").replace(/^www\./, "");
+    return { source, status, host };
+  });
+
+  return mapped.filter((item) => {
+    if (query) {
+      const hit = String(item.source.name || "").toLowerCase().includes(query)
+        || String(item.source.url || "").toLowerCase().includes(query)
+        || String(item.host || "").toLowerCase().includes(query);
+      if (!hit) return false;
+    }
+
+    if (filter === "all") return true;
+    if (filter === "enabled") return !!item.source.enabled;
+    if (filter === "disabled") return !item.source.enabled;
+    return item.status.classification === filter;
+  });
+}
+
+function renderRssRecommendedList() {
+  if (!ui.rssRecommendedList) return;
+  ui.rssRecommendedList.innerHTML = "";
+  const recommended = getRecommendedRssSources();
+  const existing = new Set(
+    (state.appSettings.rssSources || [])
+      .map((s) => String(s.url || "").trim().toLowerCase()),
+  );
+
+  if (recommended.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "overview-empty";
+    empty.textContent = "暂无推荐源";
+    ui.rssRecommendedList.appendChild(empty);
+    if (ui.rssAddRecommendedBtn) ui.rssAddRecommendedBtn.disabled = true;
+    return;
+  }
+
+  let addableCount = 0;
+  for (let i = 0; i < recommended.length; i += 1) {
+    const source = recommended[i];
+    const urlKey = String(source.url || "").trim().toLowerCase();
+    const added = existing.has(urlKey);
+    if (!added) addableCount += 1;
+
+    const host = getHostFromUrl(source.url || "").replace(/^www\./, "");
+    const row = document.createElement("div");
+    row.className = "rss-recommended-item";
+    row.innerHTML = `
+      <div class="rss-recommended-main">
+        <span class="rss-recommended-name">${escapeHtml(source.name || host || "未命名源")}</span>
+        <span class="rss-recommended-url">${escapeHtml(host || source.url)}</span>
+      </div>
+      <button type="button" class="mini-btn" ${added ? "disabled" : ""}>${added ? "已添加" : "添加"}</button>
+    `;
+    const addBtn = row.querySelector("button");
+    addBtn.addEventListener("click", async () => {
+      const result = addRssSourceIfNotExists(source, { prepend: true });
+      if (!result.added) return;
+      saveAppSettings();
+      renderRssSourceList();
+      renderRssColorLegend();
+      await reloadDailyFeed({ silent: true });
+      showToast(`已添加推荐源：${source.name}`);
+    });
+    ui.rssRecommendedList.appendChild(row);
+  }
+
+  if (ui.rssAddRecommendedBtn) {
+    ui.rssAddRecommendedBtn.disabled = addableCount === 0;
+  }
+}
+
 function renderRssSourceList() {
   ui.rssSourceList.innerHTML = "";
+  renderRssRecommendedList();
   const sources = state.appSettings.rssSources || [];
-  if (sources.length === 0) {
+
+  const filtered = getFilteredRssSourceItems();
+  const totalCount = sources.length;
+  const enabledCount = sources.filter((s) => s.enabled).length;
+  const counts = {
+    direct_ok: 0,
+    proxy_needed: 0,
+    unavailable: 0,
+    unknown: 0,
+  };
+  for (let i = 0; i < sources.length; i += 1) {
+    const status = getRssStatusForSource(sources[i]);
+    const key = status.classification || "unknown";
+    counts[key] = (counts[key] || 0) + 1;
+  }
+
+  if (ui.rssSourceMeta) {
+    ui.rssSourceMeta.textContent = `显示 ${filtered.length}/${totalCount} · 启用 ${enabledCount} · 可直连 ${counts.direct_ok} · 需代理 ${counts.proxy_needed} · 不可用 ${counts.unavailable} · 待检测 ${counts.unknown}`;
+  }
+
+  if (ui.rssEnableFilteredBtn) ui.rssEnableFilteredBtn.disabled = filtered.length === 0;
+  if (ui.rssDisableFilteredBtn) ui.rssDisableFilteredBtn.disabled = filtered.length === 0;
+  if (ui.rssDeleteFilteredBtn) ui.rssDeleteFilteredBtn.disabled = filtered.length === 0;
+
+  if (totalCount === 0) {
     const empty = document.createElement("div");
     empty.className = "overview-empty";
     empty.textContent = "暂无 RSS 源，点击上方输入框添加。";
@@ -3114,19 +3377,35 @@ function renderRssSourceList() {
     return;
   }
 
-  for (let i = 0; i < sources.length; i += 1) {
-    const source = sources[i];
-    const directOk = canFetchSourceDirectly(source);
-    const sourceName = directOk ? source.name : `${source.name}（需后端代理）`;
+  if (filtered.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "overview-empty";
+    empty.textContent = "当前筛选没有匹配的源。";
+    ui.rssSourceList.appendChild(empty);
+    renderRssColorLegend();
+    return;
+  }
+
+  for (let i = 0; i < filtered.length; i += 1) {
+    const item = filtered[i];
+    const source = item.source;
+    const status = item.status;
+    const statusLabel = status.label || RSS_STATUS_LABEL.unknown;
+    const statusReason = status.reason || "";
+    const checkedText = status.checkedAt ? ` · ${formatDateTime(status.checkedAt)}` : "";
     const row = document.createElement("div");
     row.className = "rss-source-item";
     row.innerHTML = `
       <div class="rss-main">
         <input type="checkbox" ${source.enabled ? "checked" : ""} />
-        <span class="rss-name">${escapeHtml(sourceName)}</span>
+        <span class="rss-name">${escapeHtml(source.name || "未命名源")}</span>
       </div>
-      <button class="rss-delete" type="button">删除</button>
+      <div class="rss-actions">
+        <span class="rss-status-pill is-${escapeHtml(status.classification || "unknown")}">${escapeHtml(statusLabel)}</span>
+        <button class="rss-delete" type="button">删除</button>
+      </div>
       <div class="rss-url">${escapeHtml(source.url)}</div>
+      <div class="rss-status-detail">${escapeHtml(statusReason)}${escapeHtml(checkedText)}</div>
     `;
 
     const checkbox = row.querySelector('input[type="checkbox"]');
@@ -3134,6 +3413,7 @@ function renderRssSourceList() {
       const next = !!e.target.checked;
       source.enabled = next;
       saveAppSettings();
+      renderRssSourceList();
       await reloadDailyFeed({ silent: true });
       renderOverviewList();
     });
@@ -3355,6 +3635,113 @@ function bindUI() {
     });
   }
 
+  if (ui.rssManageSearchInput) {
+    ui.rssManageSearchInput.value = state.rssManageQuery || "";
+    ui.rssManageSearchInput.addEventListener("input", () => {
+      state.rssManageQuery = ui.rssManageSearchInput.value || "";
+      renderRssSourceList();
+    });
+  }
+  if (ui.rssManageFilter) {
+    ui.rssManageFilter.value = state.rssManageFilter || "all";
+    ui.rssManageFilter.addEventListener("change", () => {
+      state.rssManageFilter = ui.rssManageFilter.value || "all";
+      renderRssSourceList();
+    });
+  }
+
+  const applyRssBatchAction = async (action) => {
+    const filtered = getFilteredRssSourceItems();
+    if (filtered.length === 0) {
+      showToast("当前筛选没有可操作的 RSS 源");
+      return;
+    }
+
+    let changed = 0;
+    if (action === "enable") {
+      for (let i = 0; i < filtered.length; i += 1) {
+        const source = filtered[i].source;
+        if (!source.enabled) {
+          source.enabled = true;
+          changed += 1;
+        }
+      }
+      if (changed === 0) {
+        showToast("当前筛选中的源已全部启用");
+        return;
+      }
+    } else if (action === "disable") {
+      for (let i = 0; i < filtered.length; i += 1) {
+        const source = filtered[i].source;
+        if (source.enabled) {
+          source.enabled = false;
+          changed += 1;
+        }
+      }
+      if (changed === 0) {
+        showToast("当前筛选中的源已全部停用");
+        return;
+      }
+    } else if (action === "delete") {
+      const ok = window.confirm(`确认删除当前筛选的 ${filtered.length} 个 RSS 源吗？`);
+      if (!ok) return;
+      const removeIds = new Set(filtered.map((item) => String(item.source.id || "").trim()).filter(Boolean));
+      const before = state.appSettings.rssSources.length;
+      state.appSettings.rssSources = state.appSettings.rssSources.filter(
+        (source) => !removeIds.has(String(source.id || "").trim()),
+      );
+      changed = before - state.appSettings.rssSources.length;
+      if (changed <= 0) {
+        showToast("没有删除任何 RSS 源");
+        return;
+      }
+    }
+
+    saveAppSettings();
+    renderRssSourceList();
+    renderRssColorLegend();
+    await reloadDailyFeed({ silent: true });
+    renderOverviewList();
+    if (action === "enable") showToast(`已批量启用 ${changed} 个 RSS 源`);
+    if (action === "disable") showToast(`已批量停用 ${changed} 个 RSS 源`);
+    if (action === "delete") showToast(`已批量删除 ${changed} 个 RSS 源`);
+  };
+
+  if (ui.rssEnableFilteredBtn) {
+    ui.rssEnableFilteredBtn.addEventListener("click", async () => {
+      await applyRssBatchAction("enable");
+    });
+  }
+  if (ui.rssDisableFilteredBtn) {
+    ui.rssDisableFilteredBtn.addEventListener("click", async () => {
+      await applyRssBatchAction("disable");
+    });
+  }
+  if (ui.rssDeleteFilteredBtn) {
+    ui.rssDeleteFilteredBtn.addEventListener("click", async () => {
+      await applyRssBatchAction("delete");
+    });
+  }
+  if (ui.rssAddRecommendedBtn) {
+    ui.rssAddRecommendedBtn.addEventListener("click", async () => {
+      const recommended = getRecommendedRssSources();
+      let added = 0;
+      for (let i = 0; i < recommended.length; i += 1) {
+        const result = addRssSourceIfNotExists(recommended[i], { prepend: false });
+        if (result.added) added += 1;
+      }
+      if (added === 0) {
+        showToast("推荐位中的源都已存在");
+        return;
+      }
+      saveAppSettings();
+      renderRssSourceList();
+      renderRssColorLegend();
+      await reloadDailyFeed({ silent: true });
+      showToast(`已添加 ${added} 个推荐 RSS 源`);
+    });
+  }
+
   ui.rssAddBtn.addEventListener("click", async () => {
     const name = (ui.rssNameInput.value || "").trim();
     const url = normalizePath((ui.rssUrlInput.value || "").trim());
@@ -3367,13 +3754,19 @@ function bindUI() {
       return;
     }
 
-    const id = `rss-${hashString(`${name}|${url}|${Date.now()}`)}`;
-    state.appSettings.rssSources.unshift({
-      id,
-      name,
-      url,
-      enabled: true,
-    });
+    const addResult = addRssSourceIfNotExists(
+      {
+        id: `rss-${hashString(`${name}|${url}|${Date.now()}`)}`,
+        name,
+        url,
+        enabled: true,
+      },
+      { prepend: true },
+    );
+    if (!addResult.added) {
+      showToast("该 RSS 源已存在或地址无效");
+      return;
+    }
     saveAppSettings();
     renderRssSourceList();
     renderRssColorLegend();
@@ -3396,6 +3789,7 @@ function bindUI() {
 
   ui.rssResetBtn.addEventListener("click", async () => {
     state.appSettings.rssSources = cloneDefaultRssSources();
+    state.rssDiagnostics = new Map();
     saveAppSettings();
     renderRssSourceList();
     renderRssColorLegend();

@@ -131,6 +131,36 @@
           <input id="rssUrlInput" type="url" placeholder="RSS URL（https://...）" />
           <button id="rssAddBtn" type="button">添加源</button>
         </div>
+        <div class="rss-recommended-panel" aria-label="推荐 RSS 源">
+          <div class="rss-manage-heading">
+            <h5>推荐位</h5>
+            <button id="rssAddRecommendedBtn" type="button" class="mini-btn">添加全部推荐</button>
+          </div>
+          <p class="section-tip">基于当前环境更容易直连的源，适合作为起步组合。</p>
+          <div id="rssRecommendedList" class="rss-recommended-list">
+            <div class="overview-empty">暂无推荐源</div>
+          </div>
+        </div>
+        <div class="rss-manage-panel" aria-label="RSS 源管理">
+          <div class="rss-manage-grid">
+            <input id="rssManageSearchInput" type="search" placeholder="按名称或域名搜索源" />
+            <select id="rssManageFilter">
+              <option value="all">全部状态</option>
+              <option value="enabled">仅启用</option>
+              <option value="disabled">仅停用</option>
+              <option value="direct_ok">前端可直连</option>
+              <option value="proxy_needed">需代理</option>
+              <option value="unavailable">不可用</option>
+              <option value="unknown">待检测</option>
+            </select>
+          </div>
+          <div class="rss-manage-actions">
+            <button id="rssEnableFilteredBtn" type="button" class="mini-btn">启用当前筛选</button>
+            <button id="rssDisableFilteredBtn" type="button" class="mini-btn">停用当前筛选</button>
+            <button id="rssDeleteFilteredBtn" type="button" class="mini-btn">删除当前筛选</button>
+          </div>
+          <div id="rssSourceMeta" class="rss-source-meta"></div>
+        </div>
         <div id="rssSourceList" class="rss-source-list"></div>
         <p class="section-tip">RSS 源颜色图例</p>
         <div id="rssColorLegendInline" class="rss-color-legend rss-color-legend-inline">
