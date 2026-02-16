@@ -56,6 +56,11 @@
     <section id="legendPanel" class="floating-panel" aria-label="场景图例">
       <h3>场景图例</h3>
       <div class="legend-content"></div>
+      <div class="legend-divider"></div>
+      <h4 class="legend-subtitle">RSS 源颜色图例</h4>
+      <div id="rssColorLegend" class="rss-color-legend">
+        <div class="overview-empty">暂无 RSS 源</div>
+      </div>
       <label class="toggle-row">
         <input id="highContrastToggle" type="checkbox" />
         <span>高对比模式（色弱友好）</span>
@@ -73,6 +78,7 @@
         <button id="tabCore" class="drawer-tab is-active" type="button" role="tab" aria-selected="true">核心模块库</button>
         <button id="tabDaily" class="drawer-tab" type="button" role="tab" aria-selected="false">每日新知流</button>
         <button id="tabMixed" class="drawer-tab" type="button" role="tab" aria-selected="false">混合</button>
+        <button id="tabSaved" class="drawer-tab" type="button" role="tab" aria-selected="false">收藏池</button>
       </div>
       <div class="drawer-search">
         <input id="overviewSearch" type="search" placeholder="搜索标题 / 场景 / 机制" />
@@ -102,15 +108,23 @@
       <section class="settings-section" aria-label="RSS源配置">
         <div class="settings-heading">
           <h4>每日新知流 RSS 源</h4>
-          <button id="rssReloadBtn" type="button" class="mini-btn">刷新</button>
+          <div class="settings-actions-inline">
+            <button id="rssOpmlBtn" type="button" class="mini-btn">导入 OPML</button>
+            <button id="rssReloadBtn" type="button" class="mini-btn">刷新</button>
+          </div>
         </div>
         <p class="section-tip">配置后用于“每日新知流”与“混合”模式，支持多源并行。部分站点需后端代理才可稳定抓取。</p>
+        <input id="rssOpmlInput" type="file" accept=".opml,.xml,text/xml,application/xml" hidden />
         <div class="rss-add-grid">
           <input id="rssNameInput" type="text" maxlength="28" placeholder="源名称（如 少数派）" />
           <input id="rssUrlInput" type="url" placeholder="RSS URL（https://...）" />
           <button id="rssAddBtn" type="button">添加源</button>
         </div>
         <div id="rssSourceList" class="rss-source-list"></div>
+        <p class="section-tip">RSS 源颜色图例</p>
+        <div id="rssColorLegendInline" class="rss-color-legend rss-color-legend-inline">
+          <div class="overview-empty">暂无 RSS 源</div>
+        </div>
         <button id="rssResetBtn" type="button" class="ghost-btn">恢复默认源</button>
       </section>
 
@@ -146,7 +160,10 @@ POST /api/v1/events/batch</pre>
       <section class="content-modal-panel" role="dialog" aria-label="原文弹窗">
         <div class="content-modal-header">
           <h3 id="contentModalTitle">原文</h3>
-          <button id="contentModalClose" type="button" aria-label="关闭原文弹窗">关闭</button>
+          <div class="content-modal-actions">
+            <button id="contentModalSave" type="button" aria-label="收藏当前细胞">收藏细胞</button>
+            <button id="contentModalClose" type="button" aria-label="关闭原文弹窗">关闭</button>
+          </div>
         </div>
         <div id="contentModalBody" class="content-modal-body">
           <p>加载中...</p>
