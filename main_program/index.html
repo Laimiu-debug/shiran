@@ -84,6 +84,17 @@
         <input id="overviewSearch" type="search" placeholder="搜索标题 / 场景 / 机制" />
       </div>
       <div id="overviewMeta" class="drawer-meta"></div>
+      <div id="savedQuickAdd" class="saved-quick-add is-hidden" aria-label="收藏池手动添加">
+        <input id="savedManualTitle" type="text" maxlength="80" placeholder="手动标题（可选）" />
+        <input id="savedManualUrl" type="url" placeholder="手动添加网址（https://...）" />
+        <button id="savedManualAddBtn" type="button">加入收藏池</button>
+        <div class="saved-batch-ops" aria-label="收藏池批量操作">
+          <button id="savedBatchToggleBtn" type="button">批量选择</button>
+          <button id="savedSelectAllBtn" type="button">全选当前列表</button>
+          <button id="savedClearSelectionBtn" type="button">清空选择</button>
+          <button id="savedDeleteSelectedBtn" type="button">删除已选 (0)</button>
+        </div>
+      </div>
       <div id="overviewList" class="overview-list"></div>
     </aside>
 
@@ -157,10 +168,15 @@ POST /api/v1/events/batch</pre>
 
     <div id="contentModal" class="content-modal" aria-hidden="true">
       <div id="contentModalBackdrop" class="content-modal-backdrop"></div>
-      <section class="content-modal-panel" role="dialog" aria-label="原文弹窗">
+      <section id="contentModalPanel" class="content-modal-panel" role="dialog" aria-label="原文弹窗">
         <div class="content-modal-header">
           <h3 id="contentModalTitle">原文</h3>
           <div class="content-modal-actions">
+            <div class="content-modal-zoom-controls" role="group" aria-label="弹窗缩放">
+              <button id="contentModalZoomOut" type="button" aria-label="缩小弹窗">-</button>
+              <button id="contentModalZoomReset" type="button" aria-label="重置弹窗缩放">100%</button>
+              <button id="contentModalZoomIn" type="button" aria-label="放大弹窗">+</button>
+            </div>
             <button id="contentModalSave" type="button" aria-label="收藏当前细胞">收藏细胞</button>
             <button id="contentModalClose" type="button" aria-label="关闭原文弹窗">关闭</button>
           </div>

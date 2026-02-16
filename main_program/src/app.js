@@ -37,6 +37,9 @@ const MAX_DAILY_ITEMS_PER_SOURCE = 100;
 const MAX_DAILY_ITEMS_TOTAL = 10000;
 const OVERVIEW_RENDER_LIMIT = 320;
 const MAX_SAVED_POOL_SIZE = 600;
+const CONTENT_MODAL_SCALE_MIN = 0.8;
+const CONTENT_MODAL_SCALE_MAX = 1.8;
+const CONTENT_MODAL_SCALE_STEP = 0.1;
 
 const RSS_SOURCE_PRESET_COLORS = [
   "#56c8ff", "#74d27f", "#ffc15a", "#ff8c42", "#f65d6d", "#4f7cff", "#c46ee8", "#33c6b4",
@@ -97,8 +100,12 @@ const state = {
   layerSeedHint: null,
   overviewMode: OVERVIEW_MODE_MIXED,
   savedPool: [],
+  savedBatchMode: false,
+  savedSelection: new Set(),
+  savedVisibleIds: [],
   previewContext: null,
   contentModalContext: null,
+  contentModalScale: 1,
   appSettings: {
     openMode: "preview",
     rssSources: [],
@@ -143,6 +150,14 @@ const ui = {
   overviewBackdrop: document.getElementById("overviewBackdrop"),
   overviewList: document.getElementById("overviewList"),
   overviewMeta: document.getElementById("overviewMeta"),
+  savedQuickAdd: document.getElementById("savedQuickAdd"),
+  savedManualTitle: document.getElementById("savedManualTitle"),
+  savedManualUrl: document.getElementById("savedManualUrl"),
+  savedManualAddBtn: document.getElementById("savedManualAddBtn"),
+  savedBatchToggleBtn: document.getElementById("savedBatchToggleBtn"),
+  savedSelectAllBtn: document.getElementById("savedSelectAllBtn"),
+  savedClearSelectionBtn: document.getElementById("savedClearSelectionBtn"),
+  savedDeleteSelectedBtn: document.getElementById("savedDeleteSelectedBtn"),
   searchInput: document.getElementById("overviewSearch"),
   tabCore: document.getElementById("tabCore"),
   tabDaily: document.getElementById("tabDaily"),
@@ -171,6 +186,10 @@ const ui = {
   unitPreviewBody: document.getElementById("unitPreviewBody"),
   contentModal: document.getElementById("contentModal"),
   contentModalBackdrop: document.getElementById("contentModalBackdrop"),
+  contentModalPanel: document.getElementById("contentModalPanel"),
+  contentModalZoomOut: document.getElementById("contentModalZoomOut"),
+  contentModalZoomReset: document.getElementById("contentModalZoomReset"),
+  contentModalZoomIn: document.getElementById("contentModalZoomIn"),
   contentModalSave: document.getElementById("contentModalSave"),
   contentModalClose: document.getElementById("contentModalClose"),
   contentModalTitle: document.getElementById("contentModalTitle"),
@@ -448,6 +467,105 @@ function upsertSavedEntry(entry) {
   return { added: true, entry: next };
 }
 
+function removeSavedEntryById(savedId) {
+  const targetId = String(savedId || "").trim();
+  if (!targetId) return { removed: false, entry: null };
+
+  const pool = Array.isArray(state.savedPool) ? state.savedPool : [];
+  const next = [];
+  let removedEntry = null;
+
+  for (let i = 0; i < pool.length; i += 1) {
+    const normalized = normalizeSavedEntry(pool[i], i);
+    if (!removedEntry && normalized.id === targetId) {
+      removedEntry = normalized;
+      continue;
+    }
+    next.push(pool[i]);
+  }
+
+  if (!removedEntry) return { removed: false, entry: null };
+  state.savedPool = next;
+  saveSavedPool();
+  return { removed: true, entry: removedEntry };
+}
+
+function removeSavedEntriesByIds(savedIds) {
+  const ids = Array.isArray(savedIds)
+    ? savedIds.map((id) => String(id || "").trim()).filter(Boolean)
+    : [];
+  if (ids.length === 0) return { count: 0, removed: [] };
+
+  const targets = new Set(ids);
+  const pool = Array.isArray(state.savedPool) ? state.savedPool : [];
+  const next = [];
+  const removed = [];
+
+  for (let i = 0; i < pool.length; i += 1) {
+    const normalized = normalizeSavedEntry(pool[i], i);
+    if (targets.has(normalized.id)) {
+      removed.push(normalized);
+      continue;
+    }
+    next.push(pool[i]);
+  }
+
+  if (removed.length === 0) return { count: 0, removed: [] };
+  state.savedPool = next;
+  saveSavedPool();
+  return { count: removed.length, removed };
+}
+
+function pruneSavedSelection() {
+  const valid = new Set();
+  const pool = Array.isArray(state.savedPool) ? state.savedPool : [];
+  for (let i = 0; i < pool.length; i += 1) {
+    valid.add(normalizeSavedEntry(pool[i], i).id);
+  }
+
+  const next = new Set();
+  for (const id of state.savedSelection) {
+    if (valid.has(id)) next.add(id);
+  }
+  state.savedSelection = next;
+}
+
+function syncSavedBatchUi() {
+  if (!ui.savedBatchToggleBtn || !ui.savedSelectAllBtn || !ui.savedClearSelectionBtn || !ui.savedDeleteSelectedBtn) return;
+
+  const inSavedMode = state.overviewMode === OVERVIEW_MODE_SAVED;
+  const batchMode = inSavedMode && state.savedBatchMode;
+  const selectedCount = state.savedSelection.size;
+  const visibleCount = Array.isArray(state.savedVisibleIds) ? state.savedVisibleIds.length : 0;
+
+  ui.savedBatchToggleBtn.textContent = batchMode ? "退出批量" : "批量选择";
+  ui.savedDeleteSelectedBtn.textContent = `删除已选 (${selectedCount})`;
+
+  ui.savedBatchToggleBtn.disabled = !inSavedMode;
+  ui.savedSelectAllBtn.disabled = !batchMode || visibleCount === 0;
+  ui.savedClearSelectionBtn.disabled = !batchMode || selectedCount === 0;
+  ui.savedDeleteSelectedBtn.disabled = !batchMode || selectedCount === 0;
+}
+
+function setSavedBatchMode(enabled) {
+  const next = !!enabled;
+  state.savedBatchMode = next;
+  if (!next) {
+    state.savedSelection.clear();
+  } else {
+    pruneSavedSelection();
+  }
+  renderOverviewList();
+}
+
+function setSavedSelection(savedId, selected) {
+  const id = String(savedId || "").trim();
+  if (!id) return;
+  if (selected) state.savedSelection.add(id);
+  else state.savedSelection.delete(id);
+  syncSavedBatchUi();
+}
+
 function syncSettingsFormFromState() {
   ui.openModePreview.checked = state.appSettings.openMode !== "direct";
   ui.openModeDirect.checked = state.appSettings.openMode === "direct";
@@ -510,6 +628,7 @@ function closeContentModal() {
   ui.contentModal.classList.remove("open");
   ui.contentModal.setAttribute("aria-hidden", "true");
   ui.contentModalBody.innerHTML = "<p>加载中...</p>";
+  ui.contentModalBody.classList.remove("is-iframe-mode", "is-text-mode");
   state.contentModalContext = null;
   syncContentModalSaveButton();
 }
@@ -568,6 +687,41 @@ function syncContentModalSaveButton() {
   ui.contentModalSave.title = enabled ? "把当前细胞加入收藏池" : "当前弹窗内容无法关联到细胞";
 }
 
+function syncContentModalScaleUi() {
+  const scalePercent = Math.round(state.contentModalScale * 100);
+  if (ui.contentModalZoomReset) {
+    ui.contentModalZoomReset.textContent = `${scalePercent}%`;
+  }
+  if (ui.contentModalZoomOut) {
+    ui.contentModalZoomOut.disabled = state.contentModalScale <= CONTENT_MODAL_SCALE_MIN + 1e-4;
+  }
+  if (ui.contentModalZoomIn) {
+    ui.contentModalZoomIn.disabled = state.contentModalScale >= CONTENT_MODAL_SCALE_MAX - 1e-4;
+  }
+}
+
+function setContentModalScale(nextScale, { silent = false } = {}) {
+  const clamped = clamp(nextScale, CONTENT_MODAL_SCALE_MIN, CONTENT_MODAL_SCALE_MAX);
+  state.contentModalScale = Number(clamped.toFixed(2));
+  if (ui.contentModalPanel) {
+    ui.contentModalPanel.style.setProperty("--content-modal-scale", String(state.contentModalScale));
+  }
+  syncContentModalScaleUi();
+  if (!silent && isContentModalOpen()) {
+    showToast(`阅读窗 ${Math.round(state.contentModalScale * 100)}%`);
+  }
+}
+
+function adjustContentModalScale(direction) {
+  if (direction === "in") {
+    setContentModalScale(state.contentModalScale + CONTENT_MODAL_SCALE_STEP);
+  } else if (direction === "out") {
+    setContentModalScale(state.contentModalScale - CONTENT_MODAL_SCALE_STEP);
+  } else {
+    setContentModalScale(1);
+  }
+}
+
 function saveCurrentModalCell() {
   const context = state.contentModalContext;
   if (!context) {
@@ -588,6 +742,13 @@ function saveCurrentModalCell() {
   showToast(result.added ? "已从弹窗加入收藏池" : "收藏已存在，已更新置顶");
 }
 
+function syncSavedQuickAddVisibility() {
+  if (!ui.savedQuickAdd) return;
+  const visible = state.overviewMode === OVERVIEW_MODE_SAVED;
+  ui.savedQuickAdd.classList.toggle("is-hidden", !visible);
+  syncSavedBatchUi();
+}
+
 function setOverviewMode(mode) {
   const prevMode = state.overviewMode;
   const next = [OVERVIEW_MODE_CORE, OVERVIEW_MODE_DAILY, OVERVIEW_MODE_MIXED, OVERVIEW_MODE_SAVED].includes(mode)
@@ -603,7 +764,12 @@ function setOverviewMode(mode) {
   } else {
     ui.searchInput.placeholder = "搜索标题 / 场景 / 机制";
   }
+  if (next !== OVERVIEW_MODE_SAVED && state.savedBatchMode) {
+    state.savedBatchMode = false;
+    state.savedSelection.clear();
+  }
   renderOverviewModeTabs();
+  syncSavedQuickAddVisibility();
   renderOverviewList();
 
   // Keep canvas source in sync with overview source mode.
@@ -769,6 +935,7 @@ async function openContentModal(url, title = "原文", options = {}) {
 
   const resolvedUrl = resolveFetchPath(url);
   ui.contentModalTitle.textContent = title || "原文";
+  ui.contentModalBody.classList.remove("is-iframe-mode", "is-text-mode");
   ui.contentModalBody.innerHTML = "<p>加载中...</p>";
   ui.contentModal.classList.add("open");
   ui.contentModal.setAttribute("aria-hidden", "false");
@@ -779,9 +946,11 @@ async function openContentModal(url, title = "原文", options = {}) {
       if (!res.ok) throw new Error(`http_${res.status}`);
       const buffer = await res.arrayBuffer();
       const decoded = decodeModuleText(buffer);
+      ui.contentModalBody.classList.add("is-text-mode");
       ui.contentModalBody.innerHTML = `<pre class="module-content">${escapeHtml(normalizeTextForPreview(decoded))}</pre>`;
       return;
     } catch (_err) {
+      ui.contentModalBody.classList.add("is-text-mode");
       ui.contentModalBody.innerHTML = `
         <p class="content-modal-note">弹窗加载失败，可尝试新页打开。</p>
         <p><a class="source-open-link" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="noopener noreferrer">新页打开</a></p>
@@ -790,10 +959,15 @@ async function openContentModal(url, title = "原文", options = {}) {
     }
   }
 
+  ui.contentModalBody.classList.add("is-iframe-mode");
   ui.contentModalBody.innerHTML = `
-    <iframe src="${escapeHtml(resolvedUrl)}" loading="lazy" referrerpolicy="no-referrer"></iframe>
-    <p class="content-modal-note">若页面拒绝嵌入，请使用新页打开。</p>
-    <p><a class="source-open-link" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="noopener noreferrer">新页打开</a></p>
+    <div class="content-modal-iframe-shell">
+      <iframe src="${escapeHtml(resolvedUrl)}" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    </div>
+    <div class="content-modal-footer">
+      <p class="content-modal-note">若页面拒绝嵌入，请使用新页打开。</p>
+      <p><a class="source-open-link" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="noopener noreferrer">新页打开</a></p>
+    </div>
   `;
 }
 
@@ -1378,6 +1552,125 @@ function getHostFromUrl(url) {
   }
 }
 
+function normalizeManualUrl(input) {
+  const raw = String(input || "").trim();
+  if (!raw) return "";
+
+  let candidate = raw;
+  if (candidate.startsWith("//")) {
+    candidate = `https:${candidate}`;
+  } else if (!/^https?:\/\//i.test(candidate)) {
+    // Allow quick input like "example.com/article" and normalize to https.
+    candidate = `https://${candidate}`;
+  }
+
+  if (!isHttpUrl(candidate)) return "";
+  try {
+    const urlObj = new URL(candidate);
+    if (!/^https?:$/i.test(urlObj.protocol)) return "";
+    return urlObj.toString();
+  } catch (_err) {
+    return "";
+  }
+}
+
+function inferManualTitle(url, titleInput = "") {
+  const custom = String(titleInput || "").trim();
+  if (custom) return custom;
+  const host = getHostFromUrl(url) || "手动来源";
+  const prettyHost = host.replace(/^www\./, "");
+  return `手动收藏 · ${prettyHost}`;
+}
+
+function addManualUrlToSavedPool() {
+  const normalizedUrl = normalizeManualUrl(ui.savedManualUrl?.value || "");
+  if (!normalizedUrl) {
+    showToast("请输入合法网址（支持 http/https）");
+    return;
+  }
+
+  const host = getHostFromUrl(normalizedUrl) || "manual";
+  const title = inferManualTitle(normalizedUrl, ui.savedManualTitle?.value || "");
+  const payload = {
+    kind: "daily",
+    title,
+    summary: "手动添加网址",
+    scene: "每日新知流",
+    mechanisms: ["手动收藏", "网址直达"],
+    sourceName: `手动添加 · ${host.replace(/^www\./, "")}`,
+    sourceId: `manual:${host}`,
+    link: normalizedUrl,
+    publishedAt: new Date().toISOString(),
+    fingerprint: `manual|${normalizedUrl.toLowerCase()}`,
+  };
+
+  const result = upsertSavedEntry(payload);
+  if (ui.savedManualUrl) ui.savedManualUrl.value = "";
+  if (ui.savedManualTitle) ui.savedManualTitle.value = "";
+
+  renderOverviewList();
+  if (state.engine && state.overviewMode === OVERVIEW_MODE_SAVED) {
+    buildEngineAndSeed();
+  }
+  showToast(result.added ? "已手动加入收藏池" : "该网址已在收藏池，已置顶");
+}
+
+function deleteSelectedSavedEntries() {
+  const ids = [...state.savedSelection];
+  if (ids.length === 0) {
+    showToast("请先选择要删除的收藏");
+    return;
+  }
+
+  const result = removeSavedEntriesByIds(ids);
+  if (result.count <= 0) {
+    showToast("删除失败：未找到选中收藏");
+    return;
+  }
+
+  const removedDailyLinks = new Set(
+    result.removed
+      .filter((entry) => entry.kind === "daily")
+      .map((entry) => String(entry.link || "").trim())
+      .filter(Boolean),
+  );
+  const removedCoreIds = new Set(
+    result.removed
+      .filter((entry) => entry.kind === "core")
+      .map((entry) => String(entry.unitId || "").trim())
+      .filter(Boolean),
+  );
+
+  if (state.previewContext?.kind === "daily") {
+    const link = String(state.previewContext?.item?.link || "").trim();
+    if (link && removedDailyLinks.has(link)) state.previewContext = null;
+  } else if (state.previewContext?.kind === "core") {
+    const unitId = String(state.previewContext?.unit?.id || "").trim();
+    if (unitId && removedCoreIds.has(unitId)) state.previewContext = null;
+  }
+
+  if (state.contentModalContext?.kind === "daily") {
+    const link = String(state.contentModalContext?.item?.link || "").trim();
+    if (link && removedDailyLinks.has(link)) {
+      state.contentModalContext = null;
+      syncContentModalSaveButton();
+    }
+  } else if (state.contentModalContext?.kind === "core") {
+    const unitId = String(state.contentModalContext?.unit?.id || "").trim();
+    if (unitId && removedCoreIds.has(unitId)) {
+      state.contentModalContext = null;
+      syncContentModalSaveButton();
+    }
+  }
+
+  state.savedSelection.clear();
+  renderOverviewList();
+  if (state.engine && state.overviewMode === OVERVIEW_MODE_SAVED) {
+    buildEngineAndSeed();
+  }
+  showToast(`已批量删除 ${result.count} 条收藏`);
+}
+
 function canFetchSourceDirectly(source) {
   const host = getHostFromUrl(source?.url || "");
   if (!host) return false;
@@ -1686,6 +1979,8 @@ function buildSavedOverviewItems() {
       return {
         type: "saved-daily",
         id: `saved-daily:${normalized.id}`,
+        savedId: normalized.id,
+        savedFingerprint: normalized.fingerprint,
         title: normalized.title,
         summary: normalized.summary,
         scene: normalized.scene || "每日新知流",
@@ -1715,6 +2010,8 @@ function buildSavedOverviewItems() {
     return {
       type: "saved-core",
       id: `saved-core:${normalized.id}`,
+      savedId: normalized.id,
+      savedFingerprint: normalized.fingerprint,
       unit,
       unitId: unit.id,
       title: unit.title,
@@ -2677,6 +2974,14 @@ function renderOverviewList() {
     );
   });
   const visibleList = list.slice(0, OVERVIEW_RENDER_LIMIT);
+  if (state.overviewMode === OVERVIEW_MODE_SAVED) {
+    pruneSavedSelection();
+    state.savedVisibleIds = visibleList
+      .map((item) => String(item.savedId || "").trim())
+      .filter(Boolean);
+  } else {
+    state.savedVisibleIds = [];
+  }
 
   const modeLabel = getOverviewModeLabel();
   const updatedAt = formatDateTime(state.dailyFeed.updatedAt);
@@ -2703,6 +3008,7 @@ function renderOverviewList() {
       empty.textContent = "没有匹配结果，试试更短的关键词。";
     }
     ui.overviewList.appendChild(empty);
+    syncSavedBatchUi();
     return;
   }
 
@@ -2714,6 +3020,8 @@ function renderOverviewList() {
     const type = String(item.type || "");
     const isDaily = type === "daily" || type === "mixed-daily" || type === "saved-daily";
     const isSaved = type.startsWith("saved-");
+    const batchMode = isSaved && state.savedBatchMode;
+    const isSelected = batchMode && item.savedId && state.savedSelection.has(item.savedId);
     const pillClass = isSaved
       ? "pill-saved"
       : (type === "core" ? "pill-core" : (isDaily ? "pill-daily" : "pill-mixed"));
@@ -2728,21 +3036,70 @@ function renderOverviewList() {
       ? OVERVIEW_MODE_MIXED
       : (isDaily ? OVERVIEW_MODE_DAILY : OVERVIEW_MODE_CORE));
     const modeLabel = getOverviewModeLabel(modeForItem);
+    const selectMarkup = batchMode
+      ? `<span class="overview-select"><input data-saved-select="1" type="checkbox" ${isSelected ? "checked" : ""} aria-label="选择此收藏" /></span>`
+      : "";
+    const removeMarkup = isSaved && !batchMode
+      ? `<span class="overview-remove" data-saved-remove="1" title="从收藏池删除">删除</span>`
+      : "";
+    row.classList.toggle("is-batch-mode", batchMode);
     row.innerHTML = `
+      ${selectMarkup}
       <span class="overview-title">${escapeHtml(item.title || "未命名条目")}</span>
       <span class="overview-sub">${escapeHtml(sub)}</span>
       <span class="overview-sub">${escapeHtml(summary)}</span>
       <span class="overview-tags">
         <span class="pill ${pillClass}">${escapeHtml(modeLabel)}</span>
+        ${removeMarkup}
       </span>
     `;
-    row.addEventListener("click", () => {
+    row.addEventListener("click", (ev) => {
+      if (isSaved && batchMode) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const checkboxHit = ev.target?.closest?.("[data-saved-select='1']");
+        if (checkboxHit) {
+          setSavedSelection(item.savedId, !!checkboxHit.checked);
+          return;
+        }
+        const nextSelected = !state.savedSelection.has(item.savedId);
+        setSavedSelection(item.savedId, nextSelected);
+        renderOverviewList();
+        return;
+      }
+
+      const removeHit = ev.target?.closest?.("[data-saved-remove='1']");
+      if (removeHit && isSaved) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const removed = removeSavedEntryById(item.savedId);
+        if (!removed.removed) {
+          showToast("删除失败：未找到该收藏");
+          return;
+        }
+        if (state.previewContext?.kind === "daily" && state.previewContext?.item?.link === item.link) {
+          state.previewContext = null;
+        }
+        if (state.contentModalContext?.kind === "daily" && state.contentModalContext?.item?.link === item.link) {
+          state.contentModalContext = null;
+          syncContentModalSaveButton();
+        }
+        state.savedSelection.delete(String(item.savedId || ""));
+        showToast(`已删除收藏：${removed.entry?.title || "未命名条目"}`);
+        renderOverviewList();
+        if (state.engine && state.overviewMode === OVERVIEW_MODE_SAVED) {
+          buildEngineAndSeed();
+        }
+        return;
+      }
+
       openOverviewItem(item).catch(() => {
         showToast("打开失败，请稍后重试");
       });
     });
     ui.overviewList.appendChild(row);
   }
+  syncSavedBatchUi();
 }
 
 function renderRssSourceList() {
@@ -2844,6 +3201,21 @@ function bindUI() {
   ui.settingsClose.addEventListener("click", closeSettings);
   ui.overviewBackdrop.addEventListener("click", closeAllPanels);
   ui.contentModalClose.addEventListener("click", closeContentModal);
+  if (ui.contentModalZoomOut) {
+    ui.contentModalZoomOut.addEventListener("click", () => {
+      adjustContentModalScale("out");
+    });
+  }
+  if (ui.contentModalZoomIn) {
+    ui.contentModalZoomIn.addEventListener("click", () => {
+      adjustContentModalScale("in");
+    });
+  }
+  if (ui.contentModalZoomReset) {
+    ui.contentModalZoomReset.addEventListener("click", () => {
+      adjustContentModalScale("reset");
+    });
+  }
   if (ui.contentModalSave) {
     ui.contentModalSave.addEventListener("click", () => {
       saveCurrentModalCell();
@@ -2863,6 +3235,56 @@ function bindUI() {
   if (ui.tabSaved) {
     ui.tabSaved.addEventListener("click", () => {
       setOverviewMode(OVERVIEW_MODE_SAVED);
+    });
+  }
+
+  if (ui.savedManualAddBtn) {
+    ui.savedManualAddBtn.addEventListener("click", () => {
+      addManualUrlToSavedPool();
+    });
+  }
+  if (ui.savedBatchToggleBtn) {
+    ui.savedBatchToggleBtn.addEventListener("click", () => {
+      setSavedBatchMode(!state.savedBatchMode);
+    });
+  }
+  if (ui.savedSelectAllBtn) {
+    ui.savedSelectAllBtn.addEventListener("click", () => {
+      if (!state.savedBatchMode) {
+        state.savedBatchMode = true;
+      }
+      for (let i = 0; i < state.savedVisibleIds.length; i += 1) {
+        const id = String(state.savedVisibleIds[i] || "").trim();
+        if (id) state.savedSelection.add(id);
+      }
+      renderOverviewList();
+    });
+  }
+  if (ui.savedClearSelectionBtn) {
+    ui.savedClearSelectionBtn.addEventListener("click", () => {
+      state.savedSelection.clear();
+      renderOverviewList();
+    });
+  }
+  if (ui.savedDeleteSelectedBtn) {
+    ui.savedDeleteSelectedBtn.addEventListener("click", () => {
+      deleteSelectedSavedEntries();
+    });
+  }
+  if (ui.savedManualUrl) {
+    ui.savedManualUrl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addManualUrlToSavedPool();
+      }
+    });
+  }
+  if (ui.savedManualTitle) {
+    ui.savedManualTitle.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addManualUrlToSavedPool();
+      }
     });
   }
 
@@ -2992,6 +3414,24 @@ function bindUI() {
     if (typing && e.key !== "Escape") return;
     if (state.transition.active && e.key !== "Escape") return;
 
+    if (isContentModalOpen() && !typing) {
+      if (e.key === "+" || e.key === "=") {
+        e.preventDefault();
+        adjustContentModalScale("in");
+        return;
+      }
+      if (e.key === "-") {
+        e.preventDefault();
+        adjustContentModalScale("out");
+        return;
+      }
+      if (e.key === "0") {
+        e.preventDefault();
+        adjustContentModalScale("reset");
+        return;
+      }
+    }
+
     if (e.key === "/") {
       e.preventDefault();
       openOverview();
@@ -3120,7 +3560,9 @@ async function init() {
   state.savedPool = loadSavedPool();
   syncSettingsFormFromState();
   syncContentModalSaveButton();
+  setContentModalScale(1, { silent: true });
   setOverviewMode(state.overviewMode);
+  syncSavedQuickAddVisibility();
   renderRssSourceList();
   updateFullscreenUi();
   bindAutoHideCards();

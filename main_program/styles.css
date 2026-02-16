@@ -442,6 +442,77 @@ label.zoom-control {
   font-size: 12px;
 }
 
+.saved-quick-add {
+  padding: 8px 14px 6px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  border-bottom: 1px solid rgba(145, 181, 215, 0.16);
+}
+
+.saved-quick-add.is-hidden {
+  display: none;
+}
+
+.saved-quick-add input {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(152, 186, 220, 0.24);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-0);
+  outline: none;
+}
+
+.saved-quick-add input:focus {
+  border-color: var(--line-1);
+  box-shadow: 0 0 0 2px rgba(86, 200, 255, 0.14);
+}
+
+.saved-quick-add button {
+  justify-self: end;
+  border: 1px solid rgba(196, 110, 232, 0.5);
+  border-radius: 10px;
+  background: linear-gradient(150deg, rgba(196, 110, 232, 0.24), rgba(67, 35, 97, 0.3));
+  color: #f0ddff;
+  padding: 8px 11px;
+  cursor: pointer;
+}
+
+.saved-quick-add button:hover {
+  border-color: rgba(212, 147, 245, 0.72);
+  background: linear-gradient(150deg, rgba(206, 132, 240, 0.3), rgba(84, 47, 118, 0.38));
+}
+
+.saved-batch-ops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(145, 181, 215, 0.14);
+}
+
+.saved-batch-ops button {
+  justify-self: auto;
+  border: 1px solid rgba(152, 186, 220, 0.3);
+  border-radius: 9px;
+  background: rgba(10, 24, 40, 0.86);
+  color: #d7ecff;
+  padding: 6px 9px;
+  font-size: 12px;
+}
+
+.saved-batch-ops button:hover {
+  border-color: rgba(186, 214, 243, 0.44);
+  background: rgba(20, 38, 60, 0.96);
+}
+
+.saved-batch-ops button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
 .drawer-search input {
   width: 100%;
   padding: 10px 12px;
@@ -482,10 +553,24 @@ label.zoom-control {
   transform: translateY(-1px);
 }
 
+.overview-item.is-batch-mode {
+  cursor: pointer;
+}
+
 .overview-title {
   display: block;
   font-size: 14px;
   margin-bottom: 4px;
+}
+
+.overview-select {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.overview-select input[type="checkbox"] {
+  accent-color: #c46ee8;
 }
 
 .overview-sub {
@@ -500,6 +585,23 @@ label.zoom-control {
   gap: 6px;
   margin-top: 7px;
   font-size: 11px;
+}
+
+.overview-remove {
+  margin-left: auto;
+  border: 1px solid rgba(255, 127, 127, 0.36);
+  border-radius: 999px;
+  padding: 2px 8px;
+  color: #ffc9c9;
+  background: rgba(67, 19, 24, 0.46);
+  cursor: pointer;
+  user-select: none;
+}
+
+.overview-remove:hover {
+  border-color: rgba(255, 170, 170, 0.56);
+  background: rgba(84, 23, 29, 0.62);
+  color: #ffdcdc;
 }
 
 .pill {
@@ -866,12 +968,13 @@ label.zoom-control {
 }
 
 .content-modal-panel {
+  --content-modal-scale: 1;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: min(960px, calc(100vw - 24px));
-  height: min(92vh, 920px);
+  width: min(calc(960px * var(--content-modal-scale)), calc(100vw - 24px));
+  height: min(calc(92vh * var(--content-modal-scale)), calc(100vh - 16px));
   border: 1px solid var(--line-0);
   border-radius: var(--radius-lg);
   background: linear-gradient(160deg, rgba(14, 31, 50, 0.94), rgba(7, 16, 28, 0.97));
@@ -916,6 +1019,29 @@ label.zoom-control {
   gap: 8px;
 }
 
+.content-modal-zoom-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 2px;
+  border-right: 1px solid rgba(145, 181, 215, 0.22);
+}
+
+.content-modal-zoom-controls button {
+  min-width: 34px;
+  padding: 7px 9px;
+}
+
+#contentModalZoomReset {
+  min-width: 56px;
+  font-variant-numeric: tabular-nums;
+}
+
+.content-modal-zoom-controls button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 #contentModalSave {
   border-color: rgba(196, 110, 232, 0.48);
   background: linear-gradient(150deg, rgba(196, 110, 232, 0.22), rgba(67, 35, 97, 0.28));
@@ -941,6 +1067,24 @@ label.zoom-control {
   background: linear-gradient(160deg, rgba(11, 23, 37, 0.82), rgba(7, 15, 26, 0.92));
 }
 
+.content-modal-body.is-text-mode {
+  overflow: auto;
+}
+
+.content-modal-body.is-iframe-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.content-modal-iframe-shell {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
 .content-modal-body iframe {
   width: 100%;
   height: 100%;
@@ -948,6 +1092,15 @@ label.zoom-control {
   border: 1px solid rgba(149, 186, 219, 0.22);
   border-radius: 10px;
   background: #091624;
+}
+
+.content-modal-body.is-iframe-mode iframe {
+  min-height: 0;
+  display: block;
+}
+
+.content-modal-footer {
+  flex: 0 0 auto;
 }
 
 .content-modal-body .module-content {
