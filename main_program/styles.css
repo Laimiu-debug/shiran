@@ -681,6 +681,11 @@ label.zoom-control {
   color: #fff0cd;
 }
 
+.inline-link-btn {
+  font: inherit;
+  cursor: pointer;
+}
+
 .unit-preview {
   position: fixed;
   right: 12px;
@@ -705,6 +710,21 @@ label.zoom-control {
   font-size: 13px;
 }
 
+.module-content {
+  margin: 8px 0 0;
+  max-height: min(42vh, 420px);
+  overflow: auto;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(149, 186, 219, 0.2);
+  background: rgba(7, 17, 29, 0.86);
+  color: #d6ebff;
+  font-size: 12px;
+  line-height: 1.58;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .status-text {
   position: fixed;
   left: 14px;
@@ -716,6 +736,89 @@ label.zoom-control {
   border: 1px solid rgba(160, 193, 225, 0.24);
   border-radius: 999px;
   background: rgba(6, 13, 22, 0.6);
+}
+
+.content-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 48;
+  display: none;
+}
+
+.content-modal.open {
+  display: block;
+}
+
+.content-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 10, 18, 0.64);
+  backdrop-filter: blur(3px);
+}
+
+.content-modal-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(960px, calc(100vw - 24px));
+  height: min(82vh, 760px);
+  border: 1px solid var(--line-0);
+  border-radius: 14px;
+  background: linear-gradient(160deg, rgba(14, 31, 50, 0.94), rgba(7, 16, 28, 0.97));
+  box-shadow: var(--shadow-0);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.content-modal-header {
+  padding: 11px 12px;
+  border-bottom: 1px solid rgba(145, 181, 215, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.content-modal-header h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.content-modal-header button {
+  border: 1px solid var(--line-0);
+  background: rgba(11, 26, 42, 0.84);
+  color: var(--text-0);
+  border-radius: 10px;
+  padding: 7px 11px;
+  cursor: pointer;
+}
+
+.content-modal-header button:hover {
+  border-color: var(--line-1);
+  background: rgba(20, 38, 60, 0.96);
+}
+
+.content-modal-body {
+  flex: 1;
+  overflow: auto;
+  padding: 12px;
+}
+
+.content-modal-body iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  border: 1px solid rgba(149, 186, 219, 0.22);
+  border-radius: 10px;
+  background: #091624;
+}
+
+.content-modal-body .module-content {
+  margin: 0;
+  max-height: none;
+  min-height: 100%;
 }
 
 .hint-layer {

@@ -88,7 +88,7 @@
       </div>
 
       <section class="settings-section" aria-label="点击行为">
-        <h4>单击细胞行为</h4>
+        <h4>外部链接打开方式（仅新知流）</h4>
         <label class="radio-row">
           <input id="openModePreview" name="openMode" type="radio" value="preview" checked />
           <span>弹窗预览（推荐）</span>
@@ -140,6 +140,19 @@ POST /api/v1/events/batch</pre>
     </section>
 
     <div id="statusText" class="status-text autohide-card">初始化中...</div>
+
+    <div id="contentModal" class="content-modal" aria-hidden="true">
+      <div id="contentModalBackdrop" class="content-modal-backdrop"></div>
+      <section class="content-modal-panel" role="dialog" aria-label="原文弹窗">
+        <div class="content-modal-header">
+          <h3 id="contentModalTitle">原文</h3>
+          <button id="contentModalClose" type="button" aria-label="关闭原文弹窗">关闭</button>
+        </div>
+        <div id="contentModalBody" class="content-modal-body">
+          <p>加载中...</p>
+        </div>
+      </section>
+    </div>
 
     <div id="hintLayer" class="hint-layer hidden" role="dialog" aria-label="首次引导">
       <div class="hint-card">

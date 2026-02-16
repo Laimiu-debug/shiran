@@ -92,6 +92,8 @@ const state = {
     errors: [],
     updatedAt: "",
   },
+  moduleContentCache: new Map(),
+  previewRequestId: 0,
   transition: {
     active: false,
     direction: "",
@@ -145,6 +147,11 @@ const ui = {
   unitPreviewPanel: document.getElementById("unitPreview"),
   unitPreviewTitle: document.getElementById("unitPreviewTitle"),
   unitPreviewBody: document.getElementById("unitPreviewBody"),
+  contentModal: document.getElementById("contentModal"),
+  contentModalBackdrop: document.getElementById("contentModalBackdrop"),
+  contentModalClose: document.getElementById("contentModalClose"),
+  contentModalTitle: document.getElementById("contentModalTitle"),
+  contentModalBody: document.getElementById("contentModalBody"),
   toast: document.getElementById("toast"),
 };
 
@@ -372,6 +379,16 @@ function closeAllPanels() {
   syncBackdrop();
 }
 
+function isContentModalOpen() {
+  return ui.contentModal.classList.contains("open");
+}
+
+function closeContentModal() {
+  ui.contentModal.classList.remove("open");
+  ui.contentModal.setAttribute("aria-hidden", "true");
+  ui.contentModalBody.innerHTML = "<p>加载中...</p>";
+}
+
 function setOverviewMode(mode) {
   const next = [OVERVIEW_MODE_CORE, OVERVIEW_MODE_DAILY, OVERVIEW_MODE_MIXED].includes(mode)
     ? mode
@@ -453,11 +470,160 @@ function resolveUnitTargetUrl(unit) {
   return resolveEntryPath(unit.entry?.content || unit.entry_content || "");
 }
 
+function resolveFetchPath(url) {
+  if (!url) return "";
+  if (/^https?:\/\//i.test(url)) return url;
+  return encodeURI(url);
+}
+
+function normalizeTextForPreview(input) {
+  return String(input || "").replace(/\r\n?/g, "\n").replace(/^\uFEFF/, "");
+}
+
+function scoreDecodedText(text) {
+  const sample = String(text || "").slice(0, 4000);
+  if (!sample) return -1e9;
+  const replacementCount = (sample.match(/\uFFFD/g) || []).length;
+  const cjkCount = (sample.match(/[\u3400-\u9FFF]/g) || []).length;
+  const controlCount = (sample.match(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g) || []).length;
+  return cjkCount * 1.8 - replacementCount * 40 - controlCount * 8 + sample.length * 0.001;
+}
+
+function decodeModuleText(buffer) {
+  // Prefer UTF-8 first. Most local markdown files are UTF-8 and should never be re-decoded.
+  try {
+    const utf8Text = normalizeTextForPreview(new TextDecoder("utf-8").decode(buffer));
+    if (!utf8Text.includes("\uFFFD")) {
+      return utf8Text;
+    }
+  } catch (_err) {
+    // continue to fallbacks
+  }
+
+  const encodings = ["gb18030", "utf-16le"];
+  let bestText = "";
+  let bestScore = -1e9;
+
+  for (let i = 0; i < encodings.length; i += 1) {
+    const encoding = encodings[i];
+    try {
+      const decoder = new TextDecoder(encoding);
+      const text = normalizeTextForPreview(decoder.decode(buffer));
+      const score = scoreDecodedText(text);
+      if (score > bestScore) {
+        bestScore = score;
+        bestText = text;
+      }
+    } catch (_err) {
+      // ignore unsupported encodings
+    }
+  }
+
+  if (bestText) return bestText;
+  return normalizeTextForPreview(new TextDecoder("utf-8").decode(buffer));
+}
+
+function stripFrontMatter(text) {
+  if (!text.startsWith("---\n")) return text;
+  const end = text.indexOf("\n---\n", 4);
+  if (end < 0) return text;
+  return text.slice(end + 5);
+}
+
+function compactMarkdownForPreview(text, maxChars = 2600) {
+  const normalized = stripFrontMatter(normalizeTextForPreview(text))
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+  if (!normalized) return "";
+  if (normalized.length <= maxChars) return normalized;
+  return `${normalized.slice(0, maxChars)}\n\n...（内容较长，已截断）`;
+}
+
+function looksLikeTextDocument(url) {
+  const value = String(url || "").toLowerCase();
+  if (!value) return false;
+  if (!/^https?:\/\//i.test(value)) return true;
+  const clean = value.split("?")[0].split("#")[0];
+  return clean.endsWith(".md") || clean.endsWith(".txt") || clean.endsWith(".json") || clean.endsWith(".yaml") || clean.endsWith(".yml");
+}
+
+async function openContentModal(url, title = "原文") {
+  if (!url) {
+    showToast("没有可打开的原文地址");
+    return;
+  }
+
+  const resolvedUrl = resolveFetchPath(url);
+  ui.contentModalTitle.textContent = title || "原文";
+  ui.contentModalBody.innerHTML = "<p>加载中...</p>";
+  ui.contentModal.classList.add("open");
+  ui.contentModal.setAttribute("aria-hidden", "false");
+
+  if (looksLikeTextDocument(url)) {
+    try {
+      const res = await fetch(resolvedUrl, { cache: "no-store" });
+      if (!res.ok) throw new Error(`http_${res.status}`);
+      const buffer = await res.arrayBuffer();
+      const decoded = decodeModuleText(buffer);
+      ui.contentModalBody.innerHTML = `<pre class="module-content">${escapeHtml(normalizeTextForPreview(decoded))}</pre>`;
+      return;
+    } catch (_err) {
+      ui.contentModalBody.innerHTML = `
+        <p>弹窗加载失败。可尝试新页打开：</p>
+        <p><a class="donate-link" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="noopener noreferrer">新页打开</a></p>
+      `;
+      return;
+    }
+  }
+
+  ui.contentModalBody.innerHTML = `
+    <iframe src="${escapeHtml(resolvedUrl)}" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    <p class="overview-sub">若页面拒绝嵌入，请使用新页打开。</p>
+    <p><a class="donate-link" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="noopener noreferrer">新页打开</a></p>
+  `;
+}
+
+async function loadUnitBodyContent(unit, requestId) {
+  const contentSlot = ui.unitPreviewBody.querySelector("[data-module-content]");
+  if (!contentSlot) return;
+
+  const targetUrl = resolveUnitTargetUrl(unit);
+  if (!targetUrl) {
+    contentSlot.innerHTML = "<p>暂无模块正文内容。</p>";
+    return;
+  }
+
+  const cacheKey = unit.id || targetUrl;
+  if (state.moduleContentCache.has(cacheKey)) {
+    const cached = state.moduleContentCache.get(cacheKey);
+    if (requestId !== state.previewRequestId) return;
+    contentSlot.innerHTML = `<pre class="module-content">${escapeHtml(cached)}</pre>`;
+    return;
+  }
+
+  try {
+    const res = await fetch(resolveFetchPath(targetUrl), { cache: "no-store" });
+    if (!res.ok) throw new Error(`http_${res.status}`);
+    const buffer = await res.arrayBuffer();
+    const decoded = decodeModuleText(buffer);
+    const previewText = compactMarkdownForPreview(decoded);
+    const finalText = previewText || "正文为空。";
+    state.moduleContentCache.set(cacheKey, finalText);
+    if (requestId !== state.previewRequestId) return;
+    contentSlot.innerHTML = `<pre class="module-content">${escapeHtml(finalText)}</pre>`;
+  } catch (_err) {
+    if (requestId !== state.previewRequestId) return;
+    contentSlot.innerHTML = `
+      <p>正文加载失败，已展示摘要。你可以使用下方“打开原文”查看。</p>
+    `;
+  }
+}
+
 function renderUnitPreview(unit, sourceLabel = "核心模块库") {
   if (!unit) return;
   const targetUrl = resolveUnitTargetUrl(unit);
   const linkMarkup = targetUrl
-    ? `<p><a class="donate-link" href="${escapeHtml(targetUrl)}" target="_blank" rel="noopener noreferrer">打开模块内容</a></p>`
+    ? `<p><button type="button" class="donate-link inline-link-btn" data-inline-open="1" data-url="${escapeHtml(targetUrl)}" data-title="${escapeHtml(unit.title || "模块原文")}">打开原文</button></p>`
     : "";
 
   ui.unitPreviewTitle.textContent = unit.title;
@@ -467,15 +633,22 @@ function renderUnitPreview(unit, sourceLabel = "核心模块库") {
     <p><strong>机制：</strong>${escapeHtml(formatMechanisms(unit.mechanisms))}</p>
     <p><strong>状态：</strong>${escapeHtml(unit.status || "draft")}</p>
     <p><strong>说明：</strong>${escapeHtml(shortText(unit.summary || "模块占位符，内容待补充", 120))}</p>
+    <div data-module-content>
+      <p>正文加载中...</p>
+    </div>
     ${linkMarkup}
   `;
+
+  state.previewRequestId += 1;
+  const requestId = state.previewRequestId;
+  loadUnitBodyContent(unit, requestId);
 }
 
 function renderDailyPreview(item) {
   const timeText = formatDateTime(item.publishedAt);
   const source = item.sourceName || "RSS";
   const linkMarkup = item.link
-    ? `<p><a class="donate-link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">打开原文</a></p>`
+    ? `<p><button type="button" class="donate-link inline-link-btn" data-inline-open="1" data-url="${escapeHtml(item.link)}" data-title="${escapeHtml(item.title || "每日新知原文")}">打开原文</button></p>`
     : "";
   ui.unitPreviewTitle.textContent = item.title || "每日新知";
   ui.unitPreviewBody.innerHTML = `
@@ -1550,29 +1723,14 @@ function openModelUnit(unit, source = "canvas") {
   if (!unit) return;
 
   const targetUrl = resolveUnitTargetUrl(unit);
-  const shouldDirectJump = state.appSettings.openMode === "direct";
   const sourceLabel = source.startsWith("overview") ? getOverviewModeLabel() : "核心模块库";
-  if (shouldDirectJump && targetUrl) {
-    const opened = openExternalUrl(targetUrl);
-    if (opened) {
-      showToast(`已打开模块：${unit.title}`);
-    } else {
-      showToast("跳转失败，已回退为弹窗预览");
-      renderUnitPreview(unit, sourceLabel);
-    }
-  } else {
-    renderUnitPreview(unit, sourceLabel);
-    if (shouldDirectJump && !targetUrl) {
-      showToast(`模块暂无可跳转地址：${unit.title}`);
-    } else {
-      showToast(`进入模块：${unit.title}`);
-    }
-  }
+  renderUnitPreview(unit, sourceLabel);
+  showToast(`进入模块：${unit.title}`);
 
   eventTracker("jump_to_unit", {
     unit_id: unit.id,
     source,
-    open_mode: state.appSettings.openMode,
+    open_mode: "preview",
     target_url: targetUrl,
   });
 }
@@ -1908,6 +2066,8 @@ function bindUI() {
   ui.overviewClose.addEventListener("click", closeOverview);
   ui.settingsClose.addEventListener("click", closeSettings);
   ui.overviewBackdrop.addEventListener("click", closeAllPanels);
+  ui.contentModalClose.addEventListener("click", closeContentModal);
+  ui.contentModalBackdrop.addEventListener("click", closeContentModal);
 
   ui.tabCore.addEventListener("click", () => {
     setOverviewMode(OVERVIEW_MODE_CORE);
@@ -1929,17 +2089,26 @@ function bindUI() {
     }
   });
 
+  ui.unitPreviewBody.addEventListener("click", async (e) => {
+    const trigger = e.target?.closest?.("[data-inline-open='1']");
+    if (!trigger) return;
+    e.preventDefault();
+    const url = trigger.getAttribute("data-url") || "";
+    const title = trigger.getAttribute("data-title") || "原文";
+    await openContentModal(url, title);
+  });
+
   ui.openModePreview.addEventListener("change", () => {
     if (!ui.openModePreview.checked) return;
     state.appSettings.openMode = "preview";
     saveAppSettings();
-    showToast("已切换为弹窗预览模式");
+    showToast("已切换为弹窗预览（新知流）");
   });
   ui.openModeDirect.addEventListener("change", () => {
     if (!ui.openModeDirect.checked) return;
     state.appSettings.openMode = "direct";
     saveAppSettings();
-    showToast("已切换为直接跳转模式");
+    showToast("已切换为直接跳转（新知流）");
   });
 
   ui.rssAddBtn.addEventListener("click", async () => {
@@ -2084,6 +2253,10 @@ function bindUI() {
     }
 
     if (e.key === "Escape") {
+      if (isContentModalOpen()) {
+        closeContentModal();
+        return;
+      }
       closeAllPanels();
       ui.legendPanel.classList.remove("open");
       dismissHint();
