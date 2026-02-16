@@ -10,7 +10,7 @@
     <canvas id="lifeCanvas" aria-label="生命游戏画布"></canvas>
 
     <header class="top-shell">
-      <section class="brand-panel" aria-label="首页标题">
+      <section id="brandPanel" class="brand-panel autohide-card" aria-label="首页标题">
         <p class="brand-kicker">Shiran Main Program</p>
         <p class="brand-slogan">世然 Shiran · 好奇心的交互实验场</p>
         <h1>生命游戏导航系统</h1>
@@ -18,7 +18,7 @@
         <p class="brand-tip brand-tip-mini">点击活细胞进入模块，滚轮缩放/拖拽平移，单格放大到超过屏幕后自动下潜。</p>
       </section>
 
-      <div class="top-controls" role="toolbar" aria-label="首页控件">
+      <div id="topControls" class="top-controls autohide-card" role="toolbar" aria-label="首页控件">
         <label class="speed-control" for="speedInput">
           <span class="speed-label">演化节奏</span>
           <input
@@ -47,7 +47,9 @@
         </label>
         <button id="btnResetView" type="button">视图复位</button>
         <button id="btnLegend" type="button">图例</button>
-        <button id="btnOverview" type="button">全览</button>
+        <button id="btnFullscreen" class="icon-btn" type="button" aria-label="进入全屏" title="进入全屏">⛶</button>
+        <button id="btnOverview" class="icon-btn" type="button" aria-label="打开全览" title="打开全览">▦</button>
+        <button id="btnSettings" class="icon-btn" type="button" aria-label="打开设置" title="打开设置">⚙</button>
       </div>
     </header>
 
@@ -67,20 +69,77 @@
         <h3>探索单元全览</h3>
         <button id="overviewClose" type="button" aria-label="关闭全览">关闭</button>
       </div>
+      <div class="drawer-tabs" role="tablist" aria-label="全览模式">
+        <button id="tabCore" class="drawer-tab is-active" type="button" role="tab" aria-selected="true">核心模块库</button>
+        <button id="tabDaily" class="drawer-tab" type="button" role="tab" aria-selected="false">每日新知流</button>
+        <button id="tabMixed" class="drawer-tab" type="button" role="tab" aria-selected="false">混合</button>
+      </div>
       <div class="drawer-search">
         <input id="overviewSearch" type="search" placeholder="搜索标题 / 场景 / 机制" />
       </div>
+      <div id="overviewMeta" class="drawer-meta"></div>
       <div id="overviewList" class="overview-list"></div>
     </aside>
 
-    <section id="unitPreview" class="unit-preview" aria-live="polite">
+    <aside id="settingsDrawer" class="settings-drawer" aria-label="站点设置">
+      <div class="drawer-header">
+        <h3>设置</h3>
+        <button id="settingsClose" type="button" aria-label="关闭设置">关闭</button>
+      </div>
+
+      <section class="settings-section" aria-label="点击行为">
+        <h4>单击细胞行为</h4>
+        <label class="radio-row">
+          <input id="openModePreview" name="openMode" type="radio" value="preview" checked />
+          <span>弹窗预览（推荐）</span>
+        </label>
+        <label class="radio-row">
+          <input id="openModeDirect" name="openMode" type="radio" value="direct" />
+          <span>直接跳转网页</span>
+        </label>
+      </section>
+
+      <section class="settings-section" aria-label="RSS源配置">
+        <div class="settings-heading">
+          <h4>每日新知流 RSS 源</h4>
+          <button id="rssReloadBtn" type="button" class="mini-btn">刷新</button>
+        </div>
+        <p class="section-tip">配置后用于“每日新知流”与“混合”模式，支持多源并行。部分站点需后端代理才可稳定抓取。</p>
+        <div class="rss-add-grid">
+          <input id="rssNameInput" type="text" maxlength="28" placeholder="源名称（如 少数派）" />
+          <input id="rssUrlInput" type="url" placeholder="RSS URL（https://...）" />
+          <button id="rssAddBtn" type="button">添加源</button>
+        </div>
+        <div id="rssSourceList" class="rss-source-list"></div>
+        <button id="rssResetBtn" type="button" class="ghost-btn">恢复默认源</button>
+      </section>
+
+      <section class="settings-section" aria-label="开放API">
+        <h4>开放 API（V1）</h4>
+        <p class="section-tip">第三方模块接入可遵循统一契约，后续可升级到投稿审核流。</p>
+        <pre class="api-snippet">GET  /api/v1/units
+GET  /api/v1/units/{id_or_slug}
+GET  /api/v1/taxonomy
+POST /api/v1/events/batch</pre>
+      </section>
+
+      <section class="settings-section" aria-label="打赏支持">
+        <h4>支持世然</h4>
+        <p class="section-tip">如果这个站点对你有帮助，你可以赞助它持续迭代。</p>
+        <a id="donateLink" class="donate-link" href="https://example.com/shiran-support" target="_blank" rel="noopener noreferrer">
+          请我喝杯咖啡
+        </a>
+      </section>
+    </aside>
+
+    <section id="unitPreview" class="unit-preview autohide-card" aria-live="polite">
       <h3 id="unitPreviewTitle">模块占位符</h3>
       <div id="unitPreviewBody">
         <p>点击活细胞后，这里展示模块信息。</p>
       </div>
     </section>
 
-    <div id="statusText" class="status-text">初始化中...</div>
+    <div id="statusText" class="status-text autohide-card">初始化中...</div>
 
     <div id="hintLayer" class="hint-layer hidden" role="dialog" aria-label="首次引导">
       <div class="hint-card">

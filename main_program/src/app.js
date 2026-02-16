@@ -2,6 +2,7 @@
 import { loadModelIndex } from "./model-loader.js";
 import {
   ONBOARDING_KEY,
+  normalizePath,
   DEFAULT_GENERATION_MS,
   MIN_GENERATION_MS,
   MAX_GENERATION_MS,
@@ -23,6 +24,23 @@ const PARENT_ENTRY_ZOOM = 1.001;
 const LAYER_TRANSITION_STYLE = "instant";
 const LAYER_TRANSITION_DURATION_MS = 920;
 const LAYER_TRANSITION_SWAP_RATIO = 0.5;
+const CARD_AUTO_HIDE_DELAY_MS = 10000;
+const KEYBOARD_SPEED_STEP_MS = 80;
+const APP_SETTINGS_KEY = "shiran.home.settings.v2";
+const OVERVIEW_MODE_CORE = "core";
+const OVERVIEW_MODE_DAILY = "daily";
+const OVERVIEW_MODE_MIXED = "mixed";
+
+const DEFAULT_RSS_SOURCES = [
+  { id: "sspai", name: "少数派", url: "https://sspai.com/feed", enabled: true },
+  { id: "google-blog", name: "Google Blog", url: "https://blog.google/rss/", enabled: true },
+];
+
+// These hosts are known to block browser-side direct fetch in this deployment style.
+const NO_DIRECT_FETCH_HOSTS = new Set([
+  "www.ifanr.com",
+  "ifanr.com",
+]);
 
 const state = {
   canvas: null,
@@ -59,9 +77,21 @@ const state = {
   ownerCentroids: new Map(),
   layerBackgroundColor: "#5d8fb8",
   toastTimer: null,
+  cardHideTimer: null,
   layerSlot: 0,
   layerCycle: 0,
   layerSeedHint: null,
+  overviewMode: OVERVIEW_MODE_MIXED,
+  appSettings: {
+    openMode: "preview",
+    rssSources: [],
+  },
+  dailyFeed: {
+    loading: false,
+    items: [],
+    errors: [],
+    updatedAt: "",
+  },
   transition: {
     active: false,
     direction: "",
@@ -83,17 +113,36 @@ const ui = {
   zoomValue: document.getElementById("zoomValue"),
   resetViewBtn: document.getElementById("btnResetView"),
   legendBtn: document.getElementById("btnLegend"),
+  fullscreenBtn: document.getElementById("btnFullscreen"),
   overviewBtn: document.getElementById("btnOverview"),
+  settingsBtn: document.getElementById("btnSettings"),
+  topControls: document.getElementById("topControls"),
+  brandPanel: document.getElementById("brandPanel"),
   legendPanel: document.getElementById("legendPanel"),
   overviewDrawer: document.getElementById("overviewDrawer"),
   overviewClose: document.getElementById("overviewClose"),
   overviewBackdrop: document.getElementById("overviewBackdrop"),
   overviewList: document.getElementById("overviewList"),
+  overviewMeta: document.getElementById("overviewMeta"),
   searchInput: document.getElementById("overviewSearch"),
+  tabCore: document.getElementById("tabCore"),
+  tabDaily: document.getElementById("tabDaily"),
+  tabMixed: document.getElementById("tabMixed"),
+  settingsDrawer: document.getElementById("settingsDrawer"),
+  settingsClose: document.getElementById("settingsClose"),
+  openModePreview: document.getElementById("openModePreview"),
+  openModeDirect: document.getElementById("openModeDirect"),
+  rssNameInput: document.getElementById("rssNameInput"),
+  rssUrlInput: document.getElementById("rssUrlInput"),
+  rssAddBtn: document.getElementById("rssAddBtn"),
+  rssReloadBtn: document.getElementById("rssReloadBtn"),
+  rssResetBtn: document.getElementById("rssResetBtn"),
+  rssSourceList: document.getElementById("rssSourceList"),
   hintLayer: document.getElementById("hintLayer"),
   hintDismiss: document.getElementById("hintDismiss"),
   statusText: document.getElementById("statusText"),
   highContrastToggle: document.getElementById("highContrastToggle"),
+  unitPreviewPanel: document.getElementById("unitPreview"),
   unitPreviewTitle: document.getElementById("unitPreviewTitle"),
   unitPreviewBody: document.getElementById("unitPreviewBody"),
   toast: document.getElementById("toast"),
@@ -108,14 +157,186 @@ function showToast(text) {
   }, 2200);
 }
 
+function getAutoHideTargets() {
+  return [
+    ui.brandPanel,
+    ui.topControls,
+    ui.unitPreviewPanel,
+    ui.statusText,
+  ].filter(Boolean);
+}
+
+function setCardsAutoHidden(hidden) {
+  const targets = getAutoHideTargets();
+  for (let i = 0; i < targets.length; i += 1) {
+    targets[i].classList.toggle("is-auto-hidden", hidden);
+  }
+}
+
+function scheduleCardsAutoHide(delayMs = CARD_AUTO_HIDE_DELAY_MS) {
+  if (state.cardHideTimer) clearTimeout(state.cardHideTimer);
+  state.cardHideTimer = setTimeout(() => {
+    setCardsAutoHidden(true);
+  }, delayMs);
+}
+
+function revealCardsAndSchedule() {
+  setCardsAutoHidden(false);
+  scheduleCardsAutoHide();
+}
+
+function bindAutoHideCards() {
+  const cards = getAutoHideTargets();
+  for (let i = 0; i < cards.length; i += 1) {
+    const card = cards[i];
+    card.addEventListener("pointerenter", () => {
+      setCardsAutoHidden(false);
+      if (state.cardHideTimer) clearTimeout(state.cardHideTimer);
+    });
+    card.addEventListener("pointerleave", () => {
+      scheduleCardsAutoHide();
+    });
+    card.addEventListener("focusin", () => {
+      setCardsAutoHidden(false);
+      if (state.cardHideTimer) clearTimeout(state.cardHideTimer);
+    });
+    card.addEventListener("focusout", () => {
+      scheduleCardsAutoHide();
+    });
+  }
+}
+
+function updateFullscreenUi() {
+  const active = !!document.fullscreenElement;
+  ui.fullscreenBtn.textContent = active ? "🗗" : "⛶";
+  ui.fullscreenBtn.setAttribute("aria-label", active ? "退出全屏" : "进入全屏");
+  ui.fullscreenBtn.title = active ? "退出全屏" : "进入全屏";
+}
+
+async function toggleFullscreen() {
+  try {
+    if (!document.fullscreenElement) {
+      await document.documentElement.requestFullscreen();
+    } else {
+      await document.exitFullscreen();
+    }
+  } catch (_err) {
+    showToast("当前环境不支持全屏或被浏览器拦截");
+  } finally {
+    updateFullscreenUi();
+  }
+}
+
+function adjustSpeedByKeyboard(direction) {
+  const delta = KEYBOARD_SPEED_STEP_MS;
+  const next = direction === "faster"
+    ? state.generationMs - delta
+    : state.generationMs + delta;
+  const before = state.generationMs;
+  setGenerationMs(next);
+  if (state.generationMs === before) return;
+  showToast(`演化速度 ${formatGenerationMs(state.generationMs)}`);
+  eventTracker("canvas_speed_change", {
+    generation_ms: state.generationMs,
+    source: "keyboard_arrow",
+    direction,
+  });
+}
+
+function adjustZoomByKeyboard(direction) {
+  if (state.transition.active) return;
+  const anchorX = state.width / 2;
+  const anchorY = state.height / 2;
+  const focus = screenToCell(anchorX, anchorY);
+  state.focusCellX = focus.x;
+  state.focusCellY = focus.y;
+
+  if (direction === "in") {
+    setZoom(state.zoom * ZOOM_STEP_FACTOR, anchorX, anchorY);
+    maybeAutoLayerTransition(true, anchorX, anchorY);
+  } else {
+    const rawZoom = state.zoom / ZOOM_STEP_FACTOR;
+    if (canEnterParentLayer() && rawZoom < state.minZoom * PARENT_ENTRY_ZOOM) {
+      startLayerTransition("parent", anchorX, anchorY);
+    } else {
+      setZoom(rawZoom, anchorX, anchorY);
+      maybeAutoLayerTransition(false, anchorX, anchorY);
+    }
+  }
+
+  eventTracker("canvas_zoom_change", {
+    zoom: Number(state.zoom.toFixed(2)),
+    source: "keyboard_arrow",
+    direction,
+  });
+}
+
+function cloneDefaultRssSources() {
+  return DEFAULT_RSS_SOURCES.map((s) => ({ ...s }));
+}
+
+function normalizeRssSource(raw, fallbackIndex = 0) {
+  const name = String(raw?.name || "").trim() || `RSS源 ${fallbackIndex + 1}`;
+  const url = normalizePath(String(raw?.url || "").trim());
+  const enabled = raw?.enabled !== false;
+  const baseId = raw?.id ? String(raw.id) : `${name}|${url}|${fallbackIndex}`;
+  const id = String(baseId).trim() || `rss-${fallbackIndex}`;
+  return {
+    id,
+    name,
+    url,
+    enabled,
+  };
+}
+
+function loadAppSettings() {
+  const fallback = {
+    openMode: "preview",
+    rssSources: cloneDefaultRssSources(),
+  };
+
+  try {
+    const raw = localStorage.getItem(APP_SETTINGS_KEY);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    const openMode = parsed?.openMode === "direct" ? "direct" : "preview";
+    const sourceList = Array.isArray(parsed?.rssSources) ? parsed.rssSources : [];
+    const rssSources = sourceList.length > 0
+      ? sourceList.map((s, idx) => normalizeRssSource(s, idx))
+      : cloneDefaultRssSources();
+    return { openMode, rssSources };
+  } catch (_err) {
+    return fallback;
+  }
+}
+
+function saveAppSettings() {
+  try {
+    localStorage.setItem(APP_SETTINGS_KEY, JSON.stringify(state.appSettings));
+  } catch (_err) {
+    // ignore storage quota/private mode errors
+  }
+}
+
+function syncSettingsFormFromState() {
+  ui.openModePreview.checked = state.appSettings.openMode !== "direct";
+  ui.openModeDirect.checked = state.appSettings.openMode === "direct";
+}
+
+function syncBackdrop() {
+  const open = ui.overviewDrawer.classList.contains("open") || ui.settingsDrawer.classList.contains("open");
+  ui.overviewBackdrop.classList.toggle("visible", open);
+}
+
 function openOverview() {
+  ui.settingsDrawer.classList.remove("open");
   ui.overviewDrawer.classList.add("open");
-  ui.overviewBackdrop.classList.add("visible");
+  syncBackdrop();
 }
 
 function closeOverview() {
   ui.overviewDrawer.classList.remove("open");
-  ui.overviewBackdrop.classList.remove("visible");
+  syncBackdrop();
 }
 
 function toggleOverview() {
@@ -126,14 +347,142 @@ function toggleOverview() {
   }
 }
 
-function renderUnitPreview(unit) {
+function openSettings() {
+  ui.overviewDrawer.classList.remove("open");
+  ui.settingsDrawer.classList.add("open");
+  syncBackdrop();
+}
+
+function closeSettings() {
+  ui.settingsDrawer.classList.remove("open");
+  syncBackdrop();
+}
+
+function toggleSettings() {
+  if (ui.settingsDrawer.classList.contains("open")) {
+    closeSettings();
+  } else {
+    openSettings();
+  }
+}
+
+function closeAllPanels() {
+  ui.overviewDrawer.classList.remove("open");
+  ui.settingsDrawer.classList.remove("open");
+  syncBackdrop();
+}
+
+function setOverviewMode(mode) {
+  const next = [OVERVIEW_MODE_CORE, OVERVIEW_MODE_DAILY, OVERVIEW_MODE_MIXED].includes(mode)
+    ? mode
+    : OVERVIEW_MODE_MIXED;
+  state.overviewMode = next;
+  if (next === OVERVIEW_MODE_DAILY) {
+    ui.searchInput.placeholder = "搜索标题 / 来源 / 摘要";
+  } else if (next === OVERVIEW_MODE_MIXED) {
+    ui.searchInput.placeholder = "搜索模块与新知";
+  } else {
+    ui.searchInput.placeholder = "搜索标题 / 场景 / 机制";
+  }
+  renderOverviewModeTabs();
+  renderOverviewList();
+}
+
+function renderOverviewModeTabs() {
+  const map = [
+    [ui.tabCore, OVERVIEW_MODE_CORE],
+    [ui.tabDaily, OVERVIEW_MODE_DAILY],
+    [ui.tabMixed, OVERVIEW_MODE_MIXED],
+  ];
+  for (let i = 0; i < map.length; i += 1) {
+    const [el, mode] = map[i];
+    const active = state.overviewMode === mode;
+    el.classList.toggle("is-active", active);
+    el.setAttribute("aria-selected", active ? "true" : "false");
+  }
+}
+
+function stripHtml(input) {
+  return String(input || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function escapeHtml(input) {
+  return String(input || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function shortText(input, max = 84) {
+  const text = stripHtml(input);
+  if (text.length <= max) return text;
+  return `${text.slice(0, Math.max(0, max - 1))}…`;
+}
+
+function formatDateTime(input) {
+  if (!input) return "";
+  const ts = Date.parse(input);
+  if (!Number.isFinite(ts)) return "";
+  const d = new Date(ts);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+  return `${y}-${m}-${day} ${hh}:${mm}`;
+}
+
+function resolveEntryPath(pathValue) {
+  const normalized = normalizePath(pathValue || "");
+  if (!normalized) return "";
+  if (/^https?:\/\//i.test(normalized)) return normalized;
+  if (normalized.startsWith("../../ExportBlock/")) {
+    return normalized.replace("../../ExportBlock/", "../ExportBlock/");
+  }
+  return normalized;
+}
+
+function resolveUnitTargetUrl(unit) {
+  if (!unit) return "";
+  const explicit = unit.url || unit.link || unit.entry?.url || "";
+  if (/^https?:\/\//i.test(String(explicit))) {
+    return String(explicit).trim();
+  }
+  return resolveEntryPath(unit.entry?.content || unit.entry_content || "");
+}
+
+function renderUnitPreview(unit, sourceLabel = "核心模块库") {
   if (!unit) return;
+  const targetUrl = resolveUnitTargetUrl(unit);
+  const linkMarkup = targetUrl
+    ? `<p><a class="donate-link" href="${escapeHtml(targetUrl)}" target="_blank" rel="noopener noreferrer">打开模块内容</a></p>`
+    : "";
+
   ui.unitPreviewTitle.textContent = unit.title;
   ui.unitPreviewBody.innerHTML = `
-    <p><strong>场景：</strong>${unit.scene}</p>
-    <p><strong>机制：</strong>${formatMechanisms(unit.mechanisms)}</p>
-    <p><strong>状态：</strong>${unit.status}</p>
-    <p><strong>说明：</strong>${unit.summary || "模块占位符，内容待补充"}</p>
+    <p><strong>来源：</strong>${escapeHtml(sourceLabel)}</p>
+    <p><strong>场景：</strong>${escapeHtml(unit.scene || "未分类")}</p>
+    <p><strong>机制：</strong>${escapeHtml(formatMechanisms(unit.mechanisms))}</p>
+    <p><strong>状态：</strong>${escapeHtml(unit.status || "draft")}</p>
+    <p><strong>说明：</strong>${escapeHtml(shortText(unit.summary || "模块占位符，内容待补充", 120))}</p>
+    ${linkMarkup}
+  `;
+}
+
+function renderDailyPreview(item) {
+  const timeText = formatDateTime(item.publishedAt);
+  const source = item.sourceName || "RSS";
+  const linkMarkup = item.link
+    ? `<p><a class="donate-link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">打开原文</a></p>`
+    : "";
+  ui.unitPreviewTitle.textContent = item.title || "每日新知";
+  ui.unitPreviewBody.innerHTML = `
+    <p><strong>来源：</strong>${escapeHtml(source)}</p>
+    <p><strong>时间：</strong>${escapeHtml(timeText || "未知")}</p>
+    <p><strong>说明：</strong>${escapeHtml(shortText(item.summary || "暂无摘要", 140))}</p>
+    ${linkMarkup}
   `;
 }
 
@@ -556,6 +905,260 @@ function pickFocusUnitById(unitId) {
   return found;
 }
 
+function isHttpUrl(input) {
+  return /^https?:\/\//i.test(String(input || "").trim());
+}
+
+function getHostFromUrl(url) {
+  try {
+    return new URL(String(url || "")).hostname.toLowerCase();
+  } catch (_err) {
+    return "";
+  }
+}
+
+function canFetchSourceDirectly(source) {
+  const host = getHostFromUrl(source?.url || "");
+  if (!host) return false;
+  return !NO_DIRECT_FETCH_HOSTS.has(host);
+}
+
+function getCoreUnits() {
+  if (!state.modelIndex?.items) return [];
+  return state.modelIndex.items.filter((u) => u.status !== "archived");
+}
+
+function buildCoreOverviewItems() {
+  const units = getCoreUnits();
+  units.sort((a, b) => {
+    const as = Number(a.source_seq || 0);
+    const bs = Number(b.source_seq || 0);
+    return as - bs;
+  });
+  return units.map((u) => ({
+    type: "core",
+    id: `core:${u.id}`,
+    unit: u,
+    title: u.title,
+    summary: u.summary || "",
+    scene: u.scene || "",
+    mechanisms: u.mechanisms || [],
+    sourceName: "核心模块库",
+    publishedAt: "",
+    link: resolveUnitTargetUrl(u),
+  }));
+}
+
+function normalizeFeedItem(raw, source) {
+  const title = String(raw?.title || "").trim();
+  const link = String(raw?.link || raw?.url || "").trim();
+  if (!title || !link) return null;
+
+  const summary = raw?.description || raw?.contentSnippet || raw?.content || "";
+  const publishedAt = raw?.pubDate || raw?.isoDate || raw?.published || new Date().toISOString();
+  const idSeed = `${source.id}|${title}|${link}|${publishedAt}`;
+  return {
+    type: "daily",
+    id: `daily:${hashString(idSeed)}`,
+    title,
+    summary: stripHtml(summary),
+    scene: "每日新知流",
+    mechanisms: ["外部优质信息源"],
+    sourceName: source.name,
+    publishedAt,
+    link,
+    sourceId: source.id,
+  };
+}
+
+function parseFeedXml(xmlText, source) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlText, "text/xml");
+  const invalid = doc.querySelector("parsererror");
+  if (invalid) throw new Error("rss xml parse error");
+
+  const nodes = [...doc.querySelectorAll("item"), ...doc.querySelectorAll("entry")];
+  if (nodes.length === 0) return [];
+
+  return nodes.map((node) => {
+    const title = node.querySelector("title")?.textContent?.trim() || "";
+    const linkNode = node.querySelector("link");
+    const link = linkNode?.getAttribute("href") || linkNode?.textContent?.trim() || "";
+    const summary = node.querySelector("description")?.textContent
+      || node.querySelector("summary")?.textContent
+      || node.querySelector("content")?.textContent
+      || "";
+    const publishedAt = node.querySelector("pubDate")?.textContent
+      || node.querySelector("published")?.textContent
+      || node.querySelector("updated")?.textContent
+      || "";
+    return normalizeFeedItem(
+      {
+        title,
+        link,
+        description: summary,
+        pubDate: publishedAt,
+      },
+      source,
+    );
+  }).filter(Boolean);
+}
+
+async function fetchRssDirect(source) {
+  const res = await fetch(source.url, {
+    cache: "no-store",
+    headers: {
+      Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.1",
+    },
+  });
+  if (!res.ok) throw new Error(`direct: ${res.status}`);
+  const xmlText = await res.text();
+  if (!xmlText || xmlText.trim().length === 0) throw new Error("rss empty response");
+  return parseFeedXml(xmlText, source);
+}
+
+async function fetchDailyItemsForSource(source) {
+  const items = await fetchRssDirect(source);
+  if (items.length === 0) throw new Error("feed empty");
+  return items;
+}
+
+function dedupeDailyItems(items) {
+  const seen = new Set();
+  const result = [];
+  for (let i = 0; i < items.length; i += 1) {
+    const item = items[i];
+    const key = `${item.link}|${item.title}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push(item);
+  }
+  result.sort((a, b) => Date.parse(b.publishedAt || 0) - Date.parse(a.publishedAt || 0));
+  return result;
+}
+
+function buildDailyFallbackItems() {
+  const units = getCoreUnits().slice(0, 16);
+  const now = Date.now();
+  return units.map((unit, idx) => ({
+    type: "daily",
+    id: `daily-fallback:${unit.id}`,
+    title: `【占位】${unit.title}`,
+    summary: unit.summary || "RSS 暂不可用，当前展示核心模块占位内容。",
+    scene: unit.scene || "每日新知流",
+    mechanisms: unit.mechanisms || [],
+    sourceName: "本地占位",
+    publishedAt: new Date(now - idx * 600000).toISOString(),
+    link: resolveUnitTargetUrl(unit),
+    unit,
+  }));
+}
+
+async function reloadDailyFeed({ silent = false } = {}) {
+  state.dailyFeed.loading = true;
+  state.dailyFeed.errors = [];
+  renderOverviewList();
+
+  const enabledSources = state.appSettings.rssSources.filter((s) => s.enabled && isHttpUrl(s.url));
+  const directSources = enabledSources.filter((s) => canFetchSourceDirectly(s));
+  const blockedSources = enabledSources.filter((s) => !canFetchSourceDirectly(s));
+  const preErrors = blockedSources.map((s) => `${s.name}: 当前站点前端直连受限，需后端代理`);
+
+  if (directSources.length === 0) {
+    state.dailyFeed.items = buildDailyFallbackItems();
+    state.dailyFeed.loading = false;
+    state.dailyFeed.errors = preErrors;
+    state.dailyFeed.updatedAt = new Date().toISOString();
+    renderOverviewList();
+    if (!silent) {
+      if (enabledSources.length === 0) {
+        showToast("未启用 RSS 源，已使用占位新知流");
+      } else {
+        showToast("可直连 RSS 源为 0，已使用占位新知流");
+      }
+    }
+    return;
+  }
+
+  const jobs = directSources.map((source) => fetchDailyItemsForSource(source)
+    .then((items) => ({ ok: true, source, items }))
+    .catch((err) => ({ ok: false, source, err })));
+  const results = await Promise.all(jobs);
+
+  const merged = [];
+  const errors = [...preErrors];
+  for (let i = 0; i < results.length; i += 1) {
+    const res = results[i];
+    if (res.ok) {
+      merged.push(...res.items);
+    } else {
+      const message = `${res.source.name}: ${res.err?.message || "抓取失败"}`;
+      errors.push(message);
+    }
+  }
+
+  const finalItems = dedupeDailyItems(merged).slice(0, 120);
+  state.dailyFeed.items = finalItems.length > 0 ? finalItems : buildDailyFallbackItems();
+  state.dailyFeed.loading = false;
+  state.dailyFeed.errors = errors;
+  state.dailyFeed.updatedAt = new Date().toISOString();
+  renderOverviewList();
+
+  if (!silent) {
+    if (errors.length === 0) {
+      showToast(`已更新每日新知流，共 ${state.dailyFeed.items.length} 条`);
+    } else {
+      showToast(`已更新 ${state.dailyFeed.items.length} 条，${errors.length} 个源失败`);
+    }
+  }
+}
+
+function buildMixedOverviewItems(coreItems, dailyItems) {
+  const mixed = [];
+  const maxLength = Math.min(180, Math.max(coreItems.length, dailyItems.length) * 2);
+  let i = 0;
+  while (mixed.length < maxLength && (i < coreItems.length || i < dailyItems.length)) {
+    if (i < coreItems.length) {
+      mixed.push({
+        ...coreItems[i],
+        type: "mixed-core",
+      });
+    }
+    if (i < dailyItems.length) {
+      mixed.push({
+        ...dailyItems[i],
+        type: "mixed-daily",
+      });
+    }
+    i += 1;
+  }
+  return mixed;
+}
+
+function getOverviewModeLabel(mode = state.overviewMode) {
+  if (mode === OVERVIEW_MODE_CORE) return "核心模块库";
+  if (mode === OVERVIEW_MODE_DAILY) return "每日新知流";
+  return "混合";
+}
+
+function getOverviewItemsByMode() {
+  const coreItems = buildCoreOverviewItems();
+  const dailyItems = state.dailyFeed.items || [];
+  if (state.overviewMode === OVERVIEW_MODE_CORE) return coreItems;
+  if (state.overviewMode === OVERVIEW_MODE_DAILY) return dailyItems;
+  return buildMixedOverviewItems(coreItems, dailyItems);
+}
+
+function openExternalUrl(url) {
+  if (!url) return false;
+  try {
+    window.open(url, "_blank", "noopener,noreferrer");
+    return true;
+  } catch (_err) {
+    return false;
+  }
+}
+
 function buildLayerActiveUnits(rng, maxUnits, focusUnitId = null) {
   const picked = chooseActiveUnits(state.modelIndex.items, rng, maxUnits);
   const focus = pickFocusUnitById(focusUnitId);
@@ -943,17 +1546,85 @@ function applyMicroDisturbance() {
   }
 }
 
-function openUnit(ownerId, source = "canvas") {
-  const unit = state.ownerUnitMap.get(ownerId);
+function openModelUnit(unit, source = "canvas") {
   if (!unit) return;
 
-  renderUnitPreview(unit);
+  const targetUrl = resolveUnitTargetUrl(unit);
+  const shouldDirectJump = state.appSettings.openMode === "direct";
+  const sourceLabel = source.startsWith("overview") ? getOverviewModeLabel() : "核心模块库";
+  if (shouldDirectJump && targetUrl) {
+    const opened = openExternalUrl(targetUrl);
+    if (opened) {
+      showToast(`已打开模块：${unit.title}`);
+    } else {
+      showToast("跳转失败，已回退为弹窗预览");
+      renderUnitPreview(unit, sourceLabel);
+    }
+  } else {
+    renderUnitPreview(unit, sourceLabel);
+    if (shouldDirectJump && !targetUrl) {
+      showToast(`模块暂无可跳转地址：${unit.title}`);
+    } else {
+      showToast(`进入模块：${unit.title}`);
+    }
+  }
+
   eventTracker("jump_to_unit", {
     unit_id: unit.id,
     source,
+    open_mode: state.appSettings.openMode,
+    target_url: targetUrl,
   });
+}
 
-  showToast(`进入占位模块：${unit.title}`);
+function openUnit(ownerId, source = "canvas") {
+  const unit = state.ownerUnitMap.get(ownerId);
+  if (!unit) return;
+  openModelUnit(unit, source);
+}
+
+function openDailyItem(item, source = "daily") {
+  if (!item) return;
+  const link = item.link || "";
+  const shouldDirectJump = state.appSettings.openMode === "direct";
+  if (shouldDirectJump && link) {
+    const opened = openExternalUrl(link);
+    if (opened) {
+      showToast(`已打开新知：${item.title}`);
+    } else {
+      renderDailyPreview(item);
+      showToast("跳转失败，已回退为弹窗预览");
+    }
+  } else {
+    renderDailyPreview(item);
+    if (shouldDirectJump && !link) {
+      showToast(`该条新知暂无链接：${item.title}`);
+    } else {
+      showToast(`载入新知：${item.title}`);
+    }
+  }
+
+  eventTracker("open_daily_item", {
+    source,
+    title: item.title,
+    link,
+    open_mode: state.appSettings.openMode,
+    source_name: item.sourceName || "",
+  });
+}
+
+function openOverviewItem(item) {
+  if (!item) return;
+  if (item.type === "daily" || item.type === "mixed-daily") {
+    openDailyItem(item, "overview_daily");
+    closeOverview();
+    return;
+  }
+
+  const unit = item.unit || state.modelIndex?.items?.find((u) => u.id === item.unitId);
+  if (!unit) return;
+  openModelUnit(unit, "overview_core");
+  closeOverview();
 }
 
 function onCanvasClick(ev) {
@@ -1072,31 +1743,120 @@ function renderLegendPanel() {
 
 function renderOverviewList() {
   const query = (ui.searchInput.value || "").trim().toLowerCase();
-  const list = state.activeUnits.filter((u) => {
+  const items = getOverviewItemsByMode();
+  const list = items.filter((item) => {
     if (!query) return true;
+    const mechanismsText = Array.isArray(item.mechanisms) ? item.mechanisms.join(" ") : "";
     return (
-      u.title.toLowerCase().includes(query)
-      || (u.scene || "").toLowerCase().includes(query)
-      || (u.mechanisms || []).join(" ").toLowerCase().includes(query)
+      String(item.title || "").toLowerCase().includes(query)
+      || String(item.scene || "").toLowerCase().includes(query)
+      || mechanismsText.toLowerCase().includes(query)
+      || String(item.sourceName || "").toLowerCase().includes(query)
     );
   });
 
+  const modeLabel = getOverviewModeLabel();
+  const updatedAt = formatDateTime(state.dailyFeed.updatedAt);
+  const loadingText = state.dailyFeed.loading ? "正在更新 RSS..." : "";
+  const errorText = state.dailyFeed.errors.length > 0 ? `，失败源 ${state.dailyFeed.errors.length}` : "";
+  if (state.overviewMode === OVERVIEW_MODE_DAILY || state.overviewMode === OVERVIEW_MODE_MIXED) {
+    ui.overviewMeta.textContent = `${modeLabel} · 共 ${list.length} 条 · ${loadingText || (updatedAt ? `更新于 ${updatedAt}${errorText}` : "等待首次加载")}`;
+  } else {
+    ui.overviewMeta.textContent = `${modeLabel} · 共 ${list.length} 条`;
+  }
+
   ui.overviewList.innerHTML = "";
+  if (list.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "overview-empty";
+    if (state.overviewMode === OVERVIEW_MODE_DAILY && state.dailyFeed.loading) {
+      empty.textContent = "正在拉取每日新知流，请稍候...";
+    } else if (state.overviewMode === OVERVIEW_MODE_DAILY) {
+      empty.textContent = "当前没有可展示的新知条目，请先在设置里配置并启用 RSS 源。";
+    } else {
+      empty.textContent = "没有匹配结果，试试更短的关键词。";
+    }
+    ui.overviewList.appendChild(empty);
+    return;
+  }
+
   for (let i = 0; i < list.length; i += 1) {
-    const unit = list[i];
+    const item = list[i];
     const row = document.createElement("button");
     row.className = "overview-item";
     row.type = "button";
+    const isDaily = item.type === "daily" || item.type === "mixed-daily";
+    const pillClass = item.type === "core"
+      ? "pill-core"
+      : (isDaily ? "pill-daily" : "pill-mixed");
+    const sub = isDaily
+      ? `${item.sourceName || "RSS"} · ${formatDateTime(item.publishedAt) || "未知时间"}`
+      : `${item.scene || "未分类"} · ${formatMechanisms(item.mechanisms)}`;
+    const summary = shortText(item.summary || "", 72);
+    const modeForItem = (item.type === "mixed-daily" || item.type === "mixed-core")
+      ? OVERVIEW_MODE_MIXED
+      : (isDaily ? OVERVIEW_MODE_DAILY : OVERVIEW_MODE_CORE);
+    const modeLabel = getOverviewModeLabel(modeForItem);
     row.innerHTML = `
-      <span class="overview-title">${unit.title}</span>
-      <span class="overview-sub">${unit.scene} · ${formatMechanisms(unit.mechanisms)}</span>
+      <span class="overview-title">${escapeHtml(item.title || "未命名条目")}</span>
+      <span class="overview-sub">${escapeHtml(sub)}</span>
+      <span class="overview-sub">${escapeHtml(summary)}</span>
+      <span class="overview-tags">
+        <span class="pill ${pillClass}">${escapeHtml(modeLabel)}</span>
+      </span>
     `;
     row.addEventListener("click", () => {
-      const ownerId = state.ownerByUnitId.get(unit.id);
-      if (ownerId >= 0) openUnit(ownerId, "overview");
-      closeOverview();
+      openOverviewItem(item);
     });
     ui.overviewList.appendChild(row);
+  }
+}
+
+function renderRssSourceList() {
+  ui.rssSourceList.innerHTML = "";
+  const sources = state.appSettings.rssSources || [];
+  if (sources.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "overview-empty";
+    empty.textContent = "暂无 RSS 源，点击上方输入框添加。";
+    ui.rssSourceList.appendChild(empty);
+    return;
+  }
+
+  for (let i = 0; i < sources.length; i += 1) {
+    const source = sources[i];
+    const directOk = canFetchSourceDirectly(source);
+    const sourceName = directOk ? source.name : `${source.name}（需后端代理）`;
+    const row = document.createElement("div");
+    row.className = "rss-source-item";
+    row.innerHTML = `
+      <div class="rss-main">
+        <input type="checkbox" ${source.enabled ? "checked" : ""} />
+        <span class="rss-name">${escapeHtml(sourceName)}</span>
+      </div>
+      <button class="rss-delete" type="button">删除</button>
+      <div class="rss-url">${escapeHtml(source.url)}</div>
+    `;
+
+    const checkbox = row.querySelector('input[type="checkbox"]');
+    checkbox.addEventListener("change", async (e) => {
+      const next = !!e.target.checked;
+      source.enabled = next;
+      saveAppSettings();
+      await reloadDailyFeed({ silent: true });
+      renderOverviewList();
+    });
+
+    const deleteBtn = row.querySelector(".rss-delete");
+    deleteBtn.addEventListener("click", async () => {
+      state.appSettings.rssSources = state.appSettings.rssSources.filter((s) => s.id !== source.id);
+      saveAppSettings();
+      renderRssSourceList();
+      await reloadDailyFeed({ silent: true });
+      showToast(`已删除 RSS 源：${source.name}`);
+    });
+
+    ui.rssSourceList.appendChild(row);
   }
 }
 
@@ -1132,13 +1892,32 @@ function bindUI() {
     ui.legendPanel.classList.toggle("open");
   });
 
+  ui.fullscreenBtn.addEventListener("click", async () => {
+    await toggleFullscreen();
+  });
+
   ui.overviewBtn.addEventListener("click", () => {
     toggleOverview();
     eventTracker("open_overview", { open: ui.overviewDrawer.classList.contains("open") });
   });
+  ui.settingsBtn.addEventListener("click", () => {
+    toggleSettings();
+    eventTracker("open_settings", { open: ui.settingsDrawer.classList.contains("open") });
+  });
 
   ui.overviewClose.addEventListener("click", closeOverview);
-  ui.overviewBackdrop.addEventListener("click", closeOverview);
+  ui.settingsClose.addEventListener("click", closeSettings);
+  ui.overviewBackdrop.addEventListener("click", closeAllPanels);
+
+  ui.tabCore.addEventListener("click", () => {
+    setOverviewMode(OVERVIEW_MODE_CORE);
+  });
+  ui.tabDaily.addEventListener("click", () => {
+    setOverviewMode(OVERVIEW_MODE_DAILY);
+  });
+  ui.tabMixed.addEventListener("click", () => {
+    setOverviewMode(OVERVIEW_MODE_MIXED);
+  });
 
   ui.searchInput.addEventListener("input", () => {
     renderOverviewList();
@@ -1148,6 +1927,65 @@ function bindUI() {
     if (e.key === "Enter") {
       eventTracker("search_submit", { query: ui.searchInput.value || "" });
     }
+  });
+
+  ui.openModePreview.addEventListener("change", () => {
+    if (!ui.openModePreview.checked) return;
+    state.appSettings.openMode = "preview";
+    saveAppSettings();
+    showToast("已切换为弹窗预览模式");
+  });
+  ui.openModeDirect.addEventListener("change", () => {
+    if (!ui.openModeDirect.checked) return;
+    state.appSettings.openMode = "direct";
+    saveAppSettings();
+    showToast("已切换为直接跳转模式");
+  });
+
+  ui.rssAddBtn.addEventListener("click", async () => {
+    const name = (ui.rssNameInput.value || "").trim();
+    const url = normalizePath((ui.rssUrlInput.value || "").trim());
+    if (!name) {
+      showToast("请输入 RSS 源名称");
+      return;
+    }
+    if (!isHttpUrl(url)) {
+      showToast("请输入合法的 RSS 地址（http/https）");
+      return;
+    }
+
+    const id = `rss-${hashString(`${name}|${url}|${Date.now()}`)}`;
+    state.appSettings.rssSources.unshift({
+      id,
+      name,
+      url,
+      enabled: true,
+    });
+    saveAppSettings();
+    renderRssSourceList();
+    ui.rssNameInput.value = "";
+    ui.rssUrlInput.value = "";
+    await reloadDailyFeed({ silent: true });
+    showToast(`已添加 RSS 源：${name}`);
+  });
+
+  ui.rssUrlInput.addEventListener("keydown", async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      ui.rssAddBtn.click();
+    }
+  });
+
+  ui.rssReloadBtn.addEventListener("click", async () => {
+    await reloadDailyFeed({ silent: false });
+  });
+
+  ui.rssResetBtn.addEventListener("click", async () => {
+    state.appSettings.rssSources = cloneDefaultRssSources();
+    saveAppSettings();
+    renderRssSourceList();
+    await reloadDailyFeed({ silent: true });
+    showToast("已恢复默认 RSS 源");
   });
 
   ui.hintDismiss.addEventListener("click", dismissHint);
@@ -1170,6 +2008,35 @@ function bindUI() {
 
     if (e.key.toLowerCase() === "g") {
       toggleOverview();
+      return;
+    }
+
+    if (e.key.toLowerCase() === "s") {
+      toggleSettings();
+      return;
+    }
+
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      adjustSpeedByKeyboard("faster");
+      return;
+    }
+
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      adjustSpeedByKeyboard("slower");
+      return;
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      adjustZoomByKeyboard("in");
+      return;
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      adjustZoomByKeyboard("out");
       return;
     }
 
@@ -1217,7 +2084,7 @@ function bindUI() {
     }
 
     if (e.key === "Escape") {
-      closeOverview();
+      closeAllPanels();
       ui.legendPanel.classList.remove("open");
       dismissHint();
     }
@@ -1234,7 +2101,12 @@ function bindUI() {
     state.running = !document.hidden;
     if (!document.hidden) {
       state.generationStartTs = performance.now() - state.progress * state.generationMs;
+      revealCardsAndSchedule();
     }
+  });
+
+  document.addEventListener("fullscreenchange", () => {
+    updateFullscreenUi();
   });
 
   window.addEventListener("resize", () => {
@@ -1246,12 +2118,19 @@ async function init() {
   state.canvas = document.getElementById("lifeCanvas");
   state.ctx = state.canvas.getContext("2d", { alpha: false });
   state.canvas.style.cursor = "grab";
+  state.appSettings = loadAppSettings();
+  syncSettingsFormFromState();
+  setOverviewMode(state.overviewMode);
+  renderRssSourceList();
+  updateFullscreenUi();
+  bindAutoHideCards();
 
   renderLegendPanel();
   bindUI();
   toggleHintIfNeeded();
   syncZoomUi();
   setGenerationMs(DEFAULT_GENERATION_MS);
+  scheduleCardsAutoHide();
 
   try {
     state.modelIndex = await loadModelIndex();
@@ -1259,6 +2138,7 @@ async function init() {
       total_models: state.modelIndex.total,
       note: "dynamic model index",
     });
+    await reloadDailyFeed({ silent: true });
   } catch (err) {
     showToast("模型索引加载失败，请检查本地服务路径");
     // eslint-disable-next-line no-console
