@@ -1,0 +1,101 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shiran Main Program - Conway Home</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <canvas id="lifeCanvas" aria-label="生命游戏画布"></canvas>
+
+    <header class="top-shell">
+      <section class="brand-panel" aria-label="首页标题">
+        <p class="brand-kicker">Shiran Main Program</p>
+        <p class="brand-slogan">世然 Shiran · 好奇心的交互实验场</p>
+        <h1>生命游戏导航系统</h1>
+        <p class="brand-tip">理解世界的底层原理，从一个活细胞开始。</p>
+        <p class="brand-tip brand-tip-mini">点击活细胞进入模块，滚轮缩放/拖拽平移，单格放大到超过屏幕后自动下潜。</p>
+      </section>
+
+      <div class="top-controls" role="toolbar" aria-label="首页控件">
+        <label class="speed-control" for="speedInput">
+          <span class="speed-label">演化节奏</span>
+          <input
+            id="speedInput"
+            type="range"
+            min="120"
+            max="5000"
+            step="20"
+            value="900"
+            aria-label="演化速度（毫秒）"
+          />
+          <span id="speedValue" class="speed-value">900ms</span>
+        </label>
+        <label class="zoom-control" for="zoomInput">
+          <span class="speed-label">画布缩放</span>
+          <input
+            id="zoomInput"
+            type="range"
+            min="100"
+            max="52000"
+            step="20"
+            value="100"
+            aria-label="画布缩放百分比"
+          />
+          <span id="zoomValue" class="speed-value">100%</span>
+        </label>
+        <button id="btnResetView" type="button">视图复位</button>
+        <button id="btnLegend" type="button">图例</button>
+        <button id="btnOverview" type="button">全览</button>
+      </div>
+    </header>
+
+    <section id="legendPanel" class="floating-panel" aria-label="场景图例">
+      <h3>场景图例</h3>
+      <div class="legend-content"></div>
+      <label class="toggle-row">
+        <input id="highContrastToggle" type="checkbox" />
+        <span>高对比模式（色弱友好）</span>
+      </label>
+    </section>
+
+    <div id="overviewBackdrop" class="overview-backdrop" aria-hidden="true"></div>
+
+    <aside id="overviewDrawer" class="overview-drawer" aria-label="探索单元全览">
+      <div class="drawer-header">
+        <h3>探索单元全览</h3>
+        <button id="overviewClose" type="button" aria-label="关闭全览">关闭</button>
+      </div>
+      <div class="drawer-search">
+        <input id="overviewSearch" type="search" placeholder="搜索标题 / 场景 / 机制" />
+      </div>
+      <div id="overviewList" class="overview-list"></div>
+    </aside>
+
+    <section id="unitPreview" class="unit-preview" aria-live="polite">
+      <h3 id="unitPreviewTitle">模块占位符</h3>
+      <div id="unitPreviewBody">
+        <p>点击活细胞后，这里展示模块信息。</p>
+      </div>
+    </section>
+
+    <div id="statusText" class="status-text">初始化中...</div>
+
+    <div id="hintLayer" class="hint-layer hidden" role="dialog" aria-label="首次引导">
+      <div class="hint-card">
+        <h2>轻引导</h2>
+        <p>点击任意活细胞，即可进入对应探索模块。</p>
+        <p>滚轮可缩放，按住拖拽可查看局部细节。</p>
+        <p>当单个像素放大到超过屏幕后，会平滑进入下一层画布。</p>
+        <p>任意画布继续缩小到最小以下，会平滑上浮到另一画布。</p>
+        <p>后续不再展示，你可以自由探索。</p>
+        <button id="hintDismiss" type="button">开始探索</button>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
