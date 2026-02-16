@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/main_program/",
+      "permanent": false
+    },
+    {
+      "source": "/main_program",
+      "destination": "/main_program/",
+      "permanent": false
+    }
+  ]
+}
+
