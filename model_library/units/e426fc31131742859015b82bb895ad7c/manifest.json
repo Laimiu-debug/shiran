@@ -1,0 +1,28 @@
+﻿{
+    "id":  "e426fc31131742859015b82bb895ad7c",
+    "slug":  "u-055-e426fc31",
+    "title":  "六度分隔(小世界网络)",
+    "summary":  "少量随机长连接使网络平均路径急剧缩短",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "网络传播",
+                       "反馈",
+                       "随机性"
+                   ],
+    "category_legacy":  "网络与传播",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/六度分隔(小世界网络) e426fc31131742859015b82bb895ad7c.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  55,
+                   "markdown":  "六度分隔(小世界网络) e426fc31131742859015b82bb895ad7c.md"
+               }
+}

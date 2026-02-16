@@ -1,0 +1,28 @@
+﻿{
+    "id":  "419f26aa0e5b43ff9100d138c6c064ba",
+    "slug":  "u-069-419f26aa",
+    "title":  "太极阴阳动态平衡",
+    "summary":  "负反馈调节系统：阳极生阴、阴极生阳，系统趋向动态平衡",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "反馈"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/太极阴阳动态平衡 419f26aa0e5b43ff9100d138c6c064ba.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  69,
+                   "markdown":  "太极阴阳动态平衡 419f26aa0e5b43ff9100d138c6c064ba.md"
+               }
+}

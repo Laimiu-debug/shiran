@@ -1,0 +1,27 @@
+﻿{
+    "id":  "584c5e54bfbf4a4c90ec4bf67c431b3b",
+    "slug":  "u-171-584c5e54",
+    "title":  "兆罗每尼拿取博弈",
+    "summary":  "取最后一个物品的人输，逆向分析可得必胜策略",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "博弈",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "博弈与策略",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/兆罗每尼拿取博弈 584c5e54bfbf4a4c90ec4bf67c431b3b.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  171,
+                   "markdown":  "兆罗每尼拿取博弈 584c5e54bfbf4a4c90ec4bf67c431b3b.md"
+               }
+}

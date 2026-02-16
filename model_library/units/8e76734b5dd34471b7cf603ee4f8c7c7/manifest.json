@@ -1,0 +1,28 @@
+﻿{
+    "id":  "8e76734b5dd34471b7cf603ee4f8c7c7",
+    "slug":  "u-092-8e76734b",
+    "title":  "凯恩斯选美博弈",
+    "summary":  "不是选你认为最美的，而是选你认为大家认为最美的，层层递归",
+    "scene":  "市场与系统",
+    "mechanisms":  [
+                       "反馈",
+                       "策略与风险",
+                       "博弈"
+                   ],
+    "category_legacy":  "经济与金融",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/凯恩斯选美博弈 8e76734b5dd34471b7cf603ee4f8c7c7.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  92,
+                   "markdown":  "凯恩斯选美博弈 8e76734b5dd34471b7cf603ee4f8c7c7.md"
+               }
+}

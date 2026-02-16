@@ -1,0 +1,27 @@
+﻿{
+    "id":  "3d389ecb96a949f281fd45c7be1e5889",
+    "slug":  "u-034-3d389ecb",
+    "title":  "赌徒谬误",
+    "summary":  "独立事件无记忆，连续红后黑的概率不变",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "随机性",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "概率与统计直觉",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/赌徒谬误 3d389ecb96a949f281fd45c7be1e5889.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  34,
+                   "markdown":  "赌徒谬误 3d389ecb96a949f281fd45c7be1e5889.md"
+               }
+}

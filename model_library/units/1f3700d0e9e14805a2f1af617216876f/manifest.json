@@ -1,0 +1,28 @@
+﻿{
+    "id":  "1f3700d0e9e14805a2f1af617216876f",
+    "slug":  "u-081-1f3700d0",
+    "title":  "锚定效应",
+    "summary":  "先看到的数字会影响后续估计，即使两者无关",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "认知偏差",
+                       "策略与风险",
+                       "随机性"
+                   ],
+    "category_legacy":  "认知偏差",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/锚定效应 1f3700d0e9e14805a2f1af617216876f.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  81,
+                   "markdown":  "锚定效应 1f3700d0e9e14805a2f1af617216876f.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "c4d41f6208dc4bc0881b847395ac6f78",
+    "slug":  "u-189-c4d41f62",
+    "title":  "浑沌边缘(相变)",
+    "summary":  "有序与混沌的边界上发生最丰富的现象，复杂性的起源",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/浑沌边缘(相变) c4d41f6208dc4bc0881b847395ac6f78.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  189,
+                   "markdown":  "浑沌边缘(相变) c4d41f6208dc4bc0881b847395ac6f78.md"
+               }
+}

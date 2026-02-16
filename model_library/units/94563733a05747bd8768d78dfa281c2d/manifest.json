@@ -1,0 +1,27 @@
+﻿{
+    "id":  "94563733a05747bd8768d78dfa281c2d",
+    "slug":  "u-027-94563733",
+    "title":  "蒙提霍尔问题(三门问题)",
+    "summary":  "换门胜率2/3，不换1/3，违反直觉的条件概率",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "随机性",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "概率与统计直觉",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/蒙提霍尔问题(三门问题) 94563733a05747bd8768d78dfa281c2d.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  27,
+                   "markdown":  "蒙提霍尔问题(三门问题) 94563733a05747bd8768d78dfa281c2d.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "0bb7eb4c1ee24ca4b9f810e944fbfa1c",
+    "slug":  "u-130-0bb7eb4c",
+    "title":  "信号检测论(SDT)",
+    "summary":  "调整判断阈值时必然在漏报和误报之间权衡",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "策略与风险",
+                       "随机性"
+                   ],
+    "category_legacy":  "决策与风险",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/信号检测论(SDT) 0bb7eb4c1ee24ca4b9f810e944fbfa1c.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  130,
+                   "markdown":  "信号检测论(SDT) 0bb7eb4c1ee24ca4b9f810e944fbfa1c.md"
+               }
+}

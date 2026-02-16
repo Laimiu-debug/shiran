@@ -1,0 +1,27 @@
+﻿{
+    "id":  "a01ca0f34947405b96b516a9815c4e67",
+    "slug":  "u-025-a01ca0f3",
+    "title":  "最后通牒博弈",
+    "summary":  "理性预测接受任何正数，实验中低于30%被拒绝",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "博弈",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "博弈与策略",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/最后通牒博弈 a01ca0f34947405b96b516a9815c4e67.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  25,
+                   "markdown":  "最后通牒博弈 a01ca0f34947405b96b516a9815c4e67.md"
+               }
+}

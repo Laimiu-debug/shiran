@@ -1,0 +1,27 @@
+﻿{
+    "id":  "dd9b63563ad5487a9da34e77fd84556c",
+    "slug":  "u-013-dd9b6356",
+    "title":  "Logistic映射",
+    "summary":  "x=rx(1-x) 随r增大经历倍周期分岔通向混沌",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/Logistic映射 dd9b63563ad5487a9da34e77fd84556c.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  13,
+                   "markdown":  "Logistic映射 dd9b63563ad5487a9da34e77fd84556c.md"
+               }
+}

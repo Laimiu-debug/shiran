@@ -1,0 +1,27 @@
+﻿{
+    "id":  "78166bc5fc7f4fcfb81fece1d91f5184",
+    "slug":  "u-148-78166bc5",
+    "title":  "混沌摄动(奇异吸引子绘画)",
+    "summary":  "简单微分方程生成的复杂美丽图案，确定性与美的结合",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "艺术与数学",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/混沌摄动(奇异吸引子绘画) 78166bc5fc7f4fcfb81fece1d91f5184.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  148,
+                   "markdown":  "混沌摄动(奇异吸引子绘画) 78166bc5fc7f4fcfb81fece1d91f5184.md"
+               }
+}

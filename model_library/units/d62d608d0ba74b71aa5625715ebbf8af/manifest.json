@@ -1,0 +1,28 @@
+﻿{
+    "id":  "d62d608d0ba74b71aa5625715ebbf8af",
+    "slug":  "u-126-d62d608d",
+    "title":  "凯利赌博准则",
+    "summary":  "最优下注比例=赢面概率-输面概率/赔率，负值时不应下注",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "策略与风险",
+                       "随机性",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "决策与风险",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/凯利赌博准则 d62d608d0ba74b71aa5625715ebbf8af.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  126,
+                   "markdown":  "凯利赌博准则 d62d608d0ba74b71aa5625715ebbf8af.md"
+               }
+}

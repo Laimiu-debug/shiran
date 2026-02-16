@@ -1,0 +1,27 @@
+﻿{
+    "id":  "52f9aa22ef8644c1969123c029432275",
+    "slug":  "u-079-52f9aa22",
+    "title":  "邓巴数与社交圈层",
+    "summary":  "人类认知上限约150人亲密关系，圈层按5/15/50/150递增",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "认知偏差",
+                       "网络传播"
+                   ],
+    "category_legacy":  "群体心理",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/邓巴数与社交圈层 52f9aa22ef8644c1969123c029432275.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  79,
+                   "markdown":  "邓巴数与社交圈层 52f9aa22ef8644c1969123c029432275.md"
+               }
+}

@@ -1,0 +1,28 @@
+﻿{
+    "id":  "84846f20bc48416bb1f77500ad3f3b00",
+    "slug":  "u-061-84846f20",
+    "title":  "社交网络信息茧房",
+    "summary":  "推荐算法正反馈导致信息来源越来越窄",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "网络传播",
+                       "反馈",
+                       "编码与信息"
+                   ],
+    "category_legacy":  "网络与传播",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/社交网络信息茧房 84846f20bc48416bb1f77500ad3f3b00.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  61,
+                   "markdown":  "社交网络信息茧房 84846f20bc48416bb1f77500ad3f3b00.md"
+               }
+}

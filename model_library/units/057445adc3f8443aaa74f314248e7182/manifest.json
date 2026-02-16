@@ -1,0 +1,28 @@
+﻿{
+    "id":  "057445adc3f8443aaa74f314248e7182",
+    "slug":  "u-200-057445ad",
+    "title":  "万物理论(宇宙起源简史)",
+    "summary":  "从大爆炸到元素形成到星系形成，简单规则的层层涌现",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度",
+                       "涌现"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "S级",
+    "duration_min":  20,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/万物理论(宇宙起源简史) 057445adc3f8443aaa74f314248e7182.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  200,
+                   "markdown":  "万物理论(宇宙起源简史) 057445adc3f8443aaa74f314248e7182.md"
+               }
+}

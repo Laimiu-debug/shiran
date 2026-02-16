@@ -1,0 +1,27 @@
+﻿{
+    "id":  "072ca377e7a941009367f6a33038407f",
+    "slug":  "u-076-072ca377",
+    "title":  "群体智慧vs群体愚蠢",
+    "summary":  "独立判断时群体比个体更准确(高尔顿牛重量实验)，互相影响时群体更愚蠢",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "认知偏差",
+                       "网络传播"
+                   ],
+    "category_legacy":  "群体心理",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/群体智慧vs群体愚蠢 072ca377e7a941009367f6a33038407f.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  76,
+                   "markdown":  "群体智慧vs群体愚蠢 072ca377e7a941009367f6a33038407f.md"
+               }
+}

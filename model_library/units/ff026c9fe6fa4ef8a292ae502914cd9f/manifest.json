@@ -1,0 +1,27 @@
+﻿{
+    "id":  "ff026c9fe6fa4ef8a292ae502914cd9f",
+    "slug":  "u-088-ff026c9f",
+    "title":  "幸存者偏差",
+    "summary":  "只看到成功案例导致错误归因（二战飞机装甲问题）",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "认知偏差",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "认知偏差",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/幸存者偏差 ff026c9fe6fa4ef8a292ae502914cd9f.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  88,
+                   "markdown":  "幸存者偏差 ff026c9fe6fa4ef8a292ae502914cd9f.md"
+               }
+}

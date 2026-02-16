@@ -1,0 +1,27 @@
+﻿{
+    "id":  "21479315904e40ffb35b41deb0e4c0cf",
+    "slug":  "u-043-21479315",
+    "title":  "波的叠加与驻波",
+    "summary":  "两列波叠加产生干涉增强/相消，驻波是特例",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/波的叠加与驻波 21479315904e40ffb35b41deb0e4c0cf.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  43,
+                   "markdown":  "波的叠加与驻波 21479315904e40ffb35b41deb0e4c0cf.md"
+               }
+}

@@ -1,0 +1,28 @@
+﻿{
+    "id":  "bc9571f32e414d73ab12f19627aecdfe",
+    "slug":  "u-075-bc9571f3",
+    "title":  "旁观者效应",
+    "summary":  "在场人数越多，个人出手帮助的概率越低(责任分散)",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "认知偏差",
+                       "网络传播",
+                       "随机性"
+                   ],
+    "category_legacy":  "群体心理",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/旁观者效应 bc9571f32e414d73ab12f19627aecdfe.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  75,
+                   "markdown":  "旁观者效应 bc9571f32e414d73ab12f19627aecdfe.md"
+               }
+}

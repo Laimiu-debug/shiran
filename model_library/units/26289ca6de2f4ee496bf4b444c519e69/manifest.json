@@ -1,0 +1,27 @@
+﻿{
+    "id":  "26289ca6de2f4ee496bf4b444c519e69",
+    "slug":  "u-147-26289ca6",
+    "title":  "隐写术(信息藏在图片里)",
+    "summary":  "修改像素最低有效位藏入信息，肉眼不可见",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/隐写术(信息藏在图片里) 26289ca6de2f4ee496bf4b444c519e69.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  147,
+                   "markdown":  "隐写术(信息藏在图片里) 26289ca6de2f4ee496bf4b444c519e69.md"
+               }
+}

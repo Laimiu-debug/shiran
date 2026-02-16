@@ -1,0 +1,27 @@
+﻿{
+    "id":  "d094ce1c43924090b8b600ba7295c375",
+    "slug":  "u-093-d094ce1c",
+    "title":  "复利的力量",
+    "summary":  "指数增长的反直觉性，72法则估算翻倍时间",
+    "scene":  "市场与系统",
+    "mechanisms":  [
+                       "反馈",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "经济与金融",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/复利的力量 d094ce1c43924090b8b600ba7295c375.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  93,
+                   "markdown":  "复利的力量 d094ce1c43924090b8b600ba7295c375.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "fb2a634cadc34211b94795adab54bb90",
+    "slug":  "u-133-fb2a634c",
+    "title":  "虹虹与光的色散",
+    "summary":  "白光经水滴折射+内反射后按波长分离形成42°弧",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/虹虹与光的色散 fb2a634cadc34211b94795adab54bb90.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  133,
+                   "markdown":  "虹虹与光的色散 fb2a634cadc34211b94795adab54bb90.md"
+               }
+}

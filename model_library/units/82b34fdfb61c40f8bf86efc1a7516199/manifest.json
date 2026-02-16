@@ -1,0 +1,27 @@
+﻿{
+    "id":  "82b34fdfb61c40f8bf86efc1a7516199",
+    "slug":  "u-058-82b34fdf",
+    "title":  "级联失效",
+    "summary":  "一个节点过载导致邻居过载，可引发全网崩溃",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "网络传播",
+                       "反馈"
+                   ],
+    "category_legacy":  "网络与传播",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/级联失效 82b34fdfb61c40f8bf86efc1a7516199.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  58,
+                   "markdown":  "级联失效 82b34fdfb61c40f8bf86efc1a7516199.md"
+               }
+}

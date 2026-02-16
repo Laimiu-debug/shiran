@@ -1,0 +1,236 @@
+﻿{
+    "version":  "v1",
+    "generated_at":  "2026-02-16T13:55:12+08:00",
+    "scenes":  [
+                   {
+                       "id":  "daily-decisions",
+                       "name":  "日常决策",
+                       "description":  "从个人选择与现实困惑出发理解机制"
+                   },
+                   {
+                       "id":  "society-groups",
+                       "name":  "社会与群体",
+                       "description":  "关注群体行为、传播与社会结构"
+                   },
+                   {
+                       "id":  "markets-systems",
+                       "name":  "市场与系统",
+                       "description":  "研究价格、激励与复杂系统反馈"
+                   },
+                   {
+                       "id":  "nature-physics",
+                       "name":  "自然与物理",
+                       "description":  "观察自然规律、物理机制与动态系统"
+                   },
+                   {
+                       "id":  "math-computing",
+                       "name":  "数学与计算",
+                       "description":  "用数学与算法解释抽象原理"
+                   },
+                   {
+                       "id":  "culture-thought-experiments",
+                       "name":  "文化与思想实验",
+                       "description":  "连接文化智慧与思想实验的认知启发"
+                   }
+               ],
+    "mechanisms":  [
+                       {
+                           "id":  "feedback",
+                           "name":  "反馈",
+                           "description":  "正反馈/负反馈与循环作用"
+                       },
+                       {
+                           "id":  "game",
+                           "name":  "博弈",
+                           "description":  "多主体策略互动与均衡"
+                       },
+                       {
+                           "id":  "randomness",
+                           "name":  "随机性",
+                           "description":  "随机过程、概率分布与不确定性"
+                       },
+                       {
+                           "id":  "network-diffusion",
+                           "name":  "网络传播",
+                           "description":  "网络结构上的传播与扩散"
+                       },
+                       {
+                           "id":  "optimization",
+                           "name":  "优化",
+                           "description":  "搜索、迭代与最优解逼近"
+                       },
+                       {
+                           "id":  "emergence",
+                           "name":  "涌现",
+                           "description":  "局部规则产生宏观行为"
+                       },
+                       {
+                           "id":  "nonlinearity",
+                           "name":  "非线性",
+                           "description":  "非线性动力学与混沌特征"
+                       },
+                       {
+                           "id":  "cognitive-bias",
+                           "name":  "认知偏差",
+                           "description":  "人类判断中的系统性偏差"
+                       },
+                       {
+                           "id":  "equilibrium-stability",
+                           "name":  "平衡与稳定",
+                           "description":  "系统平衡、守恒与稳定条件"
+                       },
+                       {
+                           "id":  "coding-information",
+                           "name":  "编码与信息",
+                           "description":  "信息表示、压缩、传输与纠错"
+                       },
+                       {
+                           "id":  "spacetime-scale",
+                           "name":  "时空与尺度",
+                           "description":  "尺度变化、几何结构与时空视角"
+                       },
+                       {
+                           "id":  "strategy-risk",
+                           "name":  "策略与风险",
+                           "description":  "决策策略、收益与风险管理"
+                       }
+                   ],
+    "legacy_category_mapping":  [
+                                    {
+                                        "legacy_category":  "博弈与策略",
+                                        "scene":  "日常决策",
+                                        "default_mechanisms":  [
+                                                                   "博弈",
+                                                                   "策略与风险"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "概率与统计直觉",
+                                        "scene":  "数学与计算",
+                                        "default_mechanisms":  [
+                                                                   "随机性",
+                                                                   "时空与尺度"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "混沌与非线性",
+                                        "scene":  "自然与物理",
+                                        "default_mechanisms":  [
+                                                                   "非线性",
+                                                                   "反馈"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "经济与金融",
+                                        "scene":  "市场与系统",
+                                        "default_mechanisms":  [
+                                                                   "反馈",
+                                                                   "策略与风险"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "决策与风险",
+                                        "scene":  "日常决策",
+                                        "default_mechanisms":  [
+                                                                   "策略与风险",
+                                                                   "随机性"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "群体心理",
+                                        "scene":  "社会与群体",
+                                        "default_mechanisms":  [
+                                                                   "认知偏差",
+                                                                   "网络传播"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "认知偏差",
+                                        "scene":  "日常决策",
+                                        "default_mechanisms":  [
+                                                                   "认知偏差",
+                                                                   "策略与风险"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "日常现象",
+                                        "scene":  "日常决策",
+                                        "default_mechanisms":  [
+                                                                   "平衡与稳定",
+                                                                   "时空与尺度"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "生物与生态",
+                                        "scene":  "自然与物理",
+                                        "default_mechanisms":  [
+                                                                   "涌现",
+                                                                   "平衡与稳定"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "数学趣题",
+                                        "scene":  "数学与计算",
+                                        "default_mechanisms":  [
+                                                                   "时空与尺度",
+                                                                   "非线性"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "网络与传播",
+                                        "scene":  "社会与群体",
+                                        "default_mechanisms":  [
+                                                                   "网络传播",
+                                                                   "反馈"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "物理模拟",
+                                        "scene":  "自然与物理",
+                                        "default_mechanisms":  [
+                                                                   "平衡与稳定",
+                                                                   "时空与尺度"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "信息论与编码",
+                                        "scene":  "数学与计算",
+                                        "default_mechanisms":  [
+                                                                   "编码与信息",
+                                                                   "优化"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "艺术与数学",
+                                        "scene":  "文化与思想实验",
+                                        "default_mechanisms":  [
+                                                                   "时空与尺度",
+                                                                   "非线性"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "涌现与自组织",
+                                        "scene":  "自然与物理",
+                                        "default_mechanisms":  [
+                                                                   "涌现",
+                                                                   "反馈"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "优化与搜索",
+                                        "scene":  "数学与计算",
+                                        "default_mechanisms":  [
+                                                                   "优化",
+                                                                   "策略与风险"
+                                                               ]
+                                    },
+                                    {
+                                        "legacy_category":  "中华智慧",
+                                        "scene":  "文化与思想实验",
+                                        "default_mechanisms":  [
+                                                                   "策略与风险",
+                                                                   "平衡与稳定"
+                                                               ]
+                                    }
+                                ]
+}

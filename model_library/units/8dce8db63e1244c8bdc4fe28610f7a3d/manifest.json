@@ -1,0 +1,27 @@
+﻿{
+    "id":  "8dce8db63e1244c8bdc4fe28610f7a3d",
+    "slug":  "u-192-8dce8db6",
+    "title":  "种子用户与技术采纳曲线",
+    "summary":  "新技术采纳沿S曲线传播：创新者→早期采用者→多数→落后者",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "网络传播",
+                       "反馈"
+                   ],
+    "category_legacy":  "网络与传播",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/种子用户与技术采纳曲线 8dce8db63e1244c8bdc4fe28610f7a3d.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  192,
+                   "markdown":  "种子用户与技术采纳曲线 8dce8db63e1244c8bdc4fe28610f7a3d.md"
+               }
+}

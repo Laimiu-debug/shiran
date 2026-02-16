@@ -1,0 +1,27 @@
+﻿{
+    "id":  "330420f2db454402a40b971cc9dd91f5",
+    "slug":  "u-175-330420f2",
+    "title":  "市场微观结构(订单簿可视化)",
+    "summary":  "买卖订单匹配形成价格，Bid-Ask差价反映流动性",
+    "scene":  "市场与系统",
+    "mechanisms":  [
+                       "反馈",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "经济与金融",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/市场微观结构(订单簿可视化) 330420f2db454402a40b971cc9dd91f5.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  175,
+                   "markdown":  "市场微观结构(订单簿可视化) 330420f2db454402a40b971cc9dd91f5.md"
+               }
+}

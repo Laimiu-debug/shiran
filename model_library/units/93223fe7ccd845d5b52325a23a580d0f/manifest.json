@@ -1,0 +1,28 @@
+﻿{
+    "id":  "93223fe7ccd845d5b52325a23a580d0f",
+    "slug":  "u-109-93223fe7",
+    "title":  "信息熵可视化",
+    "summary":  "越不确定的事件信息量越大，均匀分布熵最大",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化",
+                       "随机性"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/信息熵可视化 93223fe7ccd845d5b52325a23a580d0f.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  109,
+                   "markdown":  "信息熵可视化 93223fe7ccd845d5b52325a23a580d0f.md"
+               }
+}

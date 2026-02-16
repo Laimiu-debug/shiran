@@ -1,0 +1,27 @@
+﻿{
+    "id":  "e61efd18df3a437481353bf4fea33613",
+    "slug":  "u-001-e61efd18",
+    "title":  "康威生命游戏",
+    "summary":  "4条生死规则：孤独死、拥挤死、存活、繁殖",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "反馈"
+                   ],
+    "category_legacy":  "涌现与自组织",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/康威生命游戏 e61efd18df3a437481353bf4fea33613.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  1,
+                   "markdown":  "康威生命游戏 e61efd18df3a437481353bf4fea33613.md"
+               }
+}

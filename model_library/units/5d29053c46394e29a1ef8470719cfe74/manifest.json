@@ -1,0 +1,28 @@
+﻿{
+    "id":  "5d29053c46394e29a1ef8470719cfe74",
+    "slug":  "u-050-5d29053c",
+    "title":  "旅行商问题(TSP)",
+    "summary":  "NP-hard组合优化，近似算法在合理时间内找到可接受解",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "优化",
+                       "策略与风险",
+                       "随机性"
+                   ],
+    "category_legacy":  "优化与搜索",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/旅行商问题(TSP) 5d29053c46394e29a1ef8470719cfe74.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  50,
+                   "markdown":  "旅行商问题(TSP) 5d29053c46394e29a1ef8470719cfe74.md"
+               }
+}

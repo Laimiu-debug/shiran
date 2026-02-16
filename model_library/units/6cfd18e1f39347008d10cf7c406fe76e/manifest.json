@@ -1,0 +1,27 @@
+﻿{
+    "id":  "6cfd18e1f39347008d10cf7c406fe76e",
+    "slug":  "u-031-6cfd18e1",
+    "title":  "生日悖论",
+    "summary":  "23人中有两人同生日的概率\u003e50%",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "随机性",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "概率与统计直觉",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/生日悖论 6cfd18e1f39347008d10cf7c406fe76e.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  31,
+                   "markdown":  "生日悖论 6cfd18e1f39347008d10cf7c406fe76e.md"
+               }
+}

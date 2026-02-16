@@ -1,0 +1,27 @@
+﻿{
+    "id":  "f39827ea7a99453ab5669815799c9638",
+    "slug":  "u-026-f39827ea",
+    "title":  "演化博弈(空间囚徒困境)",
+    "summary":  "在网格上博弈并模仿邻居策略，合作区域可自发形成",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "博弈",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "博弈与策略",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/演化博弈(空间囚徒困境) f39827ea7a99453ab5669815799c9638.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  26,
+                   "markdown":  "演化博弈(空间囚徒困境) f39827ea7a99453ab5669815799c9638.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "1194ba7796b746efa2cc08a815979a96",
+    "slug":  "u-048-1194ba77",
+    "title":  "遗传算法(进化行走生物)",
+    "summary":  "选择/交叉/变异迭代优化，种群逐代进化出更好的解",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "优化",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "优化与搜索",
+    "level":  "S级",
+    "duration_min":  20,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/遗传算法(进化行走生物) 1194ba7796b746efa2cc08a815979a96.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  48,
+                   "markdown":  "遗传算法(进化行走生物) 1194ba7796b746efa2cc08a815979a96.md"
+               }
+}

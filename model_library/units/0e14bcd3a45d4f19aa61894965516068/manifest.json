@@ -1,0 +1,28 @@
+﻿{
+    "id":  "0e14bcd3a45d4f19aa61894965516068",
+    "slug":  "u-129-0e14bcd3",
+    "title":  "期望值与方差的博弈",
+    "summary":  "同期望值但不同方差的选择导致完全不同的结果分布",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "策略与风险",
+                       "随机性",
+                       "博弈"
+                   ],
+    "category_legacy":  "决策与风险",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/期望值与方差的博弈 0e14bcd3a45d4f19aa61894965516068.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  129,
+                   "markdown":  "期望值与方差的博弈 0e14bcd3a45d4f19aa61894965516068.md"
+               }
+}

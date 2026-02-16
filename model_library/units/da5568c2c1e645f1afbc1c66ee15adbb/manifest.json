@@ -1,0 +1,28 @@
+﻿{
+    "id":  "da5568c2c1e645f1afbc1c66ee15adbb",
+    "slug":  "u-022-da5568c2",
+    "title":  "鹰鸽博弈(演化稳定策略)",
+    "summary":  "种群中鹰派与鸽派的比例趋向演化稳定均衡",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "博弈",
+                       "策略与风险",
+                       "平衡与稳定"
+                   ],
+    "category_legacy":  "博弈与策略",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/鹰鸽博弈(演化稳定策略) da5568c2c1e645f1afbc1c66ee15adbb.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  22,
+                   "markdown":  "鹰鸽博弈(演化稳定策略) da5568c2c1e645f1afbc1c66ee15adbb.md"
+               }
+}

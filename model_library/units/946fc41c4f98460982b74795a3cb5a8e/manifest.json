@@ -1,0 +1,27 @@
+﻿{
+    "id":  "946fc41c4f98460982b74795a3cb5a8e",
+    "slug":  "u-028-946fc41c",
+    "title":  "高尔顿板(正态分布)",
+    "summary":  "小球经多次随机偏折后分布趋向正态",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "随机性",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "概率与统计直觉",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/高尔顿板(正态分布) 946fc41c4f98460982b74795a3cb5a8e.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  28,
+                   "markdown":  "高尔顿板(正态分布) 946fc41c4f98460982b74795a3cb5a8e.md"
+               }
+}

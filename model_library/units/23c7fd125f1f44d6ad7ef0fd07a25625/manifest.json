@@ -1,0 +1,27 @@
+﻿{
+    "id":  "23c7fd125f1f44d6ad7ef0fd07a25625",
+    "slug":  "u-137-23c7fd12",
+    "title":  "微波炉加热原理",
+    "summary":  "电磁波共振水分子产生热量，金属反射所以不能放",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/微波炉加热原理 23c7fd125f1f44d6ad7ef0fd07a25625.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  137,
+                   "markdown":  "微波炉加热原理 23c7fd125f1f44d6ad7ef0fd07a25625.md"
+               }
+}

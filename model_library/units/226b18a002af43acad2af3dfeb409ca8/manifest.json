@@ -1,0 +1,28 @@
+﻿{
+    "id":  "226b18a002af43acad2af3dfeb409ca8",
+    "slug":  "u-197-226b18a0",
+    "title":  "三十六计·美人计(注意力博弈)",
+    "summary":  "通过分散对方注意力降低其决策质量，有限注意力资源的博弈",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "博弈"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/三十六计·美人计(注意力博弈) 226b18a002af43acad2af3dfeb409ca8.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  197,
+                   "markdown":  "三十六计·美人计(注意力博弈) 226b18a002af43acad2af3dfeb409ca8.md"
+               }
+}

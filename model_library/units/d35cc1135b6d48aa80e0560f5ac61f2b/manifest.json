@@ -1,0 +1,28 @@
+﻿{
+    "id":  "d35cc1135b6d48aa80e0560f5ac61f2b",
+    "slug":  "u-170-d35cc113",
+    "title":  "三十六计·连环计",
+    "summary":  "多步规划中每一步为下一步创造条件，多米诺骨牌效应",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "认知偏差"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/三十六计·连环计 d35cc1135b6d48aa80e0560f5ac61f2b.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  170,
+                   "markdown":  "三十六计·连环计 d35cc1135b6d48aa80e0560f5ac61f2b.md"
+               }
+}

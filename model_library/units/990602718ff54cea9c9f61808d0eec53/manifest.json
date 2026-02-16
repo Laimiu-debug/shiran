@@ -1,0 +1,28 @@
+﻿{
+    "id":  "990602718ff54cea9c9f61808d0eec53",
+    "slug":  "u-019-99060271",
+    "title":  "奇异吸引子合集(Rossler/Chen)",
+    "summary":  "不同混沌系统的吸引子形态各异但共享混沌特征",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈",
+                       "认知偏差"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/奇异吸引子合集(Rossler Chen) 990602718ff54cea9c9f61808d0eec53.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  19,
+                   "markdown":  "奇异吸引子合集(Rossler Chen) 990602718ff54cea9c9f61808d0eec53.md"
+               }
+}

@@ -1,0 +1,28 @@
+﻿{
+    "id":  "7f9f9667ad2443ba9d4e288e3a8a863b",
+    "slug":  "u-179-7f9f9667",
+    "title":  "交通流模拟(幽灵堵车)",
+    "summary":  "无明显原因的堵车产生于微小扰动的放大效应，密度波向后传播",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度",
+                       "网络传播"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/交通流模拟(幽灵堵车) 7f9f9667ad2443ba9d4e288e3a8a863b.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  179,
+                   "markdown":  "交通流模拟(幽灵堵车) 7f9f9667ad2443ba9d4e288e3a8a863b.md"
+               }
+}

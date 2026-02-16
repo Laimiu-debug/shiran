@@ -1,0 +1,27 @@
+﻿{
+    "id":  "109586c2e925405e9c93b7b763dbd3d2",
+    "slug":  "u-181-109586c2",
+    "title":  "拍频现象(车轮倒转)",
+    "summary":  "采样频率与旋转频率不匹配时产生偏觉，车轮看似倒转",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/拍频现象(车轮倒转) 109586c2e925405e9c93b7b763dbd3d2.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  181,
+                   "markdown":  "拍频现象(车轮倒转) 109586c2e925405e9c93b7b763dbd3d2.md"
+               }
+}

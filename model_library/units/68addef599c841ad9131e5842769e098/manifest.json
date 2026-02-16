@@ -1,0 +1,27 @@
+﻿{
+    "id":  "68addef599c841ad9131e5842769e098",
+    "slug":  "u-196-68addef5",
+    "title":  "三体问题(不可预测性)",
+    "summary":  "三个天体引力互作用无解析解，确定性规则产生不可预测轨迹",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/三体问题(不可预测性) 68addef599c841ad9131e5842769e098.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  196,
+                   "markdown":  "三体问题(不可预测性) 68addef599c841ad9131e5842769e098.md"
+               }
+}

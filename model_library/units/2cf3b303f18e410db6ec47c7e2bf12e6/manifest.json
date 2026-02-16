@@ -1,0 +1,27 @@
+﻿{
+    "id":  "2cf3b303f18e410db6ec47c7e2bf12e6",
+    "slug":  "u-198-2cf3b303",
+    "title":  "排队论与服务设计",
+    "summary":  "到达率接近服务率时等待时间急剧上升，单队vs多队的差异",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/排队论与服务设计 2cf3b303f18e410db6ec47c7e2bf12e6.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  198,
+                   "markdown":  "排队论与服务设计 2cf3b303f18e410db6ec47c7e2bf12e6.md"
+               }
+}

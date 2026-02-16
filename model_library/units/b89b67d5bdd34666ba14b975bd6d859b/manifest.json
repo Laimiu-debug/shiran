@@ -1,0 +1,27 @@
+﻿{
+    "id":  "b89b67d5bdd34666ba14b975bd6d859b",
+    "slug":  "u-041-b89b67d5",
+    "title":  "电场线与等势面",
+    "summary":  "电荷产生电场，场线方向与等势面垂直",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/电场线与等势面 b89b67d5bdd34666ba14b975bd6d859b.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  41,
+                   "markdown":  "电场线与等势面 b89b67d5bdd34666ba14b975bd6d859b.md"
+               }
+}

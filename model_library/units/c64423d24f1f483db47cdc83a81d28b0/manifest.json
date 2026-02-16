@@ -1,0 +1,27 @@
+﻿{
+    "id":  "c64423d24f1f483db47cdc83a81d28b0",
+    "slug":  "u-068-c64423d2",
+    "title":  "河图洛书与幻方",
+    "summary":  "3x3幻方每行每列每对角线之和相等，洛书是最早的幻方记录",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/河图洛书与幻方 c64423d24f1f483db47cdc83a81d28b0.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  68,
+                   "markdown":  "河图洛书与幻方 c64423d24f1f483db47cdc83a81d28b0.md"
+               }
+}

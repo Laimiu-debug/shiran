@@ -1,0 +1,27 @@
+﻿{
+    "id":  "bb9c1478698f42c480e1d1a422175e41",
+    "slug":  "u-146-bb9c1478",
+    "title":  "莫比乌斯带与克莱因瓶",
+    "summary":  "只有一个面和一个边的曲面，打破内外之分",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "数学趣题",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/莫比乌斯带与克莱因瓶 bb9c1478698f42c480e1d1a422175e41.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  146,
+                   "markdown":  "莫比乌斯带与克莱因瓶 bb9c1478698f42c480e1d1a422175e41.md"
+               }
+}

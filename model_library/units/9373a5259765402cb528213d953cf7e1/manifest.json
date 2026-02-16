@@ -1,0 +1,28 @@
+﻿{
+    "id":  "9373a5259765402cb528213d953cf7e1",
+    "slug":  "u-097-9373a525",
+    "title":  "蛛网模型(价格振荡)",
+    "summary":  "供给滞后导致价格在均衡点周围振荡，可收敛/发散/循环",
+    "scene":  "市场与系统",
+    "mechanisms":  [
+                       "反馈",
+                       "策略与风险",
+                       "平衡与稳定"
+                   ],
+    "category_legacy":  "经济与金融",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/蛛网模型(价格振荡) 9373a5259765402cb528213d953cf7e1.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  97,
+                   "markdown":  "蛛网模型(价格振荡) 9373a5259765402cb528213d953cf7e1.md"
+               }
+}

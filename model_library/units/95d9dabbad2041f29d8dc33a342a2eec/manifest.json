@@ -1,0 +1,28 @@
+﻿{
+    "id":  "95d9dabbad2041f29d8dc33a342a2eec",
+    "slug":  "u-152-95d9dabb",
+    "title":  "多普勒效应(光与声)",
+    "summary":  "波源与观察者相对运动时频率发生变化",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度",
+                       "认知偏差"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/多普勒效应(光与声) 95d9dabbad2041f29d8dc33a342a2eec.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  152,
+                   "markdown":  "多普勒效应(光与声) 95d9dabbad2041f29d8dc33a342a2eec.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "dc4a886870bb43b39fb9d8d6ede9d795",
+    "slug":  "u-007-dc4a8868",
+    "title":  "沙堆模型(自组织临界性)",
+    "summary":  "沙粒堆积超过阈值触发雪崩，系统自动趋向临界态",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "反馈"
+                   ],
+    "category_legacy":  "涌现与自组织",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/沙堆模型(自组织临界性) dc4a886870bb43b39fb9d8d6ede9d795.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  7,
+                   "markdown":  "沙堆模型(自组织临界性) dc4a886870bb43b39fb9d8d6ede9d795.md"
+               }
+}

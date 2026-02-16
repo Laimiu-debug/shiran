@@ -1,0 +1,27 @@
+﻿{
+    "id":  "8ec5634cc67840c096c4bba9d771cb5b",
+    "slug":  "u-135-8ec5634c",
+    "title":  "密码安全与暴力破解",
+    "summary":  "密码空间随长度指数增长，增加1位字符破解时间翻倍",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/密码安全与暴力破解 8ec5634cc67840c096c4bba9d771cb5b.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  135,
+                   "markdown":  "密码安全与暴力破解 8ec5634cc67840c096c4bba9d771cb5b.md"
+               }
+}

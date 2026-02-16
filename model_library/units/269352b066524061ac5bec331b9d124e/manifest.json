@@ -1,0 +1,27 @@
+﻿{
+    "id":  "269352b066524061ac5bec331b9d124e",
+    "slug":  "u-051-269352b0",
+    "title":  "梯度下降可视化",
+    "summary":  "沿损失函数梯度方向迭代逼近最小值",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "优化",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "优化与搜索",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/梯度下降可视化 269352b066524061ac5bec331b9d124e.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  51,
+                   "markdown":  "梯度下降可视化 269352b066524061ac5bec331b9d124e.md"
+               }
+}

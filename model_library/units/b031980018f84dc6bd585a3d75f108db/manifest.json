@@ -1,0 +1,27 @@
+﻿{
+    "id":  "b031980018f84dc6bd585a3d75f108db",
+    "slug":  "u-094-b0319800",
+    "title":  "股市泡沫与崩盘",
+    "summary":  "正反馈推动价格偏离价值→临界点触发恐慌性抛售→崩盘",
+    "scene":  "市场与系统",
+    "mechanisms":  [
+                       "反馈",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "经济与金融",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/股市泡沫与崩盘 b031980018f84dc6bd585a3d75f108db.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  94,
+                   "markdown":  "股市泡沫与崩盘 b031980018f84dc6bd585a3d75f108db.md"
+               }
+}

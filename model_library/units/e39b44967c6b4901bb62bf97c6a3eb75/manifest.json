@@ -1,0 +1,27 @@
+﻿{
+    "id":  "e39b44967c6b4901bb62bf97c6a3eb75",
+    "slug":  "u-029-e39b4496",
+    "title":  "随机漫步与布朗运动",
+    "summary":  "每步随机方向，大量步数后扩散距离∝√t",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "随机性",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "概率与统计直觉",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/随机漫步与布朗运动 e39b44967c6b4901bb62bf97c6a3eb75.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  29,
+                   "markdown":  "随机漫步与布朗运动 e39b44967c6b4901bb62bf97c6a3eb75.md"
+               }
+}

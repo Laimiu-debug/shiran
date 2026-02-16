@@ -1,0 +1,27 @@
+﻿{
+    "id":  "283005163b9f4e5481eedd711ebe3706",
+    "slug":  "u-160-28300516",
+    "title":  "六度分隔与小世界网络",
+    "summary":  "任意两人之间平均只隔6步连接，少量远程连接大幅缩短路径",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "网络传播",
+                       "反馈"
+                   ],
+    "category_legacy":  "网络与传播",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/六度分隔与小世界网络 283005163b9f4e5481eedd711ebe3706.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  160,
+                   "markdown":  "六度分隔与小世界网络 283005163b9f4e5481eedd711ebe3706.md"
+               }
+}

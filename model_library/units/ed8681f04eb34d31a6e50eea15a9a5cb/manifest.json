@@ -1,0 +1,27 @@
+﻿{
+    "id":  "ed8681f04eb34d31a6e50eea15a9a5cb",
+    "slug":  "u-023-ed8681f0",
+    "title":  "拍卖机制对比",
+    "summary":  "荷兰式/英式/Vickrey拍卖的策略差异与收益等价定理",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "博弈",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "博弈与策略",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/拍卖机制对比 ed8681f04eb34d31a6e50eea15a9a5cb.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  23,
+                   "markdown":  "拍卖机制对比 ed8681f04eb34d31a6e50eea15a9a5cb.md"
+               }
+}

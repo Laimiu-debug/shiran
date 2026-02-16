@@ -1,0 +1,27 @@
+﻿{
+    "id":  "e81dd23cde184c20a6619a3e9dd1f6f8",
+    "slug":  "u-110-e81dd23c",
+    "title":  "霍夫曼编码",
+    "summary":  "高频字符用短编码低频用长编码，逼近信息熵下界",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/霍夫曼编码 e81dd23cde184c20a6619a3e9dd1f6f8.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  110,
+                   "markdown":  "霍夫曼编码 e81dd23cde184c20a6619a3e9dd1f6f8.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "9e0a69abad6446979756b885e0d92e72",
+    "slug":  "u-132-9e0a69ab",
+    "title":  "为什么飞机能飞(伯努利原理)",
+    "summary":  "气流速度越快压力越小，机翼上下压差产生升力",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/为什么飞机能飞(伯努利原理) 9e0a69abad6446979756b885e0d92e72.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  132,
+                   "markdown":  "为什么飞机能飞(伯努利原理) 9e0a69abad6446979756b885e0d92e72.md"
+               }
+}

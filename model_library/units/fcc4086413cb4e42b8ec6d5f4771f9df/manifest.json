@@ -1,0 +1,27 @@
+﻿{
+    "id":  "fcc4086413cb4e42b8ec6d5f4771f9df",
+    "slug":  "u-005-fcc40864",
+    "title":  "贝纳德对流",
+    "summary":  "温差驱动流体自组织形成六角花纹",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "反馈"
+                   ],
+    "category_legacy":  "涌现与自组织",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/贝纳德对流 fcc4086413cb4e42b8ec6d5f4771f9df.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  5,
+                   "markdown":  "贝纳德对流 fcc4086413cb4e42b8ec6d5f4771f9df.md"
+               }
+}

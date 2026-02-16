@@ -1,0 +1,27 @@
+﻿{
+    "id":  "447ecc673ac9411b9177afd659d9d58a",
+    "slug":  "u-003-447ecc67",
+    "title":  "Boids鸟群模拟",
+    "summary":  "分离、对齐、聚合三条规则产生群体行为",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "反馈"
+                   ],
+    "category_legacy":  "涌现与自组织",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/Boids鸟群模拟 447ecc673ac9411b9177afd659d9d58a.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  3,
+                   "markdown":  "Boids鸟群模拟 447ecc673ac9411b9177afd659d9d58a.md"
+               }
+}

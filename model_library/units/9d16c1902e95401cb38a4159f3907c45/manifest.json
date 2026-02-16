@@ -1,0 +1,28 @@
+﻿{
+    "id":  "9d16c1902e95401cb38a4159f3907c45",
+    "slug":  "u-178-9d16c190",
+    "title":  "反应扩散方程(图灵斑纹)",
+    "summary":  "扩散+反应产生动物表皮斑纹、斑点、条纹等自组织图案",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "反馈",
+                       "编码与信息"
+                   ],
+    "category_legacy":  "涌现与自组织",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/反应扩散方程(图灵斑纹) 9d16c1902e95401cb38a4159f3907c45.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  178,
+                   "markdown":  "反应扩散方程(图灵斑纹) 9d16c1902e95401cb38a4159f3907c45.md"
+               }
+}

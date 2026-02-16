@@ -1,0 +1,27 @@
+﻿{
+    "id":  "f1f300a24fe24cb8a2d39aa859499970",
+    "slug":  "u-054-f1f300a2",
+    "title":  "排序算法可视化",
+    "summary":  "不同排序算法的比较次数与交换策略差异巨大",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "优化",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "优化与搜索",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/排序算法可视化 f1f300a24fe24cb8a2d39aa859499970.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  54,
+                   "markdown":  "排序算法可视化 f1f300a24fe24cb8a2d39aa859499970.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "502425c81bf24185936bba7dedc9d5bf",
+    "slug":  "u-072-502425c8",
+    "title":  "群体极化效应",
+    "summary":  "温和观点的个体在群体讨论后变得更极端，群体放大偏见",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "认知偏差",
+                       "网络传播"
+                   ],
+    "category_legacy":  "群体心理",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/群体极化效应 502425c81bf24185936bba7dedc9d5bf.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  72,
+                   "markdown":  "群体极化效应 502425c81bf24185936bba7dedc9d5bf.md"
+               }
+}

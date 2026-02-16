@@ -1,0 +1,27 @@
+﻿{
+    "id":  "11e32203bc0d41978bb3433b2e27889c",
+    "slug":  "u-101-11e32203",
+    "title":  "捕食者-猎物模型(Lotka-Volterra)",
+    "summary":  "捕食者多→猎物减少→捕食者饿死→猎物恢复，周期振荡",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "平衡与稳定"
+                   ],
+    "category_legacy":  "生物与生态",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/捕食者-猎物模型(Lotka-Volterra) 11e32203bc0d41978bb3433b2e27889c.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  101,
+                   "markdown":  "捕食者-猎物模型(Lotka-Volterra) 11e32203bc0d41978bb3433b2e27889c.md"
+               }
+}

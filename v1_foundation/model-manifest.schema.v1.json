@@ -1,0 +1,109 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shiran.local/schemas/model-manifest.v1.json",
+  "title": "Shiran Model Manifest V1",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "title",
+    "summary",
+    "scene",
+    "mechanisms",
+    "category_legacy",
+    "level",
+    "duration_min",
+    "status",
+    "entry"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "slug": {
+      "type": "string",
+      "minLength": 3
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "scene": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mechanisms": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "category_legacy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "level": {
+      "type": "string",
+      "enum": ["S级", "A级", "B级"]
+    },
+    "duration_min": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "review", "published", "archived", "待开发"]
+    },
+    "entry": {
+      "type": "object",
+      "required": ["content"],
+      "properties": {
+        "content": {
+          "type": "string",
+          "minLength": 1
+        },
+        "simulation": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "cluster_profile": {
+      "type": "object",
+      "properties": {
+        "seed_pattern": {
+          "type": "string",
+          "enum": ["stable", "oscillator", "random"]
+        },
+        "seed_weight": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "markdown": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

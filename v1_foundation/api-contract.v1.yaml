@@ -1,0 +1,374 @@
+﻿openapi: 3.1.0
+info:
+  title: Shiran API
+  version: 1.0.0
+  description: >-
+    V1 public contract for homepage navigation and explore-unit retrieval.
+    Runtime model count is dynamic and comes from model library index.
+servers:
+  - url: https://api.shiran.example.com
+paths:
+  /api/v1/home/seed:
+    get:
+      summary: Get homepage seed state by date
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            format: date
+          required: false
+          description: Defaults to current date in UTC+8 timezone policy.
+      responses:
+        '200':
+          description: Seed state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeSeedState'
+  /api/v1/taxonomy:
+    get:
+      summary: Get scene and mechanism taxonomy
+      responses:
+        '200':
+          description: Taxonomy payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaxonomyPayload'
+  /api/v1/model-index:
+    get:
+      summary: Get runtime model index generated from module manifests
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [draft, review, published, archived, 待开发]
+          required: false
+          description: Default is published in production environments.
+      responses:
+        '200':
+          description: Model index payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelIndex'
+  /api/v1/units:
+    get:
+      summary: List explore units with filters
+      parameters:
+        - in: query
+          name: scene
+          schema:
+            type: string
+        - in: query
+          name: mechanism
+          schema:
+            type: string
+        - in: query
+          name: category_legacy
+          schema:
+            type: string
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [draft, review, published, archived, 待开发]
+        - in: query
+          name: q
+          schema:
+            type: string
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [new, hot, recommended]
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - in: query
+          name: size
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Paginated unit list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [page, size, total, items]
+                properties:
+                  page:
+                    type: integer
+                  size:
+                    type: integer
+                  total:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ModelManifest'
+  /api/v1/units/{id_or_slug}:
+    get:
+      summary: Get explore unit detail
+      parameters:
+        - in: path
+          name: id_or_slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Unit detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelManifest'
+        '404':
+          description: Not found
+  /api/v1/events/batch:
+    post:
+      summary: Ingest frontend analytics events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [events]
+              properties:
+                events:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/EventPayload'
+      responses:
+        '202':
+          description: Accepted
+  /api/v2/submissions:
+    post:
+      summary: (Reserved) Create creator submission
+      deprecated: true
+      responses:
+        '501':
+          description: Reserved for V2
+  /api/v2/submissions/{id}:
+    get:
+      summary: (Reserved) Get submission detail
+      deprecated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '501':
+          description: Reserved for V2
+  /api/v2/submissions/{id}/review:
+    post:
+      summary: (Reserved) Review submission
+      deprecated: true
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '501':
+          description: Reserved for V2
+components:
+  schemas:
+    Scene:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    Mechanism:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    TaxonomyPayload:
+      type: object
+      required: [scenes, mechanisms]
+      properties:
+        scenes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Scene'
+        mechanisms:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mechanism'
+    ModelEntry:
+      type: object
+      required: [content]
+      properties:
+        content:
+          type: string
+        simulation:
+          type: string
+    ClusterProfile:
+      type: object
+      properties:
+        seed_pattern:
+          type: string
+          enum: [stable, oscillator, random]
+        seed_weight:
+          type: number
+    SourceInfo:
+      type: object
+      properties:
+        seq:
+          type: integer
+        markdown:
+          type: string
+    ModelManifest:
+      type: object
+      required:
+        [id, slug, title, summary, scene, mechanisms, category_legacy, level, duration_min, status, entry]
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+        scene:
+          type: string
+        mechanisms:
+          type: array
+          minItems: 1
+          maxItems: 3
+          items:
+            type: string
+        category_legacy:
+          type: string
+        level:
+          type: string
+          enum: [S级, A级, B级]
+        duration_min:
+          type: integer
+        status:
+          type: string
+          enum: [draft, review, published, archived, 待开发]
+        entry:
+          $ref: '#/components/schemas/ModelEntry'
+        cluster_profile:
+          $ref: '#/components/schemas/ClusterProfile'
+        source:
+          $ref: '#/components/schemas/SourceInfo'
+        source_seq:
+          type: integer
+        simulation_type:
+          type: string
+    ModelIndex:
+      type: object
+      required: [version, generated_at, total, items]
+      properties:
+        version:
+          type: string
+        generated_at:
+          type: string
+          format: date-time
+        total:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelManifest'
+    HomeCellCluster:
+      type: object
+      required: [cluster_id, unit_id, scene, mechanisms, cells, alive_ratio]
+      properties:
+        cluster_id:
+          type: string
+        unit_id:
+          type: string
+        scene:
+          type: string
+        mechanisms:
+          type: array
+          items:
+            type: string
+        cells:
+          type: array
+          items:
+            type: object
+            required: [x, y]
+            properties:
+              x:
+                type: integer
+              y:
+                type: integer
+        alive_ratio:
+          type: number
+          minimum: 0
+          maximum: 1
+    HomeSeedState:
+      type: object
+      required: [seed_date, seed_value, grid_size, initial_density, s_ratio, a_ratio, b_ratio]
+      properties:
+        seed_date:
+          type: string
+          format: date
+        seed_value:
+          type: string
+        grid_size:
+          type: object
+          required: [width, height]
+          properties:
+            width:
+              type: integer
+            height:
+              type: integer
+        initial_density:
+          type: number
+        s_ratio:
+          type: number
+        a_ratio:
+          type: number
+        b_ratio:
+          type: number
+    EventPayload:
+      type: object
+      required: [event_name, session_id, ts, properties]
+      properties:
+        event_name:
+          type: string
+        session_id:
+          type: string
+        user_id:
+          type: string
+          nullable: true
+        unit_id:
+          type: string
+          nullable: true
+        ts:
+          type: string
+          format: date-time
+        properties:
+          type: object
+          additionalProperties: true

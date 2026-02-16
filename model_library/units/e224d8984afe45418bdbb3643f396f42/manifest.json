@@ -1,0 +1,27 @@
+﻿{
+    "id":  "e224d8984afe45418bdbb3643f396f42",
+    "slug":  "u-139-e224d898",
+    "title":  "黄金比例与斜波那契数列",
+    "summary":  "1.618…出现在自然界、建筑、艺术中，斜波那契数列相邻项之比趋向φ",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "艺术与数学",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/黄金比例与斜波那契数列 e224d8984afe45418bdbb3643f396f42.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  139,
+                   "markdown":  "黄金比例与斜波那契数列 e224d8984afe45418bdbb3643f396f42.md"
+               }
+}

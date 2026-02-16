@@ -1,0 +1,27 @@
+﻿{
+    "id":  "8ba09cbce7a54651a1ebfad65d41c197",
+    "slug":  "u-036-8ba09cbc",
+    "title":  "马尔可夫链",
+    "summary":  "状态转移只依赖当前状态，长期趋向稳态分布",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "随机性",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "概率与统计直觉",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/马尔可夫链 8ba09cbce7a54651a1ebfad65d41c197.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  36,
+                   "markdown":  "马尔可夫链 8ba09cbce7a54651a1ebfad65d41c197.md"
+               }
+}

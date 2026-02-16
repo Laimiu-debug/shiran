@@ -1,0 +1,27 @@
+﻿{
+    "id":  "e7b0c90e7cc644569413626d1b835cf1",
+    "slug":  "u-033-e7b0c90e",
+    "title":  "中心极限定理",
+    "summary":  "任意分布的样本均值分布趋向正态",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "随机性",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "概率与统计直觉",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/中心极限定理 e7b0c90e7cc644569413626d1b835cf1.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  33,
+                   "markdown":  "中心极限定理 e7b0c90e7cc644569413626d1b835cf1.md"
+               }
+}

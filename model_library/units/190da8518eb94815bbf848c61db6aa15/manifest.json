@@ -1,0 +1,27 @@
+﻿{
+    "id":  "190da8518eb94815bbf848c61db6aa15",
+    "slug":  "u-154-190da851",
+    "title":  "弘恩谖论(廻徊型医院问题)",
+    "summary":  "函数在所有点连续但处处不可微，反直觉的存在性",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/弘恩谖论(廻徊型医院问题) 190da8518eb94815bbf848c61db6aa15.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  154,
+                   "markdown":  "弘恩谖论(廻徊型医院问题) 190da8518eb94815bbf848c61db6aa15.md"
+               }
+}

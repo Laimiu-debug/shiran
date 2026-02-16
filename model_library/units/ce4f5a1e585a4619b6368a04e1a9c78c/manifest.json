@@ -1,0 +1,27 @@
+﻿{
+    "id":  "ce4f5a1e585a4619b6368a04e1a9c78c",
+    "slug":  "u-188-ce4f5a1e",
+    "title":  "拼图可解性(组合爆炸)",
+    "summary":  "棋盘/密码/卸化解街等问题的可能组合指数级增长，NP难问题直觉",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "数学趣题",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/拼图可解性(组合爆炸) ce4f5a1e585a4619b6368a04e1a9c78c.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  188,
+                   "markdown":  "拼图可解性(组合爆炸) ce4f5a1e585a4619b6368a04e1a9c78c.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "d8be30089c7449e79e82b5c324402e75",
+    "slug":  "u-077-d8be3008",
+    "title":  "社会认同与制服效应",
+    "summary":  "人们倾向于服从穿制服/有权威标志的人(米尔格拉姆实验)",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "认知偏差",
+                       "网络传播"
+                   ],
+    "category_legacy":  "群体心理",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/社会认同与制服效应 d8be30089c7449e79e82b5c324402e75.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  77,
+                   "markdown":  "社会认同与制服效应 d8be30089c7449e79e82b5c324402e75.md"
+               }
+}

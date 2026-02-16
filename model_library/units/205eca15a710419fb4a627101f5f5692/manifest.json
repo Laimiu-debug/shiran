@@ -1,0 +1,27 @@
+﻿{
+    "id":  "205eca15a710419fb4a627101f5f5692",
+    "slug":  "u-086-205eca15",
+    "title":  "沉没成本谬误",
+    "summary":  "已投入的不可回收成本不应影响未来决策，但人们总是受其影响",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "认知偏差",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "认知偏差",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/沉没成本谬误 205eca15a710419fb4a627101f5f5692.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  86,
+                   "markdown":  "沉没成本谬误 205eca15a710419fb4a627101f5f5692.md"
+               }
+}

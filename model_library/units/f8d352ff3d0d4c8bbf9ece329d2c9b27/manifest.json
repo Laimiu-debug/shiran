@@ -1,0 +1,28 @@
+﻿{
+    "id":  "f8d352ff3d0d4c8bbf9ece329d2c9b27",
+    "slug":  "u-103-f8d352ff",
+    "title":  "种群增长(Logistic增长)",
+    "summary":  "初始指数增长→接近环境容量→增速放缓→S曲线",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "平衡与稳定",
+                       "非线性"
+                   ],
+    "category_legacy":  "生物与生态",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/种群增长(Logistic增长) f8d352ff3d0d4c8bbf9ece329d2c9b27.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  103,
+                   "markdown":  "种群增长(Logistic增长) f8d352ff3d0d4c8bbf9ece329d2c9b27.md"
+               }
+}

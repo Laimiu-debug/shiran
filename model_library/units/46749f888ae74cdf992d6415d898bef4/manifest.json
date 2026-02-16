@@ -1,0 +1,28 @@
+﻿{
+    "id":  "46749f888ae74cdf992d6415d898bef4",
+    "slug":  "u-016-46749f88",
+    "title":  "Julia集",
+    "summary":  "与Mandelbrot集对偶，不同c值对应不同形态的分形",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/Julia集 46749f888ae74cdf992d6415d898bef4.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  16,
+                   "markdown":  "Julia集 46749f888ae74cdf992d6415d898bef4.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "090d197f72f24dfaa0446aaaa7e80b17",
+    "slug":  "u-052-090d197f",
+    "title":  "粒子群优化(PSO)",
+    "summary":  "粒子受个体最优和群体最优吸引，群体协作找到最优解",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "优化",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "优化与搜索",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/粒子群优化(PSO) 090d197f72f24dfaa0446aaaa7e80b17.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  52,
+                   "markdown":  "粒子群优化(PSO) 090d197f72f24dfaa0446aaaa7e80b17.md"
+               }
+}

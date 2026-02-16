@@ -1,0 +1,27 @@
+﻿{
+    "id":  "eb8b9139cf384212b6ab4663be9f51ad",
+    "slug":  "u-191-eb8b9139",
+    "title":  "调和分析(任何形状=圆之和)",
+    "summary":  "任何周期函数可分解为正弦之和，圆的叠加产生任意形状",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "艺术与数学",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/调和分析(任何形状=圆之和) eb8b9139cf384212b6ab4663be9f51ad.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  191,
+                   "markdown":  "调和分析(任何形状=圆之和) eb8b9139cf384212b6ab4663be9f51ad.md"
+               }
+}

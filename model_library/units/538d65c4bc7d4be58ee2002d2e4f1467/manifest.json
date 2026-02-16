@@ -1,0 +1,27 @@
+﻿{
+    "id":  "538d65c4bc7d4be58ee2002d2e4f1467",
+    "slug":  "u-131-538d65c4",
+    "title":  "地图投影失真",
+    "summary":  "球面无法无失真展开为平面，每种投影都牺牲某种准确性",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/地图投影失真 538d65c4bc7d4be58ee2002d2e4f1467.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  131,
+                   "markdown":  "地图投影失真 538d65c4bc7d4be58ee2002d2e4f1467.md"
+               }
+}

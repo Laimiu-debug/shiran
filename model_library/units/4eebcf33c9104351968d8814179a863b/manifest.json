@@ -1,0 +1,28 @@
+﻿{
+    "id":  "4eebcf33c9104351968d8814179a863b",
+    "slug":  "u-060-4eebcf33",
+    "title":  "PageRank可视化",
+    "summary":  "随机游走者在网络中的稳态分布即为页面重要度",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "网络传播",
+                       "反馈",
+                       "随机性"
+                   ],
+    "category_legacy":  "网络与传播",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/PageRank可视化 4eebcf33c9104351968d8814179a863b.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  60,
+                   "markdown":  "PageRank可视化 4eebcf33c9104351968d8814179a863b.md"
+               }
+}

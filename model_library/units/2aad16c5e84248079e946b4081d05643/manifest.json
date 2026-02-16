@@ -1,0 +1,27 @@
+﻿{
+    "id":  "2aad16c5e84248079e946b4081d05643",
+    "slug":  "u-008-2aad16c5",
+    "title":  "谢林隔离模型",
+    "summary":  "个体微小的同类偏好导致极端的群体隔离",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "反馈"
+                   ],
+    "category_legacy":  "涌现与自组织",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/谢林隔离模型 2aad16c5e84248079e946b4081d05643.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  8,
+                   "markdown":  "谢林隔离模型 2aad16c5e84248079e946b4081d05643.md"
+               }
+}

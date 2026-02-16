@@ -1,0 +1,27 @@
+﻿{
+    "id":  "83641982e5e04ea49ffd0684d2540488",
+    "slug":  "u-045-83641982",
+    "title":  "单摆与共振",
+    "summary":  "驱动频率接近固有频率时振幅急剧增大",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/单摆与共振 83641982e5e04ea49ffd0684d2540488.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  45,
+                   "markdown":  "单摆与共振 83641982e5e04ea49ffd0684d2540488.md"
+               }
+}

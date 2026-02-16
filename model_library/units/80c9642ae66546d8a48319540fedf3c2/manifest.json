@@ -1,0 +1,27 @@
+﻿{
+    "id":  "80c9642ae66546d8a48319540fedf3c2",
+    "slug":  "u-136-80c9642a",
+    "title":  "GPS三角定位原理",
+    "summary":  "三颗卫星信号时间差确定三个球面交点",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/GPS三角定位原理 80c9642ae66546d8a48319540fedf3c2.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  136,
+                   "markdown":  "GPS三角定位原理 80c9642ae66546d8a48319540fedf3c2.md"
+               }
+}

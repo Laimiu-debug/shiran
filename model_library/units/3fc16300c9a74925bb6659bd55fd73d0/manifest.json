@@ -1,0 +1,28 @@
+﻿{
+    "id":  "3fc16300c9a74925bb6659bd55fd73d0",
+    "slug":  "u-020-3fc16300",
+    "title":  "囚徒困境锦标赛",
+    "summary":  "重复博弈中以牙还牙策略胜出，合作可以从自私中涌现",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "博弈",
+                       "策略与风险",
+                       "涌现"
+                   ],
+    "category_legacy":  "博弈与策略",
+    "level":  "S级",
+    "duration_min":  18,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/囚徒困境锦标赛 3fc16300c9a74925bb6659bd55fd73d0.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  20,
+                   "markdown":  "囚徒困境锦标赛 3fc16300c9a74925bb6659bd55fd73d0.md"
+               }
+}

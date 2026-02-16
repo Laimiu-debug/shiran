@@ -1,0 +1,28 @@
+﻿{
+    "id":  "28a1bfaf7b9d4407a893919f5a67839f",
+    "slug":  "u-024-28a1bfaf",
+    "title":  "纳什均衡可视化",
+    "summary":  "2x2博弈矩阵中双方最优响应的交点即为均衡",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "博弈",
+                       "策略与风险",
+                       "平衡与稳定"
+                   ],
+    "category_legacy":  "博弈与策略",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/纳什均衡可视化 28a1bfaf7b9d4407a893919f5a67839f.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  24,
+                   "markdown":  "纳什均衡可视化 28a1bfaf7b9d4407a893919f5a67839f.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "aaa238da70274cc2944ec5e2f98a4711",
+    "slug":  "u-014-aaa238da",
+    "title":  "三体问题",
+    "summary":  "三个引力体的运动无解析解，轨迹混沌不可预测",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "S级",
+    "duration_min":  18,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/三体问题 aaa238da70274cc2944ec5e2f98a4711.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  14,
+                   "markdown":  "三体问题 aaa238da70274cc2944ec5e2f98a4711.md"
+               }
+}

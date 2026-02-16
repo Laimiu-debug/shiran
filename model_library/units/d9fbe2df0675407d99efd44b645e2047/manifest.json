@@ -1,0 +1,27 @@
+﻿{
+    "id":  "d9fbe2df0675407d99efd44b645e2047",
+    "slug":  "u-017-d9fbe2df",
+    "title":  "科赫雪花与分形树",
+    "summary":  "递归自相似结构，有限面积无限周长",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/科赫雪花与分形树 d9fbe2df0675407d99efd44b645e2047.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  17,
+                   "markdown":  "科赫雪花与分形树 d9fbe2df0675407d99efd44b645e2047.md"
+               }
+}

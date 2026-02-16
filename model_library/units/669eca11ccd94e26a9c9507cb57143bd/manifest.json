@@ -1,0 +1,28 @@
+﻿{
+    "id":  "669eca11ccd94e26a9c9507cb57143bd",
+    "slug":  "u-078-669eca11",
+    "title":  "社会网络中的观点传播",
+    "summary":  "少数坚定者可以翻转群体观点，临界比例约25%",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "认知偏差",
+                       "网络传播",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "群体心理",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/社会网络中的观点传播 669eca11ccd94e26a9c9507cb57143bd.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  78,
+                   "markdown":  "社会网络中的观点传播 669eca11ccd94e26a9c9507cb57143bd.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "48288ddddabb4c79a4fa23ba9d38ebef",
+    "slug":  "u-035-48288ddd",
+    "title":  "辛普森悖论",
+    "summary":  "分组数据趋势与合并数据趋势相反",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "随机性",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "概率与统计直觉",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/辛普森悖论 48288ddddabb4c79a4fa23ba9d38ebef.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  35,
+                   "markdown":  "辛普森悖论 48288ddddabb4c79a4fa23ba9d38ebef.md"
+               }
+}

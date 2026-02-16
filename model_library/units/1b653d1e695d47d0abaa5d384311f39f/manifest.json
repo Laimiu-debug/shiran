@@ -1,0 +1,27 @@
+﻿{
+    "id":  "1b653d1e695d47d0abaa5d384311f39f",
+    "slug":  "u-040-1b653d1e",
+    "title":  "拉格朗日点",
+    "summary":  "两大天体引力与离心力平衡的5个特殊位置",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/拉格朗日点 1b653d1e695d47d0abaa5d384311f39f.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  40,
+                   "markdown":  "拉格朗日点 1b653d1e695d47d0abaa5d384311f39f.md"
+               }
+}

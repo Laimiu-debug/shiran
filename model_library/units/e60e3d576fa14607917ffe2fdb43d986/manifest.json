@@ -1,0 +1,28 @@
+﻿{
+    "id":  "e60e3d576fa14607917ffe2fdb43d986",
+    "slug":  "u-190-e60e3d57",
+    "title":  "三十六计·欲擒故纵",
+    "summary":  "短期放弃以获取长期更大回报，延迟满足的博弈版",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "博弈"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/三十六计·欲擒故纵 e60e3d576fa14607917ffe2fdb43d986.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  190,
+                   "markdown":  "三十六计·欲擒故纵 e60e3d576fa14607917ffe2fdb43d986.md"
+               }
+}

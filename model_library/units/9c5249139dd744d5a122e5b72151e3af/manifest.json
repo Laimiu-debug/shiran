@@ -1,0 +1,27 @@
+﻿{
+    "id":  "9c5249139dd744d5a122e5b72151e3af",
+    "slug":  "u-063-9c524913",
+    "title":  "梅花易数运算可视化",
+    "summary":  "以数起卦的分类映射系统，时间/数字→上下卦→变爻→解读路径",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/梅花易数运算可视化 9c5249139dd744d5a122e5b72151e3af.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  63,
+                   "markdown":  "梅花易数运算可视化 9c5249139dd744d5a122e5b72151e3af.md"
+               }
+}

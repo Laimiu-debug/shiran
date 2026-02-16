@@ -1,0 +1,28 @@
+﻿{
+    "id":  "926c646596aa40c497e1663bd747f7e7",
+    "slug":  "u-074-926c6465",
+    "title":  "信息瀑布(羊群效应)",
+    "summary":  "后来者忽略私有信息跟随先行者，即使先行者的选择是错误的",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "认知偏差",
+                       "网络传播",
+                       "编码与信息"
+                   ],
+    "category_legacy":  "群体心理",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/信息瀑布(羊群效应) 926c646596aa40c497e1663bd747f7e7.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  74,
+                   "markdown":  "信息瀑布(羊群效应) 926c646596aa40c497e1663bd747f7e7.md"
+               }
+}

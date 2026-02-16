@@ -1,0 +1,28 @@
+﻿{
+    "id":  "292c4abe147b4299b8c49232957d5849",
+    "slug":  "u-091-292c4abe",
+    "title":  "供需均衡与价格发现",
+    "summary":  "供给曲线与需求曲线交叉点决定市场均衡价格",
+    "scene":  "市场与系统",
+    "mechanisms":  [
+                       "反馈",
+                       "策略与风险",
+                       "平衡与稳定"
+                   ],
+    "category_legacy":  "经济与金融",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/供需均衡与价格发现 292c4abe147b4299b8c49232957d5849.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  91,
+                   "markdown":  "供需均衡与价格发现 292c4abe147b4299b8c49232957d5849.md"
+               }
+}

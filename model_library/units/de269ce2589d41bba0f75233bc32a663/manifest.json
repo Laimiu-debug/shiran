@@ -1,0 +1,28 @@
+﻿{
+    "id":  "de269ce2589d41bba0f75233bc32a663",
+    "slug":  "u-138-de269ce2",
+    "title":  "地铁等待悖论",
+    "summary":  "随机到达时平均等待=半个发车间隔，但心理感知曲线非线性",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度",
+                       "随机性"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/地铁等待悖论 de269ce2589d41bba0f75233bc32a663.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  138,
+                   "markdown":  "地铁等待悖论 de269ce2589d41bba0f75233bc32a663.md"
+               }
+}

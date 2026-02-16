@@ -1,0 +1,27 @@
+﻿{
+    "id":  "e7ceec239ec24d8388fede5a791b3028",
+    "slug":  "u-056-e7ceec23",
+    "title":  "疫情传播SIR模型",
+    "summary":  "易感-感染-恢复三状态转化，R0决定是否大规模传播",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "网络传播",
+                       "反馈"
+                   ],
+    "category_legacy":  "网络与传播",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/疫情传播SIR模型 e7ceec239ec24d8388fede5a791b3028.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  56,
+                   "markdown":  "疫情传播SIR模型 e7ceec239ec24d8388fede5a791b3028.md"
+               }
+}

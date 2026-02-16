@@ -1,0 +1,27 @@
+﻿{
+    "id":  "ddfaf18805e44f868eafbfa993ce6848",
+    "slug":  "u-106-ddfaf188",
+    "title":  "竞争排除原则",
+    "summary":  "两个物种竞争同一生态位时，一个必然灭绝",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "平衡与稳定"
+                   ],
+    "category_legacy":  "生物与生态",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/竞争排除原则 ddfaf18805e44f868eafbfa993ce6848.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  106,
+                   "markdown":  "竞争排除原则 ddfaf18805e44f868eafbfa993ce6848.md"
+               }
+}

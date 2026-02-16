@@ -1,0 +1,28 @@
+﻿{
+    "id":  "b379241d426e4756ab4f3e0f67259e56",
+    "slug":  "u-064-b379241d",
+    "title":  "三十六计·围魏救赵",
+    "summary":  "攻击对方必救之处迫使其回援，间接博弈优于正面对抗",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "博弈"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/三十六计·围魏救赵 b379241d426e4756ab4f3e0f67259e56.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  64,
+                   "markdown":  "三十六计·围魏救赵 b379241d426e4756ab4f3e0f67259e56.md"
+               }
+}

@@ -1,0 +1,28 @@
+﻿{
+    "id":  "4cb1e0e3262d488a92f294e159c38b7b",
+    "slug":  "u-163-4cb1e0e3",
+    "title":  "反向传播神经网络",
+    "summary":  "多层感知器通过梯度下降学习，每个神经元只做简单计算但组合产生智能",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化",
+                       "网络传播"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/反向传播神经网络 4cb1e0e3262d488a92f294e159c38b7b.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  163,
+                   "markdown":  "反向传播神经网络 4cb1e0e3262d488a92f294e159c38b7b.md"
+               }
+}

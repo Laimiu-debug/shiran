@@ -1,0 +1,27 @@
+﻿{
+    "id":  "a1a1ea2daa3b4ccfacbd6e226e2019a9",
+    "slug":  "u-117-a1a1ea2d",
+    "title":  "无穷旅馆(希尔伯特旅馆)",
+    "summary":  "无穷集合的反直觉性质：满员旅馆仍可容纳新客人",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "数学趣题",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/无穷旅馆(希尔伯特旅馆) a1a1ea2daa3b4ccfacbd6e226e2019a9.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  117,
+                   "markdown":  "无穷旅馆(希尔伯特旅馆) a1a1ea2daa3b4ccfacbd6e226e2019a9.md"
+               }
+}

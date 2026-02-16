@@ -1,0 +1,28 @@
+﻿{
+    "id":  "e9c75d2832914b479d45a0ffa9ea4fcf",
+    "slug":  "u-173-e9c75d28",
+    "title":  "飞行时间膌变慢(狗义相对论)",
+    "summary":  "速度越快时间越慢，光速不可超越",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/飞行时间膌变慢(狗义相对论) e9c75d2832914b479d45a0ffa9ea4fcf.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  173,
+                   "markdown":  "飞行时间膌变慢(狗义相对论) e9c75d2832914b479d45a0ffa9ea4fcf.md"
+               }
+}

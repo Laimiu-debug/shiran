@@ -1,0 +1,27 @@
+﻿{
+    "id":  "e0cd76b5fa7a46f5a412cc4283821b5b",
+    "slug":  "u-172-e0cd76b5",
+    "title":  "先手优势与后手优势",
+    "summary":  "某些博弈先手必胜某些后手必胜，取决于规则结构",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "博弈",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "博弈与策略",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/先手优势与后手优势 e0cd76b5fa7a46f5a412cc4283821b5b.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  172,
+                   "markdown":  "先手优势与后手优势 e0cd76b5fa7a46f5a412cc4283821b5b.md"
+               }
+}

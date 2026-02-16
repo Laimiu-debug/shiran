@@ -1,0 +1,27 @@
+﻿{
+    "id":  "df2551519b2e4a7ca913f314780fbfb4",
+    "slug":  "u-134-df255151",
+    "title":  "为什么天空是蓝色(瑞利散射)",
+    "summary":  "短波长(蓝/紫)光散射强度正比于λ^{-4}，日出日落时路径长蓝光散尽只剩红",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/为什么天空是蓝色(瑞利散射) df2551519b2e4a7ca913f314780fbfb4.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  134,
+                   "markdown":  "为什么天空是蓝色(瑞利散射) df2551519b2e4a7ca913f314780fbfb4.md"
+               }
+}

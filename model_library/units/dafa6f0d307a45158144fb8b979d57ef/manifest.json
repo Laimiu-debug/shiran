@@ -1,0 +1,27 @@
+﻿{
+    "id":  "dafa6f0d307a45158144fb8b979d57ef",
+    "slug":  "u-082-dafa6f0d",
+    "title":  "框架效应",
+    "summary":  "同一事实不同表述导致不同决策（存活率90% vs 死亡率10%）",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "认知偏差",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "认知偏差",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/框架效应 dafa6f0d307a45158144fb8b979d57ef.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  82,
+                   "markdown":  "框架效应 dafa6f0d307a45158144fb8b979d57ef.md"
+               }
+}

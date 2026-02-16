@@ -1,0 +1,27 @@
+﻿{
+    "id":  "0732b0c46df64b5a912e973ff2dad6f1",
+    "slug":  "u-127-0732b0c4",
+    "title":  "秘书问题(最优停止策略)",
+    "summary":  "先观察37%的候选人然后选择第一个超过所有已观察者的人",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "策略与风险",
+                       "随机性"
+                   ],
+    "category_legacy":  "决策与风险",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/秘书问题(最优停止策略) 0732b0c46df64b5a912e973ff2dad6f1.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  127,
+                   "markdown":  "秘书问题(最优停止策略) 0732b0c46df64b5a912e973ff2dad6f1.md"
+               }
+}

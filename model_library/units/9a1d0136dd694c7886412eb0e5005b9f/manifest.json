@@ -1,0 +1,28 @@
+﻿{
+    "id":  "9a1d0136dd694c7886412eb0e5005b9f",
+    "slug":  "u-044-9a1d0136",
+    "title":  "多普勒效应",
+    "summary":  "波源运动导致前方波长压缩后方拉伸",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度",
+                       "认知偏差"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/多普勒效应 9a1d0136dd694c7886412eb0e5005b9f.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  44,
+                   "markdown":  "多普勒效应 9a1d0136dd694c7886412eb0e5005b9f.md"
+               }
+}

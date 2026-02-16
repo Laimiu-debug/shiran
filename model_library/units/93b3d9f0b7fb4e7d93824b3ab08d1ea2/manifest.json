@@ -1,0 +1,28 @@
+﻿{
+    "id":  "93b3d9f0b7fb4e7d93824b3ab08d1ea2",
+    "slug":  "u-004-93b3d9f0",
+    "title":  "蚁群觅食",
+    "summary":  "信息素正反馈机制涌现最短路径",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "反馈",
+                       "编码与信息"
+                   ],
+    "category_legacy":  "涌现与自组织",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/蚁群觅食 93b3d9f0b7fb4e7d93824b3ab08d1ea2.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  4,
+                   "markdown":  "蚁群觅食 93b3d9f0b7fb4e7d93824b3ab08d1ea2.md"
+               }
+}

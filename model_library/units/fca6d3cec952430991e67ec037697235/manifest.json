@@ -1,0 +1,28 @@
+﻿{
+    "id":  "fca6d3cec952430991e67ec037697235",
+    "slug":  "u-006-fca6d3ce",
+    "title":  "反应扩散(图灵斑图)",
+    "summary":  "两种化学物质的扩散与反应产生动物花纹",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "反馈",
+                       "编码与信息"
+                   ],
+    "category_legacy":  "涌现与自组织",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/反应扩散(图灵斑图) fca6d3cec952430991e67ec037697235.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  6,
+                   "markdown":  "反应扩散(图灵斑图) fca6d3cec952430991e67ec037697235.md"
+               }
+}

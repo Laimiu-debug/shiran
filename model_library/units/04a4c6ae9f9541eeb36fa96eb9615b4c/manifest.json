@@ -1,0 +1,28 @@
+﻿{
+    "id":  "04a4c6ae9f9541eeb36fa96eb9615b4c",
+    "slug":  "u-105-04a4c6ae",
+    "title":  "红皇后效应(共同进化)",
+    "summary":  "寄生虫与宿主军备竞赛，双方必须不断进化才能维持现状",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "平衡与稳定",
+                       "认知偏差"
+                   ],
+    "category_legacy":  "生物与生态",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/红皇后效应(共同进化) 04a4c6ae9f9541eeb36fa96eb9615b4c.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  105,
+                   "markdown":  "红皇后效应(共同进化) 04a4c6ae9f9541eeb36fa96eb9615b4c.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "a06f59c483a748138e0acedd9b9a1697",
+    "slug":  "u-011-a06f59c4",
+    "title":  "双摆",
+    "summary":  "确定性系统对初始条件极度敏感，微小差异导致完全不同轨迹",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/双摆 a06f59c483a748138e0acedd9b9a1697.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  11,
+                   "markdown":  "双摆 a06f59c483a748138e0acedd9b9a1697.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "8c9987e6f80441de85ac8622f7981546",
+    "slug":  "u-111-8c9987e6",
+    "title":  "纠错码(汉明码)",
+    "summary":  "通过冗余位实现错误检测与纠正，校验位定位错误位置",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/纠错码(汉明码) 8c9987e6f80441de85ac8622f7981546.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  111,
+                   "markdown":  "纠错码(汉明码) 8c9987e6f80441de85ac8622f7981546.md"
+               }
+}

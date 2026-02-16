@@ -1,0 +1,101 @@
+﻿openapi: 3.1.0
+info:
+  title: Shiran Creator Upload API (V2 Draft)
+  version: 2.0.0-draft
+  description: Draft contract for external creator module submissions.
+servers:
+  - url: https://api.shiran.example.com
+paths:
+  /api/v2/submissions:
+    post:
+      summary: Submit a creator module package
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [manifest, package]
+              properties:
+                manifest:
+                  type: string
+                  description: JSON string of manifest data
+                package:
+                  type: string
+                  format: binary
+                  description: Zip containing simulation and optional content files
+                notes:
+                  type: string
+      responses:
+        '201':
+          description: Submission created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+        '400':
+          description: Invalid payload
+  /api/v2/submissions/{id}:
+    get:
+      summary: Get submission detail
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Submission detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+        '404':
+          description: Not found
+  /api/v2/submissions/{id}/review:
+    post:
+      summary: Internal review decision
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [decision]
+              properties:
+                decision:
+                  type: string
+                  enum: [approve, reject, request_changes]
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: Review state updated
+components:
+  schemas:
+    Submission:
+      type: object
+      required: [id, status, created_at, manifest]
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum: [submitted, validating, review, approved, rejected, changes_requested, published]
+        created_at:
+          type: string
+          format: date-time
+        manifest:
+          type: object
+          additionalProperties: true
+        validation_report:
+          type: array
+          items:
+            type: string

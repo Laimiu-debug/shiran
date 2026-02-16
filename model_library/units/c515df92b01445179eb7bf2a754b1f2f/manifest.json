@@ -1,0 +1,28 @@
+﻿{
+    "id":  "c515df92b01445179eb7bf2a754b1f2f",
+    "slug":  "u-114-c515df92",
+    "title":  "RSA加密原理",
+    "summary":  "大数分解的困难性保障安全，公钥加密私钥解密",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化",
+                       "随机性"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/RSA加密原理 c515df92b01445179eb7bf2a754b1f2f.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  114,
+                   "markdown":  "RSA加密原理 c515df92b01445179eb7bf2a754b1f2f.md"
+               }
+}

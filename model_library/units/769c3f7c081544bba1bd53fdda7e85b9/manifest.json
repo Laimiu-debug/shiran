@@ -1,0 +1,28 @@
+﻿{
+    "id":  "769c3f7c081544bba1bd53fdda7e85b9",
+    "slug":  "u-164-769c3f7c",
+    "title":  "大数定律与小数定律",
+    "summary":  "样本越大越接近真实概率，但小样本的偏差极大",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "随机性",
+                       "时空与尺度",
+                       "认知偏差"
+                   ],
+    "category_legacy":  "概率与统计直觉",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/大数定律与小数定律 769c3f7c081544bba1bd53fdda7e85b9.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  164,
+                   "markdown":  "大数定律与小数定律 769c3f7c081544bba1bd53fdda7e85b9.md"
+               }
+}

@@ -1,0 +1,28 @@
+﻿{
+    "id":  "c334abcae3e14bfa8424e3e0701aa8e9",
+    "slug":  "u-071-c334abca",
+    "title":  "孙子兵法·虚实篇",
+    "summary":  "集中优势兵力攻击分散之敌，以实击虚，兰彻斯特方程验证",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "博弈"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/孙子兵法·虚实篇 c334abcae3e14bfa8424e3e0701aa8e9.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  71,
+                   "markdown":  "孙子兵法·虚实篇 c334abcae3e14bfa8424e3e0701aa8e9.md"
+               }
+}

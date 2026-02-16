@@ -1,0 +1,27 @@
+﻿{
+    "id":  "0719ebe1f2e348afb0f8bbbdde0551ed",
+    "slug":  "u-149-0719ebe1",
+    "title":  "声音的傷叶图案(克拉德尼)",
+    "summary":  "不同频率的声音驱动平面上的粒子形成特定几何图案",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "艺术与数学",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/声音的傷叶图案(克拉德尼) 0719ebe1f2e348afb0f8bbbdde0551ed.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  149,
+                   "markdown":  "声音的傷叶图案(克拉德尼) 0719ebe1f2e348afb0f8bbbdde0551ed.md"
+               }
+}

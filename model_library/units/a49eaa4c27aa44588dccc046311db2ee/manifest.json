@@ -1,0 +1,28 @@
+﻿{
+    "id":  "a49eaa4c27aa44588dccc046311db2ee",
+    "slug":  "u-104-a49eaa4c",
+    "title":  "群体免疫阈值",
+    "summary":  "免疫比例超过1-1/R0时传播链断裂，疫情无法扩散",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "平衡与稳定",
+                       "网络传播"
+                   ],
+    "category_legacy":  "生物与生态",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/群体免疫阈值 a49eaa4c27aa44588dccc046311db2ee.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  104,
+                   "markdown":  "群体免疫阈值 a49eaa4c27aa44588dccc046311db2ee.md"
+               }
+}

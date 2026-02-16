@@ -1,0 +1,27 @@
+﻿{
+    "id":  "ae641e55677f4122a1c292e20009ded3",
+    "slug":  "u-128-ae641e55",
+    "title":  "圣彼得堡悖论(硬币赌徒破产)",
+    "summary":  "公平赌博中有限资金方必然破产，即使概率对等",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "策略与风险",
+                       "随机性"
+                   ],
+    "category_legacy":  "决策与风险",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/圣彼得堡悖论(硬币赌徒破产) ae641e55677f4122a1c292e20009ded3.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  128,
+                   "markdown":  "圣彼得堡悖论(硬币赌徒破产) ae641e55677f4122a1c292e20009ded3.md"
+               }
+}

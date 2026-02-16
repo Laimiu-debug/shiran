@@ -1,0 +1,27 @@
+﻿{
+    "id":  "d1a87082ace847fcad328d46c185261c",
+    "slug":  "u-169-d1a87082",
+    "title":  "团灵机(图灵完备)",
+    "summary":  "一条无限纸带+有限状态即可计算任何可计算函数",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/团灵机(图灵完备) d1a87082ace847fcad328d46c185261c.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  169,
+                   "markdown":  "团灵机(图灵完备) d1a87082ace847fcad328d46c185261c.md"
+               }
+}

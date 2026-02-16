@@ -1,0 +1,28 @@
+﻿{
+    "id":  "f319fd024db2449889a6fb903ffa4cbc",
+    "slug":  "u-184-f319fd02",
+    "title":  "布里丹博弈(分钱策略)",
+    "summary":  "将军按比例分配兵力到多个战场，各战场投入多者胜，最优分配非直觉",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "博弈",
+                       "策略与风险",
+                       "平衡与稳定"
+                   ],
+    "category_legacy":  "博弈与策略",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/布里丹博弈(分钱策略) f319fd024db2449889a6fb903ffa4cbc.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  184,
+                   "markdown":  "布里丹博弈(分钱策略) f319fd024db2449889a6fb903ffa4cbc.md"
+               }
+}

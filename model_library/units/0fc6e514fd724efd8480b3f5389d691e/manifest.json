@@ -1,0 +1,27 @@
+﻿{
+    "id":  "0fc6e514fd724efd8480b3f5389d691e",
+    "slug":  "u-140-0fc6e514",
+    "title":  "分形艺术(谢尔宾斯基三角形)",
+    "summary":  "无限递归产生自相似结构，每个局部与整体相似",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "艺术与数学",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/分形艺术(谢尔宾斯基三角形) 0fc6e514fd724efd8480b3f5389d691e.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  140,
+                   "markdown":  "分形艺术(谢尔宾斯基三角形) 0fc6e514fd724efd8480b3f5389d691e.md"
+               }
+}

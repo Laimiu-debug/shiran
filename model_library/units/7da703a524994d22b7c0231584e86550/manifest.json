@@ -1,0 +1,28 @@
+﻿{
+    "id":  "7da703a524994d22b7c0231584e86550",
+    "slug":  "u-182-7da703a5",
+    "title":  "维度诅咒(高维空间直觉)",
+    "summary":  "高维空间中大部分体积集中在表面，随机点几乎都远离中心",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性",
+                       "随机性"
+                   ],
+    "category_legacy":  "数学趣题",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/维度诅咒(高维空间直觉) 7da703a524994d22b7c0231584e86550.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  182,
+                   "markdown":  "维度诅咒(高维空间直觉) 7da703a524994d22b7c0231584e86550.md"
+               }
+}

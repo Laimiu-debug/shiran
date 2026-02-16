@@ -1,0 +1,27 @@
+﻿{
+    "id":  "a65461aeaff64d889a51dd491fb6a12e",
+    "slug":  "u-165-a65461ae",
+    "title":  "布尔代数与逻辑门",
+    "summary":  "AND/OR/NOT组合可计算任何逻辑，计算机的底层基础",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/布尔代数与逻辑门 a65461aeaff64d889a51dd491fb6a12e.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  165,
+                   "markdown":  "布尔代数与逻辑门 a65461aeaff64d889a51dd491fb6a12e.md"
+               }
+}

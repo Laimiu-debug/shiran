@@ -1,0 +1,27 @@
+﻿{
+    "id":  "38e7e74f55d34cc1b18d944810fc7fe7",
+    "slug":  "u-062-38e7e74f",
+    "title":  "易经八卦与二进制",
+    "summary":  "阴爻=0阳爻=1，八卦对应0-7，64卦对应6位二进制，莱布尼茨惊叹的对应关系",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "S级",
+    "duration_min":  18,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/易经八卦与二进制 38e7e74f55d34cc1b18d944810fc7fe7.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  62,
+                   "markdown":  "易经八卦与二进制 38e7e74f55d34cc1b18d944810fc7fe7.md"
+               }
+}

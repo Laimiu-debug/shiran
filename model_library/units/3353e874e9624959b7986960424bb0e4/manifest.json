@@ -1,0 +1,28 @@
+﻿{
+    "id":  "3353e874e9624959b7986960424bb0e4",
+    "slug":  "u-084-3353e874",
+    "title":  "可得性偏差",
+    "summary":  "容易想到的事件被高估概率（飞机失事vs车祸）",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "认知偏差",
+                       "策略与风险",
+                       "随机性"
+                   ],
+    "category_legacy":  "认知偏差",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/可得性偏差 3353e874e9624959b7986960424bb0e4.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  84,
+                   "markdown":  "可得性偏差 3353e874e9624959b7986960424bb0e4.md"
+               }
+}

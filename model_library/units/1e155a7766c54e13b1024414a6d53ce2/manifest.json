@@ -1,0 +1,27 @@
+﻿{
+    "id":  "1e155a7766c54e13b1024414a6d53ce2",
+    "slug":  "u-049-1e155a77",
+    "title":  "A*寻路算法",
+    "summary":  "启发式搜索结合已走代价和估计剩余代价找最短路",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "优化",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "优化与搜索",
+    "level":  "A级",
+    "duration_min":  8,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/A 寻路算法 1e155a7766c54e13b1024414a6d53ce2.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  49,
+                   "markdown":  "A 寻路算法 1e155a7766c54e13b1024414a6d53ce2.md"
+               }
+}

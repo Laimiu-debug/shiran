@@ -1,0 +1,27 @@
+﻿{
+    "id":  "6e0b4faad54e46c69a829baa41d0b2ce",
+    "slug":  "u-167-6e0b4faa",
+    "title":  "调和级数与音率",
+    "summary":  "弦的振动分解为基频+整数倍波，谐波系列决定音色",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "艺术与数学",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/调和级数与音率 6e0b4faad54e46c69a829baa41d0b2ce.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  167,
+                   "markdown":  "调和级数与音率 6e0b4faad54e46c69a829baa41d0b2ce.md"
+               }
+}

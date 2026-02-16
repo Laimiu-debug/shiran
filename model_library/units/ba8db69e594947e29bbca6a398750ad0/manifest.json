@@ -1,0 +1,27 @@
+﻿{
+    "id":  "ba8db69e594947e29bbca6a398750ad0",
+    "slug":  "u-095-ba8db69e",
+    "title":  "看不见的手(市场自调节)",
+    "summary":  "个体追求自身利益通过价格信号实现资源有效配置",
+    "scene":  "市场与系统",
+    "mechanisms":  [
+                       "反馈",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "经济与金融",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/看不见的手(市场自调节) ba8db69e594947e29bbca6a398750ad0.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  95,
+                   "markdown":  "看不见的手(市场自调节) ba8db69e594947e29bbca6a398750ad0.md"
+               }
+}

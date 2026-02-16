@@ -1,0 +1,28 @@
+﻿{
+    "id":  "463496f09fc344d899b2f69e2576ab3c",
+    "slug":  "u-015-463496f0",
+    "title":  "Mandelbrot集",
+    "summary":  "z=z^2+c 迭代是否发散定义集合边界，无限缩放仍有细节",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/Mandelbrot集 463496f09fc344d899b2f69e2576ab3c.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  15,
+                   "markdown":  "Mandelbrot集 463496f09fc344d899b2f69e2576ab3c.md"
+               }
+}

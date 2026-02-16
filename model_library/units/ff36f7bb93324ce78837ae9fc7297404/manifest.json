@@ -1,0 +1,27 @@
+﻿{
+    "id":  "ff36f7bb93324ce78837ae9fc7297404",
+    "slug":  "u-083-ff36f7bb",
+    "title":  "损失厌恶",
+    "summary":  "失去100元的痛苦≈得到200元的快乐，损失权重约为收益的2倍",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "认知偏差",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "认知偏差",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/损失厌恶 ff36f7bb93324ce78837ae9fc7297404.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  83,
+                   "markdown":  "损失厌恶 ff36f7bb93324ce78837ae9fc7297404.md"
+               }
+}

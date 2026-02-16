@@ -1,0 +1,28 @@
+﻿{
+    "id":  "57a70ba026454f908988f3041ae777d3",
+    "slug":  "u-174-57a70ba0",
+    "title":  "双缝实验(观察者效应)",
+    "summary":  "观察是否发生决定干涉条纹是否出现，量子力学的核心谜题",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度",
+                       "认知偏差"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/双缝实验(观察者效应) 57a70ba026454f908988f3041ae777d3.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  174,
+                   "markdown":  "双缝实验(观察者效应) 57a70ba026454f908988f3041ae777d3.md"
+               }
+}

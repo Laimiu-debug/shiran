@@ -1,0 +1,28 @@
+﻿{
+    "id":  "1f41879c66bf4f6396e189d1a128785d",
+    "slug":  "u-070-1f41879c",
+    "title":  "围棋·势与地的博弈",
+    "summary":  "局部最优(实地)vs全局最优(厚势)的权衡，短期收益与长期价值的矛盾",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "博弈"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/围棋·势与地的博弈 1f41879c66bf4f6396e189d1a128785d.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  70,
+                   "markdown":  "围棋·势与地的博弈 1f41879c66bf4f6396e189d1a128785d.md"
+               }
+}

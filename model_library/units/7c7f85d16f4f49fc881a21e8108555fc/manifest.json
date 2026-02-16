@@ -1,0 +1,28 @@
+﻿{
+    "id":  "7c7f85d16f4f49fc881a21e8108555fc",
+    "slug":  "u-195-7c7f85d1",
+    "title":  "肥皂泡和最小曲面",
+    "summary":  "肥皂泡自动形成最小表面积结构，自然界的优化结果",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度",
+                       "优化"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/肥皂泡和最小曲面 7c7f85d16f4f49fc881a21e8108555fc.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  195,
+                   "markdown":  "肥皂泡和最小曲面 7c7f85d16f4f49fc881a21e8108555fc.md"
+               }
+}

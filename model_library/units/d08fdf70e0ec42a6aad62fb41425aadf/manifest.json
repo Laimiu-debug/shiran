@@ -1,0 +1,27 @@
+﻿{
+    "id":  "d08fdf70e0ec42a6aad62fb41425aadf",
+    "slug":  "u-155-d08fdf70",
+    "title":  "库仑勒抖动(物流堆叠)",
+    "summary":  "周期性小结构的堆叠在特定尺度下产生意料之外的抖动",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "日常现象",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/库仑勒抖动(物流堆叠) d08fdf70e0ec42a6aad62fb41425aadf.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  155,
+                   "markdown":  "库仑勒抖动(物流堆叠) d08fdf70e0ec42a6aad62fb41425aadf.md"
+               }
+}

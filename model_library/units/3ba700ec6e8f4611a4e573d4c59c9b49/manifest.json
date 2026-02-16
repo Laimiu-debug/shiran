@@ -1,0 +1,27 @@
+﻿{
+    "id":  "3ba700ec6e8f4611a4e573d4c59c9b49",
+    "slug":  "u-021-3ba700ec",
+    "title":  "公地悲剧",
+    "summary":  "个体理性最大化导致公共资源耗竭",
+    "scene":  "日常决策",
+    "mechanisms":  [
+                       "博弈",
+                       "策略与风险"
+                   ],
+    "category_legacy":  "博弈与策略",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/公地悲剧 3ba700ec6e8f4611a4e573d4c59c9b49.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  21,
+                   "markdown":  "公地悲剧 3ba700ec6e8f4611a4e573d4c59c9b49.md"
+               }
+}

@@ -1,0 +1,28 @@
+﻿{
+    "id":  "b64dd30b627c4730bc6d93edafa4950e",
+    "slug":  "u-194-b64dd30b",
+    "title":  "库洛纳数(黄金分割)",
+    "summary":  "分割偶数为两素数之和（哥德巴赫猜想的可视化）",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/库洛纳数(黄金分割) b64dd30b627c4730bc6d93edafa4950e.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  194,
+                   "markdown":  "库洛纳数(黄金分割) b64dd30b627c4730bc6d93edafa4950e.md"
+               }
+}

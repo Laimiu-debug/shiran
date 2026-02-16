@@ -1,0 +1,27 @@
+﻿{
+    "id":  "da2d76cb009c4666a47e7c7c239778e1",
+    "slug":  "u-073-da2d76cb",
+    "title":  "从众效应(阿希实验)",
+    "summary":  "明知答案错误仍选择跟随多数人，社会压力压倒理性判断",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "认知偏差",
+                       "网络传播"
+                   ],
+    "category_legacy":  "群体心理",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/从众效应(阿希实验) da2d76cb009c4666a47e7c7c239778e1.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  73,
+                   "markdown":  "从众效应(阿希实验) da2d76cb009c4666a47e7c7c239778e1.md"
+               }
+}

@@ -1,0 +1,27 @@
+﻿{
+    "id":  "ecfa9f6c02dc40f3b2dcfe976debf0bd",
+    "slug":  "u-018-ecfa9f6c",
+    "title":  "费根鲍姆常数",
+    "summary":  "倍周期分岔的比值趋向通用常数4.669...",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/费根鲍姆常数 ecfa9f6c02dc40f3b2dcfe976debf0bd.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  18,
+                   "markdown":  "费根鲍姆常数 ecfa9f6c02dc40f3b2dcfe976debf0bd.md"
+               }
+}

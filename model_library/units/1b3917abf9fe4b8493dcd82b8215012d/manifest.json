@@ -1,0 +1,28 @@
+﻿{
+    "id":  "1b3917abf9fe4b8493dcd82b8215012d",
+    "slug":  "u-102-1b3917ab",
+    "title":  "自然选择模拟",
+    "summary":  "随机变异+适者生存+遗传，无需设计者即可产生复杂适应",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "平衡与稳定",
+                       "随机性"
+                   ],
+    "category_legacy":  "生物与生态",
+    "level":  "S级",
+    "duration_min":  18,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/自然选择模拟 1b3917abf9fe4b8493dcd82b8215012d.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  102,
+                   "markdown":  "自然选择模拟 1b3917abf9fe4b8493dcd82b8215012d.md"
+               }
+}

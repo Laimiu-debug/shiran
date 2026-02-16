@@ -1,0 +1,27 @@
+﻿{
+    "id":  "2898b1ab0a7c4f929696ba6255f7ba88",
+    "slug":  "u-080-2898b1ab",
+    "title":  "破窗效应",
+    "summary":  "环境中的小破坏如果不修复，会引发更多破坏行为",
+    "scene":  "社会与群体",
+    "mechanisms":  [
+                       "认知偏差",
+                       "网络传播"
+                   ],
+    "category_legacy":  "群体心理",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/破窗效应 2898b1ab0a7c4f929696ba6255f7ba88.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  80,
+                   "markdown":  "破窗效应 2898b1ab0a7c4f929696ba6255f7ba88.md"
+               }
+}

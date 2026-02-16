@@ -1,0 +1,27 @@
+﻿{
+    "id":  "580bb4a8ef084a7fa7529b0fe4e3a142",
+    "slug":  "u-046-580bb4a8",
+    "title":  "流体力学(卡门涡街)",
+    "summary":  "流体绕障碍物时交替产生涡旋",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/流体力学(卡门涡街) 580bb4a8ef084a7fa7529b0fe4e3a142.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  46,
+                   "markdown":  "流体力学(卡门涡街) 580bb4a8ef084a7fa7529b0fe4e3a142.md"
+               }
+}

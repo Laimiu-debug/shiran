@@ -1,0 +1,28 @@
+﻿{
+    "id":  "c15a97ed0d0546cb912a0231e8062bb4",
+    "slug":  "u-009-c15a97ed",
+    "title":  "幽灵堵塞",
+    "summary":  "Nagel-Schreckenberg跟车模型，无瓶颈也能产生堵车",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "涌现",
+                       "反馈",
+                       "随机性"
+                   ],
+    "category_legacy":  "涌现与自组织",
+    "level":  "S级",
+    "duration_min":  15,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/幽灵堵塞 c15a97ed0d0546cb912a0231e8062bb4.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  9,
+                   "markdown":  "幽灵堵塞 c15a97ed0d0546cb912a0231e8062bb4.md"
+               }
+}

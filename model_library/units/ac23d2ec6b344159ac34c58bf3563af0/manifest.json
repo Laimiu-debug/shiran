@@ -1,0 +1,27 @@
+﻿{
+    "id":  "ac23d2ec6b344159ac34c58bf3563af0",
+    "slug":  "u-032-ac23d2ec",
+    "title":  "贝叶斯定理直觉",
+    "summary":  "先验概率+新证据→后验概率，用面积图直观理解",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "随机性",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "概率与统计直觉",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/贝叶斯定理直觉 ac23d2ec6b344159ac34c58bf3563af0.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  32,
+                   "markdown":  "贝叶斯定理直觉 ac23d2ec6b344159ac34c58bf3563af0.md"
+               }
+}

@@ -1,0 +1,28 @@
+﻿{
+    "id":  "328967e628f94d68a8804f7fcfb14f6e",
+    "slug":  "u-158-328967e6",
+    "title":  "三十六计·空城计",
+    "summary":  "信息博弈中的反向信号：示弱可能是强的标志(信号博弈)",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "博弈"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/三十六计·空城计 328967e628f94d68a8804f7fcfb14f6e.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  158,
+                   "markdown":  "三十六计·空城计 328967e628f94d68a8804f7fcfb14f6e.md"
+               }
+}

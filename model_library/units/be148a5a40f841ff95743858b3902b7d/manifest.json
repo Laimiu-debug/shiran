@@ -1,0 +1,28 @@
+﻿{
+    "id":  "be148a5a40f841ff95743858b3902b7d",
+    "slug":  "u-199-be148a5a",
+    "title":  "马尔可夫链与文本生成",
+    "summary":  "基于前文概率的词语生成，GPT的最简化原理",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化",
+                       "随机性"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/马尔可夫链与文本生成 be148a5a40f841ff95743858b3902b7d.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  199,
+                   "markdown":  "马尔可夫链与文本生成 be148a5a40f841ff95743858b3902b7d.md"
+               }
+}

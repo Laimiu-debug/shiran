@@ -1,0 +1,28 @@
+﻿{
+    "id":  "e26d9cfadf0148e59581af7b19876b52",
+    "slug":  "u-159-e26d9cfa",
+    "title":  "三十六计·苦肉计",
+    "summary":  "以自我牺牲为信号建立信任，信号发送成本与可信度",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "博弈"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/三十六计·苦肉计 e26d9cfadf0148e59581af7b19876b52.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  159,
+                   "markdown":  "三十六计·苦肉计 e26d9cfadf0148e59581af7b19876b52.md"
+               }
+}

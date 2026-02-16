@@ -1,0 +1,28 @@
+﻿{
+    "id":  "01a70ce6da34467a8939a2488d79bed2",
+    "slug":  "u-168-01a70ce6",
+    "title":  "反身比例要数定理",
+    "summary":  "随机数据中以数字1开头的概率约30%而非1/9，违反直觉",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性",
+                       "随机性"
+                   ],
+    "category_legacy":  "数学趣题",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/反身比例要数定理 01a70ce6da34467a8939a2488d79bed2.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  168,
+                   "markdown":  "反身比例要数定理 01a70ce6da34467a8939a2488d79bed2.md"
+               }
+}

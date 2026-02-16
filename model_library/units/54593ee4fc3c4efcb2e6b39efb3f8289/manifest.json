@@ -1,0 +1,27 @@
+﻿{
+    "id":  "54593ee4fc3c4efcb2e6b39efb3f8289",
+    "slug":  "u-142-54593ee4",
+    "title":  "彩色混合(加色vs减色)",
+    "summary":  "光混合(加色RGB)与颜料混合(减色CMY)规则相反",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "时空与尺度",
+                       "非线性"
+                   ],
+    "category_legacy":  "艺术与数学",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/彩色混合(加色vs减色) 54593ee4fc3c4efcb2e6b39efb3f8289.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  142,
+                   "markdown":  "彩色混合(加色vs减色) 54593ee4fc3c4efcb2e6b39efb3f8289.md"
+               }
+}

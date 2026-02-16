@@ -1,0 +1,27 @@
+﻿{
+    "id":  "560e6bf7a1764744976dc5ff757e4cc6",
+    "slug":  "u-012-560e6bf7",
+    "title":  "洛伦兹吸引子",
+    "summary":  "三个耦合微分方程产生蝴蝶形混沌吸引子",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "非线性",
+                       "反馈"
+                   ],
+    "category_legacy":  "混沌与非线性",
+    "level":  "A级",
+    "duration_min":  10,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/洛伦兹吸引子 560e6bf7a1764744976dc5ff757e4cc6.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "oscillator",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  12,
+                   "markdown":  "洛伦兹吸引子 560e6bf7a1764744976dc5ff757e4cc6.md"
+               }
+}

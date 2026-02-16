@@ -1,0 +1,28 @@
+﻿{
+    "id":  "0f2de673573e47719b03cc58a1f00a59",
+    "slug":  "u-066-0f2de673",
+    "title":  "三十六计·反间计",
+    "summary":  "利用敌方间谍传递虚假信息，信息污染导致决策错误",
+    "scene":  "文化与思想实验",
+    "mechanisms":  [
+                       "策略与风险",
+                       "平衡与稳定",
+                       "编码与信息"
+                   ],
+    "category_legacy":  "中华智慧",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/三十六计·反间计 0f2de673573e47719b03cc58a1f00a59.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  66,
+                   "markdown":  "三十六计·反间计 0f2de673573e47719b03cc58a1f00a59.md"
+               }
+}

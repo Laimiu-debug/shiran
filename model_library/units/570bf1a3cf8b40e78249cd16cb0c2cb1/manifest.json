@@ -1,0 +1,28 @@
+﻿{
+    "id":  "570bf1a3cf8b40e78249cd16cb0c2cb1",
+    "slug":  "u-193-570bf1a3",
+    "title":  "热传导与温度平衡",
+    "summary":  "热量从高温向低温流动直到均匀，熵增的直觉演示",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度",
+                       "编码与信息"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/热传导与温度平衡 570bf1a3cf8b40e78249cd16cb0c2cb1.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  193,
+                   "markdown":  "热传导与温度平衡 570bf1a3cf8b40e78249cd16cb0c2cb1.md"
+               }
+}

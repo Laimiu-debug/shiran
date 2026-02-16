@@ -1,0 +1,27 @@
+﻿{
+    "id":  "02897738b15c4546944765e60e68bd12",
+    "slug":  "u-113-02897738",
+    "title":  "香农通信模型",
+    "summary":  "信源→编码→信道(噪声)→解码→信宿，噪声信道容量有上限",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/香农通信模型 02897738b15c4546944765e60e68bd12.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  113,
+                   "markdown":  "香农通信模型 02897738b15c4546944765e60e68bd12.md"
+               }
+}

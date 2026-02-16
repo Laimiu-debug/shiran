@@ -1,0 +1,27 @@
+﻿{
+    "id":  "ba344df1d85742a7add27f5e44bd46ab",
+    "slug":  "u-039-ba344df1",
+    "title":  "轨道力学(引力弹弓)",
+    "summary":  "利用行星引力加速探测器，不消耗燃料获得速度增益",
+    "scene":  "自然与物理",
+    "mechanisms":  [
+                       "平衡与稳定",
+                       "时空与尺度"
+                   ],
+    "category_legacy":  "物理模拟",
+    "level":  "S级",
+    "duration_min":  18,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/轨道力学(引力弹弓) ba344df1d85742a7add27f5e44bd46ab.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "stable",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  39,
+                   "markdown":  "轨道力学(引力弹弓) ba344df1d85742a7add27f5e44bd46ab.md"
+               }
+}

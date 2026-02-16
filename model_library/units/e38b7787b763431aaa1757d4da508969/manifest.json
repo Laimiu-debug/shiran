@@ -1,0 +1,27 @@
+﻿{
+    "id":  "e38b7787b763431aaa1757d4da508969",
+    "slug":  "u-112-e38b7787",
+    "title":  "信息压缩(RLE/LZ)",
+    "summary":  "利用数据中的重复模式减少存储量",
+    "scene":  "数学与计算",
+    "mechanisms":  [
+                       "编码与信息",
+                       "优化"
+                   ],
+    "category_legacy":  "信息论与编码",
+    "level":  "B级",
+    "duration_min":  6,
+    "status":  "draft",
+    "entry":  {
+                  "content":  "../../ExportBlock/信息压缩(RLE LZ) e38b7787b763431aaa1757d4da508969.md",
+                  "simulation":  "./simulation.ts"
+              },
+    "cluster_profile":  {
+                            "seed_pattern":  "random",
+                            "seed_weight":  1
+                        },
+    "source":  {
+                   "seq":  112,
+                   "markdown":  "信息压缩(RLE LZ) e38b7787b763431aaa1757d4da508969.md"
+               }
+}
