@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>Shiran RSS Direct OK</title>
+    <dateCreated>2026-02-16T10:46:48.484Z</dateCreated>
+  </head>
+  <body>
+    <outline text="Feeds" title="Feeds">
+      <outline type="rss" text="bernsteinbear.com" title="bernsteinbear.com" xmlUrl="https://bernsteinbear.com/feed.xml" htmlUrl="https://bernsteinbear.com/feed.xml"/>
+      <outline type="rss" text="bogdanthegeek.github.io" title="bogdanthegeek.github.io" xmlUrl="https://bogdanthegeek.github.io/blog/index.xml" htmlUrl="https://bogdanthegeek.github.io/blog/index.xml"/>
+      <outline type="rss" text="borretti.me" title="borretti.me" xmlUrl="https://borretti.me/feed.xml" htmlUrl="https://borretti.me/feed.xml"/>
+      <outline type="rss" text="brutecat.com" title="brutecat.com" xmlUrl="https://brutecat.com/rss.xml" htmlUrl="https://brutecat.com/rss.xml"/>
+      <outline type="rss" text="computer.rip" title="computer.rip" xmlUrl="https://computer.rip/rss.xml" htmlUrl="https://computer.rip/rss.xml"/>
+      <outline type="rss" text="danielchasehooper.com" title="danielchasehooper.com" xmlUrl="https://danielchasehooper.com/feed.xml" htmlUrl="https://danielchasehooper.com/feed.xml"/>
+      <outline type="rss" text="danieldelaney.net" title="danieldelaney.net" xmlUrl="https://danieldelaney.net/feed" htmlUrl="https://danieldelaney.net/feed"/>
+      <outline type="rss" text="danielwirtz.com" title="danielwirtz.com" xmlUrl="https://danielwirtz.com/rss.xml" htmlUrl="https://danielwirtz.com/rss.xml"/>
+      <outline type="rss" text="devblogs.microsoft.com/oldnewthing" title="devblogs.microsoft.com/oldnewthing" xmlUrl="https://devblogs.microsoft.com/oldnewthing/feed" htmlUrl="https://devblogs.microsoft.com/oldnewthing/feed"/>
+      <outline type="rss" text="dynomight.net" title="dynomight.net" xmlUrl="https://dynomight.net/feed.xml" htmlUrl="https://dynomight.net/feed.xml"/>
+      <outline type="rss" text="ericmigi.com" title="ericmigi.com" xmlUrl="https://ericmigi.com/rss.xml" htmlUrl="https://ericmigi.com/rss.xml"/>
+      <outline type="rss" text="geohot.github.io" title="geohot.github.io" xmlUrl="https://geohot.github.io/blog/feed.xml" htmlUrl="https://geohot.github.io/blog/feed.xml"/>
+      <outline type="rss" text="hey.paris" title="hey.paris" xmlUrl="https://hey.paris/index.xml" htmlUrl="https://hey.paris/index.xml"/>
+      <outline type="rss" text="jayd.ml" title="jayd.ml" xmlUrl="https://jayd.ml/feed.xml" htmlUrl="https://jayd.ml/feed.xml"/>
+      <outline type="rss" text="jyn.dev" title="jyn.dev" xmlUrl="https://jyn.dev/atom.xml" htmlUrl="https://jyn.dev/atom.xml"/>
+      <outline type="rss" text="lucumr.pocoo.org" title="lucumr.pocoo.org" xmlUrl="https://lucumr.pocoo.org/feed.atom" htmlUrl="https://lucumr.pocoo.org/feed.atom"/>
+      <outline type="rss" text="martinalderson.com" title="martinalderson.com" xmlUrl="https://martinalderson.com/feed.xml" htmlUrl="https://martinalderson.com/feed.xml"/>
+      <outline type="rss" text="matklad.github.io" title="matklad.github.io" xmlUrl="https://matklad.github.io/feed.xml" htmlUrl="https://matklad.github.io/feed.xml"/>
+      <outline type="rss" text="minimaxir.com" title="minimaxir.com" xmlUrl="https://minimaxir.com/index.xml" htmlUrl="https://minimaxir.com/index.xml"/>
+      <outline type="rss" text="mitchellh.com" title="mitchellh.com" xmlUrl="https://mitchellh.com/feed.xml" htmlUrl="https://mitchellh.com/feed.xml"/>
+      <outline type="rss" text="nesbitt.io" title="nesbitt.io" xmlUrl="https://nesbitt.io/feed.xml" htmlUrl="https://nesbitt.io/feed.xml"/>
+      <outline type="rss" text="overreacted.io" title="overreacted.io" xmlUrl="https://overreacted.io/rss.xml" htmlUrl="https://overreacted.io/rss.xml"/>
+      <outline type="rss" text="philiplaine.com" title="philiplaine.com" xmlUrl="https://philiplaine.com/index.xml" htmlUrl="https://philiplaine.com/index.xml"/>
+      <outline type="rss" text="simonwillison.net" title="simonwillison.net" xmlUrl="https://simonwillison.net/atom/everything/" htmlUrl="https://simonwillison.net/atom/everything/"/>
+      <outline type="rss" text="skyfall.dev" title="skyfall.dev" xmlUrl="https://skyfall.dev/rss.xml" htmlUrl="https://mahadk.com/rss.xml"/>
+      <outline type="rss" text="tedium.co" title="tedium.co" xmlUrl="https://feed.tedium.co/" htmlUrl="https://feed.tedium.co/"/>
+      <outline type="rss" text="tomrenner.com" title="tomrenner.com" xmlUrl="https://tomrenner.com/index.xml" htmlUrl="https://tomrenner.com/index.xml"/>
+    </outline>
+  </body>
+</opml>
