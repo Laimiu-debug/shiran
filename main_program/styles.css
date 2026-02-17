@@ -195,6 +195,15 @@ label.zoom-control {
   place-items: center;
 }
 
+.top-controls .lang-btn {
+  min-width: 48px;
+  height: 38px;
+  padding: 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  font-weight: 650;
+}
+
 .speed-control {
   min-width: 222px;
   border: 1px solid var(--line-0);

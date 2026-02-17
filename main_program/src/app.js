@@ -30,6 +30,8 @@ const APP_SETTINGS_KEY = "shiran.home.settings.v2";
 const SAVED_POOL_KEY = "shiran.home.saved.pool.v1";
 const LOCAL_VISIT_FALLBACK_KEY = "shiran.home.visit.local.fallback.v1";
 const VISIT_COUNTER_ENDPOINT = "/api/visits";
+const APP_LANGUAGE_KEY = "shiran.home.language.v1";
+const DEFAULT_LANGUAGE = "zh";
 const OVERVIEW_MODE_CORE = "core";
 const OVERVIEW_MODE_DAILY = "daily";
 const OVERVIEW_MODE_MIXED = "mixed";
@@ -42,6 +44,341 @@ const MAX_SAVED_POOL_SIZE = 600;
 const CONTENT_MODAL_SCALE_MIN = 0.8;
 const CONTENT_MODAL_SCALE_MAX = 1.8;
 const CONTENT_MODAL_SCALE_STEP = 0.1;
+const SUPPORTED_LANGUAGES = new Set(["zh", "en"]);
+
+const SCENE_LABELS_EN = {
+  "日常决策": "Daily Decisions",
+  "社会与群体": "Society and Groups",
+  "市场与系统": "Markets and Systems",
+  "自然与物理": "Nature and Physics",
+  "数学与计算": "Math and Computing",
+  "文化与思想实验": "Culture and Thought Experiments",
+};
+
+const I18N = {
+  zh: {
+    appTitle: "Shiran Main Program - 生命游戏首页",
+    canvasAria: "生命游戏画布",
+    brandPanelAria: "首页标题",
+    brandSlogan: "世然 Shiran · 好奇心的交互实验场",
+    brandTitle: "生命游戏导航系统",
+    brandTip: "理解世界的底层原理，从一个活细胞开始。",
+    brandTipMini: "点击活细胞进入模块，滚轮缩放/拖拽平移，单格放大到超过屏幕后自动下潜。",
+    toolbarAria: "首页控件",
+    speedLabel: "演化节奏",
+    speedInputAria: "演化速度（毫秒）",
+    zoomLabel: "画布缩放",
+    zoomInputAria: "画布缩放百分比",
+    resetView: "视图复位",
+    legend: "图例",
+    fullscreenEnter: "进入全屏",
+    fullscreenExit: "退出全屏",
+    overviewOpen: "打开全览",
+    settingsOpen: "打开设置",
+    langToggleAria: "切换语言",
+    legendPanelAria: "场景图例",
+    legendTitle: "场景图例",
+    rssColorLegendTitle: "RSS 源颜色图例",
+    noRssSource: "暂无 RSS 源",
+    highContrast: "高对比模式（色弱友好）",
+    overviewDrawerAria: "探索单元全览",
+    overviewHeader: "探索单元全览",
+    closeOverviewAria: "关闭全览",
+    closeSettingsAria: "关闭设置",
+    closeModalAria: "关闭原文弹窗",
+    close: "关闭",
+    tabListAria: "全览模式",
+    tabCore: "核心模块库",
+    tabDaily: "每日新知流",
+    tabMixed: "混合",
+    tabSaved: "收藏池",
+    searchDefault: "搜索标题 / 场景 / 机制",
+    searchDaily: "搜索标题 / 来源 / 摘要",
+    searchSaved: "搜索收藏标题 / 来源 / 机制",
+    searchMixed: "搜索模块与新知",
+    savedQuickAddAria: "收藏池手动添加",
+    savedManualTitlePlaceholder: "手动标题（可选）",
+    savedManualUrlPlaceholder: "手动添加网址（https://...）",
+    savedManualAdd: "加入收藏池",
+    savedBatchOpsAria: "收藏池批量操作",
+    savedBatchSelect: "批量选择",
+    savedBatchExit: "退出批量",
+    savedSelectAll: "全选当前列表",
+    savedClearSelection: "清空选择",
+    savedDeleteSelected: "删除已选 ({count})",
+    settingsDrawerAria: "站点设置",
+    settingsHeader: "设置",
+    clickBehaviorAria: "点击行为",
+    openModeTitle: "外部链接打开方式（仅新知流）",
+    openModePreview: "弹窗预览（推荐）",
+    openModeDirect: "直接跳转网页",
+    rssConfigAria: "RSS源配置",
+    rssConfigTitle: "每日新知流 RSS 源",
+    rssImportOpml: "导入 OPML",
+    rssRefresh: "刷新",
+    rssConfigTip: "配置后用于“每日新知流”与“混合”模式，支持多源并行。部分站点需后端代理才可稳定抓取。",
+    rssNamePlaceholder: "源名称（如 少数派）",
+    rssUrlPlaceholder: "RSS URL（https://...）",
+    rssAdd: "添加源",
+    rssRecommendedAria: "推荐 RSS 源",
+    rssRecommendedTitle: "推荐位",
+    rssAddAllRecommended: "添加全部推荐",
+    rssRecommendedTip: "基于当前环境更容易直连的源，适合作为起步组合。",
+    rssManageAria: "RSS 源管理",
+    rssManageSearch: "按名称或域名搜索源",
+    rssFilterAll: "全部状态",
+    rssFilterEnabled: "仅启用",
+    rssFilterDisabled: "仅停用",
+    rssFilterDirect: "前端可直连",
+    rssFilterProxy: "需代理",
+    rssFilterUnavailable: "不可用",
+    rssFilterUnknown: "待检测",
+    rssEnableFiltered: "启用当前筛选",
+    rssDisableFiltered: "停用当前筛选",
+    rssDeleteFiltered: "删除当前筛选",
+    rssLegendTip: "RSS 源颜色图例",
+    rssReset: "恢复默认源",
+    openApiAria: "开放API",
+    openApiTitle: "开放 API（V1）",
+    openApiTip: "第三方模块接入可遵循统一契约，后续可升级到投稿审核流。",
+    donateAria: "打赏支持",
+    donateTitle: "支持世然",
+    donateTip: "如果这个站点对你有帮助，你可以赞助它持续迭代。",
+    donateButton: "请我喝杯咖啡",
+    previewDefaultTitle: "模块占位符",
+    previewDefaultBody: "点击活细胞后，这里展示模块信息。",
+    statusInitializing: "初始化中...",
+    contentModalAria: "原文弹窗",
+    contentModalTitle: "原文",
+    contentModalZoomAria: "弹窗缩放",
+    contentModalZoomOutAria: "缩小弹窗",
+    contentModalZoomResetAria: "重置弹窗缩放",
+    contentModalZoomInAria: "放大弹窗",
+    contentModalSaveAria: "收藏当前细胞",
+    contentModalSave: "收藏细胞",
+    contentModalSaveEnabledTitle: "把当前细胞加入收藏池",
+    contentModalSaveDisabledTitle: "当前弹窗内容无法关联到细胞",
+    loading: "加载中...",
+    hintAria: "首次引导",
+    hintTitle: "轻引导",
+    hintP1: "点击任意活细胞，即可进入对应探索模块。",
+    hintP2: "滚轮可缩放，按住拖拽可查看局部细节。",
+    hintP3: "当单个像素放大到超过屏幕后，会平滑进入下一层画布。",
+    hintP4: "任意画布继续缩小到最小以下，会平滑上浮到另一画布。",
+    hintP5: "后续不再展示，你可以自由探索。",
+    hintStart: "开始探索",
+    visitLoading: "全站访问：加载中...",
+    visitGlobal: "全站访问：{pageViews} · 独立访客：{uniqueVisitors}",
+    visitLocal: "本地访问：{count}（全站统计暂不可用）",
+    statusLine: "画布 L{layer} · 循环 {cycle} · 来源 {source} · 活跃模块 {active} · 第 {generation} 代 · 节奏 {pace} · 视图 {zoom}%",
+    modeCore: "核心模块库",
+    modeDaily: "每日新知流",
+    modeSaved: "收藏池",
+    modeMixed: "混合",
+    rssMeta: "显示 {shown}/{total} · 启用 {enabled} · 可直连 {direct} · 需代理 {proxy} · 不可用 {unavailable} · 待检测 {unknown}",
+    rssNoConfig: "暂无 RSS 源，点击上方输入框添加。",
+    rssNoMatch: "当前筛选没有匹配的源。",
+    unnamedSource: "未命名源",
+    delete: "删除",
+    unknownTime: "未知时间",
+    uncategorized: "未分类",
+    unnamedEntry: "未命名条目",
+    selectSavedAria: "选择此收藏",
+    removeFromSavedTitle: "从收藏池删除",
+    overviewMetaDaily: "{mode} · 共 {count} 条{cap} · {tail}",
+    overviewMetaBasic: "{mode} · 共 {count} 条{cap}",
+    overviewMetaLoading: "正在更新 RSS...",
+    overviewMetaWaiting: "等待首次加载",
+    overviewMetaUpdated: "更新于 {updatedAt}{errorText}",
+    overviewMetaErrorText: "，失败源 {count}",
+    overviewMetaCap: "，显示前 {count} 条",
+    overviewEmptyLoadingDaily: "正在拉取每日新知流，请稍候...",
+    overviewEmptyDaily: "当前没有可展示的新知条目，请先在设置里配置并启用 RSS 源。",
+    overviewEmptySaved: "收藏池为空。先点击画布里的细胞，再点“保存这个细胞到收藏池”。",
+    overviewEmptyNoMatch: "没有匹配结果，试试更短的关键词。",
+    add: "添加",
+    added: "已添加",
+    fullscreenUnsupported: "当前环境不支持全屏或被浏览器拦截",
+    speedToast: "演化速度 {pace}",
+    sourceSwitched: "画布来源已切换为{mode}",
+    resetViewDone: "视图已重置",
+    openFailedRetry: "打开失败，请稍后重试",
+    savedDeleteFailed: "删除失败：未找到该收藏",
+    savedDeleted: "已删除收藏：{title}",
+    modelLoadFailed: "模型索引加载失败，请检查本地服务路径",
+    rssStatusDirect: "可直连",
+    rssStatusProxy: "需代理",
+    rssStatusUnavailable: "不可用",
+    rssStatusUnknown: "待检测",
+    rssReasonInvalidUrl: "URL 非法",
+    rssReasonHttpRestricted: "HTTP 源在 HTTPS 页面会受限",
+    rssReasonDirectRestricted: "当前前端直连受限",
+    rssReasonWaitingCheck: "等待刷新检测",
+    rssReasonSourceDisabled: "源已停用",
+    langButton: "EN",
+  },
+  en: {
+    appTitle: "Shiran Main Program - Conway Home",
+    canvasAria: "Game of Life Canvas",
+    brandPanelAria: "Home Title",
+    brandSlogan: "Shiran - Interactive Playground for Curiosity",
+    brandTitle: "Conway Navigation System",
+    brandTip: "Understand core principles of the world, starting from one living cell.",
+    brandTipMini: "Click live cells to open modules. Wheel to zoom, drag to pan, and dive deeper when one cell exceeds the viewport.",
+    toolbarAria: "Home Controls",
+    speedLabel: "Evolution Pace",
+    speedInputAria: "Evolution speed in milliseconds",
+    zoomLabel: "Canvas Zoom",
+    zoomInputAria: "Canvas zoom percent",
+    resetView: "Reset View",
+    legend: "Legend",
+    fullscreenEnter: "Enter fullscreen",
+    fullscreenExit: "Exit fullscreen",
+    overviewOpen: "Open overview",
+    settingsOpen: "Open settings",
+    langToggleAria: "Switch language",
+    legendPanelAria: "Scene legend",
+    legendTitle: "Scene Legend",
+    rssColorLegendTitle: "RSS Source Color Legend",
+    noRssSource: "No RSS sources yet",
+    highContrast: "High contrast mode (color-blind friendly)",
+    overviewDrawerAria: "Explore units overview",
+    overviewHeader: "Explore Units",
+    closeOverviewAria: "Close overview",
+    closeSettingsAria: "Close settings",
+    closeModalAria: "Close source modal",
+    close: "Close",
+    tabListAria: "Overview mode",
+    tabCore: "Core Library",
+    tabDaily: "Daily Feed",
+    tabMixed: "Mixed",
+    tabSaved: "Saved Pool",
+    searchDefault: "Search title / scene / mechanism",
+    searchDaily: "Search title / source / summary",
+    searchSaved: "Search saved title / source / mechanism",
+    searchMixed: "Search modules and feeds",
+    savedQuickAddAria: "Manual add to saved pool",
+    savedManualTitlePlaceholder: "Manual title (optional)",
+    savedManualUrlPlaceholder: "Manual URL (https://...)",
+    savedManualAdd: "Add to Saved Pool",
+    savedBatchOpsAria: "Saved pool batch operations",
+    savedBatchSelect: "Batch Select",
+    savedBatchExit: "Exit Batch",
+    savedSelectAll: "Select All (Current List)",
+    savedClearSelection: "Clear Selection",
+    savedDeleteSelected: "Delete Selected ({count})",
+    settingsDrawerAria: "Site settings",
+    settingsHeader: "Settings",
+    clickBehaviorAria: "Click behavior",
+    openModeTitle: "External Link Behavior (Daily Feed)",
+    openModePreview: "Preview in modal (recommended)",
+    openModeDirect: "Open webpage directly",
+    rssConfigAria: "RSS config",
+    rssConfigTitle: "Daily Feed RSS Sources",
+    rssImportOpml: "Import OPML",
+    rssRefresh: "Refresh",
+    rssConfigTip: "Used by Daily Feed and Mixed mode. Multi-source fetch is supported; some sites may require a backend proxy.",
+    rssNamePlaceholder: "Source name (e.g. Sspai)",
+    rssUrlPlaceholder: "RSS URL (https://...)",
+    rssAdd: "Add Source",
+    rssRecommendedAria: "Recommended RSS sources",
+    rssRecommendedTitle: "Recommended",
+    rssAddAllRecommended: "Add All Recommended",
+    rssRecommendedTip: "Starter sources that are usually easier to fetch directly in this environment.",
+    rssManageAria: "RSS source manager",
+    rssManageSearch: "Search by name or domain",
+    rssFilterAll: "All statuses",
+    rssFilterEnabled: "Enabled only",
+    rssFilterDisabled: "Disabled only",
+    rssFilterDirect: "Direct fetch",
+    rssFilterProxy: "Proxy required",
+    rssFilterUnavailable: "Unavailable",
+    rssFilterUnknown: "Unchecked",
+    rssEnableFiltered: "Enable Filtered",
+    rssDisableFiltered: "Disable Filtered",
+    rssDeleteFiltered: "Delete Filtered",
+    rssLegendTip: "RSS source color legend",
+    rssReset: "Restore Default Sources",
+    openApiAria: "Open API",
+    openApiTitle: "Open API (V1)",
+    openApiTip: "Third-party modules can integrate through this contract and later evolve to submission review.",
+    donateAria: "Support",
+    donateTitle: "Support Shiran",
+    donateTip: "If this site helps you, consider supporting ongoing iterations.",
+    donateButton: "Buy me a coffee",
+    previewDefaultTitle: "Module Placeholder",
+    previewDefaultBody: "After clicking a live cell, module details appear here.",
+    statusInitializing: "Initializing...",
+    contentModalAria: "Source modal",
+    contentModalTitle: "Source",
+    contentModalZoomAria: "Modal zoom",
+    contentModalZoomOutAria: "Zoom out modal",
+    contentModalZoomResetAria: "Reset modal zoom",
+    contentModalZoomInAria: "Zoom in modal",
+    contentModalSaveAria: "Save current cell",
+    contentModalSave: "Save Cell",
+    contentModalSaveEnabledTitle: "Add current cell to saved pool",
+    contentModalSaveDisabledTitle: "Current modal content is not linked to a cell",
+    loading: "Loading...",
+    hintAria: "First-time guide",
+    hintTitle: "Quick Guide",
+    hintP1: "Click any live cell to open the related exploration module.",
+    hintP2: "Use mouse wheel to zoom and drag to pan around.",
+    hintP3: "When a single cell grows larger than the viewport, you smoothly dive into a deeper layer.",
+    hintP4: "If you keep zooming out below minimum, you float back to another layer.",
+    hintP5: "This guide appears once only. Explore freely.",
+    hintStart: "Start Exploring",
+    visitLoading: "Global visits: loading...",
+    visitGlobal: "Global visits: {pageViews} · Unique visitors: {uniqueVisitors}",
+    visitLocal: "Local visits: {count} (global counter unavailable)",
+    statusLine: "Canvas L{layer} · Cycle {cycle} · Source {source} · Active {active} · Gen {generation} · Pace {pace} · View {zoom}%",
+    modeCore: "Core Library",
+    modeDaily: "Daily Feed",
+    modeSaved: "Saved Pool",
+    modeMixed: "Mixed",
+    rssMeta: "Showing {shown}/{total} · Enabled {enabled} · Direct {direct} · Proxy {proxy} · Unavailable {unavailable} · Unchecked {unknown}",
+    rssNoConfig: "No RSS sources yet. Add one from the input above.",
+    rssNoMatch: "No sources match the current filter.",
+    unnamedSource: "Unnamed source",
+    delete: "Delete",
+    unknownTime: "Unknown time",
+    uncategorized: "Uncategorized",
+    unnamedEntry: "Untitled entry",
+    selectSavedAria: "Select this saved item",
+    removeFromSavedTitle: "Remove from saved pool",
+    overviewMetaDaily: "{mode} · {count} items{cap} · {tail}",
+    overviewMetaBasic: "{mode} · {count} items{cap}",
+    overviewMetaLoading: "Updating RSS...",
+    overviewMetaWaiting: "Waiting for first load",
+    overviewMetaUpdated: "Updated at {updatedAt}{errorText}",
+    overviewMetaErrorText: ", failed sources {count}",
+    overviewMetaCap: ", showing first {count}",
+    overviewEmptyLoadingDaily: "Fetching daily feed, please wait...",
+    overviewEmptyDaily: "No feed items available yet. Configure and enable RSS sources in settings.",
+    overviewEmptySaved: "Saved pool is empty. Click a cell on canvas and then save it.",
+    overviewEmptyNoMatch: "No match found. Try a shorter keyword.",
+    add: "Add",
+    added: "Added",
+    fullscreenUnsupported: "Fullscreen is unavailable or blocked in this environment",
+    speedToast: "Pace {pace}",
+    sourceSwitched: "Canvas source switched to {mode}",
+    resetViewDone: "View reset",
+    openFailedRetry: "Failed to open. Please try again later.",
+    savedDeleteFailed: "Delete failed: item not found",
+    savedDeleted: "Deleted: {title}",
+    modelLoadFailed: "Failed to load model index. Please check local service path.",
+    rssStatusDirect: "Direct",
+    rssStatusProxy: "Proxy",
+    rssStatusUnavailable: "Unavailable",
+    rssStatusUnknown: "Unchecked",
+    rssReasonInvalidUrl: "Invalid URL",
+    rssReasonHttpRestricted: "HTTP source is restricted on HTTPS pages",
+    rssReasonDirectRestricted: "Direct frontend fetch is restricted",
+    rssReasonWaitingCheck: "Waiting for refresh check",
+    rssReasonSourceDisabled: "Source is disabled",
+    langButton: "中",
+  },
+};
 
 const RSS_SOURCE_PRESET_COLORS = [
   "#56c8ff", "#74d27f", "#ffc15a", "#ff8c42", "#f65d6d", "#4f7cff", "#c46ee8", "#33c6b4",
@@ -71,13 +408,6 @@ const RECOMMENDED_RSS_SOURCES = [
   { name: "minimaxir.com", url: "https://minimaxir.com/index.xml" },
 ];
 
-const RSS_STATUS_LABEL = {
-  direct_ok: "可直连",
-  proxy_needed: "需代理",
-  unavailable: "不可用",
-  unknown: "待检测",
-};
-
 // These hosts are known to block browser-side direct fetch in this deployment style.
 const NO_DIRECT_FETCH_HOSTS = new Set([
   "www.ifanr.com",
@@ -85,6 +415,7 @@ const NO_DIRECT_FETCH_HOSTS = new Set([
 ]);
 
 const state = {
+  lang: DEFAULT_LANGUAGE,
   canvas: null,
   ctx: null,
   width: 0,
@@ -123,7 +454,7 @@ const state = {
   layerSlot: 0,
   layerCycle: 0,
   layerSeedHint: null,
-  overviewMode: OVERVIEW_MODE_MIXED,
+  overviewMode: OVERVIEW_MODE_DAILY,
   savedPool: [],
   savedBatchMode: false,
   savedSelection: new Set(),
@@ -170,6 +501,7 @@ const ui = {
   fullscreenBtn: document.getElementById("btnFullscreen"),
   overviewBtn: document.getElementById("btnOverview"),
   settingsBtn: document.getElementById("btnSettings"),
+  langToggleBtn: document.getElementById("btnLangToggle"),
   topControls: document.getElementById("topControls"),
   brandPanel: document.getElementById("brandPanel"),
   visitCounter: document.getElementById("visitCounter"),
@@ -234,6 +566,306 @@ const ui = {
   toast: document.getElementById("toast"),
 };
 
+function normalizeLanguage(input) {
+  const candidate = String(input || "").trim().toLowerCase();
+  if (!candidate) return DEFAULT_LANGUAGE;
+  if (candidate.startsWith("en")) return "en";
+  if (candidate.startsWith("zh")) return "zh";
+  return DEFAULT_LANGUAGE;
+}
+
+function getCurrentLocale() {
+  return state.lang === "en" ? "en-US" : "zh-CN";
+}
+
+function t(key, vars = {}) {
+  const table = I18N[state.lang] || I18N.zh;
+  const fallback = I18N.zh || {};
+  const template = String(table[key] ?? fallback[key] ?? key);
+  return template.replace(/\{([a-zA-Z0-9_]+)\}/g, (_match, k) => {
+    if (!(k in vars)) return "";
+    return String(vars[k]);
+  });
+}
+
+function setTextContent(target, text) {
+  if (!target) return;
+  target.textContent = text;
+}
+
+function setAriaLabel(target, text) {
+  if (!target) return;
+  target.setAttribute("aria-label", text);
+}
+
+function loadAppLanguage() {
+  try {
+    const search = new URLSearchParams(window.location.search);
+    const queryLang = normalizeLanguage(search.get("lang"));
+    if (SUPPORTED_LANGUAGES.has(queryLang) && search.get("lang")) {
+      return queryLang;
+    }
+  } catch (_err) {
+    // ignore query parse errors
+  }
+
+  try {
+    const stored = normalizeLanguage(localStorage.getItem(APP_LANGUAGE_KEY));
+    if (SUPPORTED_LANGUAGES.has(stored) && localStorage.getItem(APP_LANGUAGE_KEY)) {
+      return stored;
+    }
+  } catch (_err) {
+    // ignore storage errors
+  }
+
+  const htmlLang = normalizeLanguage(document.documentElement.lang || "");
+  if (SUPPORTED_LANGUAGES.has(htmlLang)) return htmlLang;
+  return DEFAULT_LANGUAGE;
+}
+
+function saveAppLanguage(lang) {
+  try {
+    localStorage.setItem(APP_LANGUAGE_KEY, String(lang));
+  } catch (_err) {
+    // ignore storage errors
+  }
+}
+
+function syncLanguageToUrl(lang) {
+  try {
+    const current = new URL(window.location.href);
+    if (lang === "en") current.searchParams.set("lang", "en");
+    else current.searchParams.delete("lang");
+    window.history.replaceState(null, "", current.toString());
+  } catch (_err) {
+    // ignore URL update failures
+  }
+}
+
+function getOverviewSearchPlaceholder(mode = state.overviewMode) {
+  if (mode === OVERVIEW_MODE_DAILY) return t("searchDaily");
+  if (mode === OVERVIEW_MODE_SAVED) return t("searchSaved");
+  if (mode === OVERVIEW_MODE_MIXED) return t("searchMixed");
+  return t("searchDefault");
+}
+
+function syncOverviewSearchPlaceholder() {
+  if (!ui.searchInput) return;
+  ui.searchInput.placeholder = getOverviewSearchPlaceholder();
+}
+
+function getSceneLabel(scene) {
+  if (state.lang !== "en") return scene;
+  return SCENE_LABELS_EN[scene] || scene;
+}
+
+function getRssStatusLabel(classification) {
+  if (classification === "direct_ok") return t("rssStatusDirect");
+  if (classification === "proxy_needed") return t("rssStatusProxy");
+  if (classification === "unavailable") return t("rssStatusUnavailable");
+  return t("rssStatusUnknown");
+}
+
+function applyStaticLanguage() {
+  const root = document;
+  document.documentElement.lang = state.lang === "en" ? "en" : "zh-CN";
+  document.title = t("appTitle");
+
+  if (state.canvas) setAriaLabel(state.canvas, t("canvasAria"));
+  if (ui.brandPanel) {
+    setAriaLabel(ui.brandPanel, t("brandPanelAria"));
+    const slogan = ui.brandPanel.querySelector(".brand-slogan");
+    const heading = ui.brandPanel.querySelector("h1");
+    const tips = ui.brandPanel.querySelectorAll(".brand-tip");
+    setTextContent(slogan, t("brandSlogan"));
+    setTextContent(heading, t("brandTitle"));
+    if (tips[0]) setTextContent(tips[0], t("brandTip"));
+    if (tips[1]) setTextContent(tips[1], t("brandTipMini"));
+  }
+
+  if (ui.topControls) setAriaLabel(ui.topControls, t("toolbarAria"));
+  const speedLabel = root.querySelector(".speed-control .speed-label");
+  const zoomLabel = root.querySelector(".zoom-control .speed-label");
+  setTextContent(speedLabel, t("speedLabel"));
+  setTextContent(zoomLabel, t("zoomLabel"));
+  if (ui.speedInput) setAriaLabel(ui.speedInput, t("speedInputAria"));
+  if (ui.zoomInput) setAriaLabel(ui.zoomInput, t("zoomInputAria"));
+  setTextContent(ui.resetViewBtn, t("resetView"));
+  setTextContent(ui.legendBtn, t("legend"));
+  if (ui.overviewBtn) {
+    setAriaLabel(ui.overviewBtn, t("overviewOpen"));
+    ui.overviewBtn.title = t("overviewOpen");
+  }
+  if (ui.settingsBtn) {
+    setAriaLabel(ui.settingsBtn, t("settingsOpen"));
+    ui.settingsBtn.title = t("settingsOpen");
+  }
+  if (ui.langToggleBtn) {
+    setTextContent(ui.langToggleBtn, t("langButton"));
+    setAriaLabel(ui.langToggleBtn, t("langToggleAria"));
+    ui.langToggleBtn.title = t("langToggleAria");
+  }
+
+  if (ui.legendPanel) {
+    setAriaLabel(ui.legendPanel, t("legendPanelAria"));
+    setTextContent(ui.legendPanel.querySelector("h3"), t("legendTitle"));
+    setTextContent(ui.legendPanel.querySelector(".legend-subtitle"), t("rssColorLegendTitle"));
+    setTextContent(ui.legendPanel.querySelector(".toggle-row span"), t("highContrast"));
+  }
+
+  if (ui.overviewDrawer) setAriaLabel(ui.overviewDrawer, t("overviewDrawerAria"));
+  setTextContent(ui.overviewDrawer?.querySelector(".drawer-header h3"), t("overviewHeader"));
+  setTextContent(ui.overviewClose, t("close"));
+  if (ui.overviewClose) setAriaLabel(ui.overviewClose, t("closeOverviewAria"));
+  setAriaLabel(root.querySelector(".drawer-tabs"), t("tabListAria"));
+  setTextContent(ui.tabCore, t("tabCore"));
+  setTextContent(ui.tabDaily, t("tabDaily"));
+  setTextContent(ui.tabMixed, t("tabMixed"));
+  setTextContent(ui.tabSaved, t("tabSaved"));
+  syncOverviewSearchPlaceholder();
+
+  if (ui.savedQuickAdd) setAriaLabel(ui.savedQuickAdd, t("savedQuickAddAria"));
+  if (ui.savedManualTitle) ui.savedManualTitle.placeholder = t("savedManualTitlePlaceholder");
+  if (ui.savedManualUrl) ui.savedManualUrl.placeholder = t("savedManualUrlPlaceholder");
+  setTextContent(ui.savedManualAddBtn, t("savedManualAdd"));
+  const batchOps = root.querySelector(".saved-batch-ops");
+  if (batchOps) setAriaLabel(batchOps, t("savedBatchOpsAria"));
+  setTextContent(ui.savedSelectAllBtn, t("savedSelectAll"));
+  setTextContent(ui.savedClearSelectionBtn, t("savedClearSelection"));
+
+  if (ui.settingsDrawer) setAriaLabel(ui.settingsDrawer, t("settingsDrawerAria"));
+  setTextContent(ui.settingsDrawer?.querySelector(".drawer-header h3"), t("settingsHeader"));
+  setTextContent(ui.settingsClose, t("close"));
+  if (ui.settingsClose) setAriaLabel(ui.settingsClose, t("closeSettingsAria"));
+
+  const settingsSections = root.querySelectorAll(".settings-section");
+  const behaviorSection = settingsSections[0];
+  if (behaviorSection) {
+    setAriaLabel(behaviorSection, t("clickBehaviorAria"));
+    setTextContent(behaviorSection.querySelector("h4"), t("openModeTitle"));
+    const rows = behaviorSection.querySelectorAll(".radio-row span");
+    if (rows[0]) setTextContent(rows[0], t("openModePreview"));
+    if (rows[1]) setTextContent(rows[1], t("openModeDirect"));
+  }
+
+  const rssSection = settingsSections[1];
+  if (rssSection) {
+    setAriaLabel(rssSection, t("rssConfigAria"));
+    setTextContent(rssSection.querySelector(".settings-heading h4"), t("rssConfigTitle"));
+    setTextContent(ui.rssOpmlBtn, t("rssImportOpml"));
+    setTextContent(ui.rssReloadBtn, t("rssRefresh"));
+    const sectionTips = rssSection.querySelectorAll(".section-tip");
+    if (sectionTips[0]) setTextContent(sectionTips[0], t("rssConfigTip"));
+    if (sectionTips[1]) setTextContent(sectionTips[1], t("rssRecommendedTip"));
+    if (sectionTips[2]) setTextContent(sectionTips[2], t("rssLegendTip"));
+    if (ui.rssNameInput) ui.rssNameInput.placeholder = t("rssNamePlaceholder");
+    if (ui.rssUrlInput) ui.rssUrlInput.placeholder = t("rssUrlPlaceholder");
+    setTextContent(ui.rssAddBtn, t("rssAdd"));
+    const recPanel = rssSection.querySelector(".rss-recommended-panel");
+    if (recPanel) setAriaLabel(recPanel, t("rssRecommendedAria"));
+    setTextContent(rssSection.querySelector(".rss-manage-heading h5"), t("rssRecommendedTitle"));
+    setTextContent(ui.rssAddRecommendedBtn, t("rssAddAllRecommended"));
+    const managePanel = rssSection.querySelector(".rss-manage-panel");
+    if (managePanel) setAriaLabel(managePanel, t("rssManageAria"));
+    if (ui.rssManageSearchInput) ui.rssManageSearchInput.placeholder = t("rssManageSearch");
+    if (ui.rssManageFilter) {
+      const map = {
+        all: "rssFilterAll",
+        enabled: "rssFilterEnabled",
+        disabled: "rssFilterDisabled",
+        direct_ok: "rssFilterDirect",
+        proxy_needed: "rssFilterProxy",
+        unavailable: "rssFilterUnavailable",
+        unknown: "rssFilterUnknown",
+      };
+      Object.entries(map).forEach(([value, key]) => {
+        const option = ui.rssManageFilter.querySelector(`option[value="${value}"]`);
+        setTextContent(option, t(key));
+      });
+    }
+    setTextContent(ui.rssEnableFilteredBtn, t("rssEnableFiltered"));
+    setTextContent(ui.rssDisableFilteredBtn, t("rssDisableFiltered"));
+    setTextContent(ui.rssDeleteFilteredBtn, t("rssDeleteFiltered"));
+    setTextContent(ui.rssResetBtn, t("rssReset"));
+  }
+
+  const apiSection = settingsSections[2];
+  if (apiSection) {
+    setAriaLabel(apiSection, t("openApiAria"));
+    setTextContent(apiSection.querySelector("h4"), t("openApiTitle"));
+    setTextContent(apiSection.querySelector(".section-tip"), t("openApiTip"));
+  }
+
+  const donateSection = settingsSections[3];
+  if (donateSection) {
+    setAriaLabel(donateSection, t("donateAria"));
+    setTextContent(donateSection.querySelector("h4"), t("donateTitle"));
+    setTextContent(donateSection.querySelector(".section-tip"), t("donateTip"));
+    setTextContent(root.getElementById("donateLink"), t("donateButton"));
+  }
+
+  if (!state.previewContext && ui.unitPreviewTitle && ui.unitPreviewBody) {
+    ui.unitPreviewTitle.textContent = t("previewDefaultTitle");
+    ui.unitPreviewBody.innerHTML = `<p>${t("previewDefaultBody")}</p>`;
+  }
+
+  if (!state.engine && ui.statusText) {
+    ui.statusText.textContent = t("statusInitializing");
+  }
+
+  if (ui.contentModalPanel) setAriaLabel(ui.contentModalPanel, t("contentModalAria"));
+  if (!isContentModalOpen()) {
+    setTextContent(ui.contentModalTitle, t("contentModalTitle"));
+    if (ui.contentModalBody) ui.contentModalBody.innerHTML = `<p>${t("loading")}</p>`;
+  }
+  const zoomGroup = root.querySelector(".content-modal-zoom-controls");
+  if (zoomGroup) setAriaLabel(zoomGroup, t("contentModalZoomAria"));
+  if (ui.contentModalZoomOut) setAriaLabel(ui.contentModalZoomOut, t("contentModalZoomOutAria"));
+  if (ui.contentModalZoomReset) setAriaLabel(ui.contentModalZoomReset, t("contentModalZoomResetAria"));
+  if (ui.contentModalZoomIn) setAriaLabel(ui.contentModalZoomIn, t("contentModalZoomInAria"));
+  if (ui.contentModalSave) {
+    setAriaLabel(ui.contentModalSave, t("contentModalSaveAria"));
+    setTextContent(ui.contentModalSave, t("contentModalSave"));
+  }
+  if (ui.contentModalClose) {
+    setAriaLabel(ui.contentModalClose, t("closeModalAria"));
+    setTextContent(ui.contentModalClose, t("close"));
+  }
+
+  if (ui.hintLayer) setAriaLabel(ui.hintLayer, t("hintAria"));
+  const hintCard = root.querySelector(".hint-card");
+  if (hintCard) {
+    setTextContent(hintCard.querySelector("h2"), t("hintTitle"));
+    const paragraphs = hintCard.querySelectorAll("p");
+    if (paragraphs[0]) setTextContent(paragraphs[0], t("hintP1"));
+    if (paragraphs[1]) setTextContent(paragraphs[1], t("hintP2"));
+    if (paragraphs[2]) setTextContent(paragraphs[2], t("hintP3"));
+    if (paragraphs[3]) setTextContent(paragraphs[3], t("hintP4"));
+    if (paragraphs[4]) setTextContent(paragraphs[4], t("hintP5"));
+  }
+  setTextContent(ui.hintDismiss, t("hintStart"));
+}
+
+function setAppLanguage(lang, { persist = true, syncUrl = true, refreshCounter = true } = {}) {
+  const next = normalizeLanguage(lang);
+  if (!SUPPORTED_LANGUAGES.has(next)) return;
+  state.lang = next;
+  if (persist) saveAppLanguage(next);
+  if (syncUrl) syncLanguageToUrl(next);
+
+  applyStaticLanguage();
+  updateFullscreenUi();
+  syncOverviewSearchPlaceholder();
+  syncSavedBatchUi();
+  renderLegendPanel();
+  renderRssSourceList();
+  renderOverviewList();
+  if (state.engine) updateStatusText();
+  if (refreshCounter) {
+    void syncVisitCounter({ increment: false });
+  }
+}
+
 function showToast(text) {
   ui.toast.textContent = text;
   ui.toast.classList.add("visible");
@@ -295,8 +927,8 @@ function bindAutoHideCards() {
 function updateFullscreenUi() {
   const active = !!document.fullscreenElement;
   ui.fullscreenBtn.textContent = active ? "🗗" : "⛶";
-  ui.fullscreenBtn.setAttribute("aria-label", active ? "退出全屏" : "进入全屏");
-  ui.fullscreenBtn.title = active ? "退出全屏" : "进入全屏";
+  ui.fullscreenBtn.setAttribute("aria-label", active ? t("fullscreenExit") : t("fullscreenEnter"));
+  ui.fullscreenBtn.title = active ? t("fullscreenExit") : t("fullscreenEnter");
 }
 
 async function toggleFullscreen() {
@@ -307,7 +939,7 @@ async function toggleFullscreen() {
       await document.exitFullscreen();
     }
   } catch (_err) {
-    showToast("当前环境不支持全屏或被浏览器拦截");
+    showToast(t("fullscreenUnsupported"));
   } finally {
     updateFullscreenUi();
   }
@@ -321,7 +953,7 @@ function adjustSpeedByKeyboard(direction) {
   const before = state.generationMs;
   setGenerationMs(next);
   if (state.generationMs === before) return;
-  showToast(`演化速度 ${formatGenerationMs(state.generationMs)}`);
+  showToast(t("speedToast", { pace: formatGenerationMs(state.generationMs) }));
   eventTracker("canvas_speed_change", {
     generation_ms: state.generationMs,
     source: "keyboard_arrow",
@@ -362,7 +994,7 @@ function cloneDefaultRssSources() {
 }
 
 function normalizeRssSource(raw, fallbackIndex = 0) {
-  const name = String(raw?.name || "").trim() || `RSS源 ${fallbackIndex + 1}`;
+  const name = String(raw?.name || "").trim() || `RSS ${fallbackIndex + 1}`;
   const url = normalizePath(String(raw?.url || "").trim());
   const enabled = raw?.enabled !== false;
   const baseId = raw?.id ? String(raw.id) : `${name}|${url}|${fallbackIndex}`;
@@ -407,7 +1039,7 @@ function saveAppSettings() {
 function formatVisitCount(value) {
   const n = Number(value);
   if (!Number.isFinite(n) || n < 0) return "0";
-  return Math.floor(n).toLocaleString("zh-CN");
+  return Math.floor(n).toLocaleString(getCurrentLocale());
 }
 
 function bumpLocalVisitFallbackCounter() {
@@ -429,19 +1061,17 @@ function renderVisitCounterText(text) {
   ui.visitCounter.textContent = text;
 }
 
-async function syncVisitCounter() {
+async function syncVisitCounter({ increment = true } = {}) {
   if (!ui.visitCounter) return;
-  renderVisitCounterText("全站访问：加载中...");
+  renderVisitCounterText(t("visitLoading"));
 
   try {
     const res = await fetch(VISIT_COUNTER_ENDPOINT, {
-      method: "POST",
+      method: increment ? "POST" : "GET",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({
-        path: window.location.pathname,
-      }),
+      body: increment ? JSON.stringify({ path: window.location.pathname }) : undefined,
       cache: "no-store",
       keepalive: true,
     });
@@ -455,11 +1085,14 @@ async function syncVisitCounter() {
     const uniqueVisitors = Number(payload?.uniqueVisitors || 0);
 
     renderVisitCounterText(
-      `全站访问：${formatVisitCount(pageViews)} · 独立访客：${formatVisitCount(uniqueVisitors)}`,
+      t("visitGlobal", {
+        pageViews: formatVisitCount(pageViews),
+        uniqueVisitors: formatVisitCount(uniqueVisitors),
+      }),
     );
   } catch (_err) {
     const fallback = bumpLocalVisitFallbackCounter();
-    renderVisitCounterText(`本地访问：${formatVisitCount(fallback)}（全站统计暂不可用）`);
+    renderVisitCounterText(t("visitLocal", { count: formatVisitCount(fallback) }));
   }
 }
 
@@ -634,8 +1267,10 @@ function syncSavedBatchUi() {
   const selectedCount = state.savedSelection.size;
   const visibleCount = Array.isArray(state.savedVisibleIds) ? state.savedVisibleIds.length : 0;
 
-  ui.savedBatchToggleBtn.textContent = batchMode ? "退出批量" : "批量选择";
-  ui.savedDeleteSelectedBtn.textContent = `删除已选 (${selectedCount})`;
+  ui.savedBatchToggleBtn.textContent = batchMode ? t("savedBatchExit") : t("savedBatchSelect");
+  ui.savedDeleteSelectedBtn.textContent = t("savedDeleteSelected", { count: selectedCount });
+  ui.savedSelectAllBtn.textContent = t("savedSelectAll");
+  ui.savedClearSelectionBtn.textContent = t("savedClearSelection");
 
   ui.savedBatchToggleBtn.disabled = !inSavedMode;
   ui.savedSelectAllBtn.disabled = !batchMode || visibleCount === 0;
@@ -723,7 +1358,7 @@ function isContentModalOpen() {
 function closeContentModal() {
   ui.contentModal.classList.remove("open");
   ui.contentModal.setAttribute("aria-hidden", "true");
-  ui.contentModalBody.innerHTML = "<p>加载中...</p>";
+  ui.contentModalBody.innerHTML = `<p>${t("loading")}</p>`;
   ui.contentModalBody.classList.remove("is-iframe-mode", "is-text-mode");
   state.contentModalContext = null;
   syncContentModalSaveButton();
@@ -780,7 +1415,7 @@ function syncContentModalSaveButton() {
   if (!ui.contentModalSave) return;
   const enabled = !!state.contentModalContext;
   ui.contentModalSave.disabled = !enabled;
-  ui.contentModalSave.title = enabled ? "把当前细胞加入收藏池" : "当前弹窗内容无法关联到细胞";
+  ui.contentModalSave.title = enabled ? t("contentModalSaveEnabledTitle") : t("contentModalSaveDisabledTitle");
 }
 
 function syncContentModalScaleUi() {
@@ -849,17 +1484,9 @@ function setOverviewMode(mode) {
   const prevMode = state.overviewMode;
   const next = [OVERVIEW_MODE_CORE, OVERVIEW_MODE_DAILY, OVERVIEW_MODE_MIXED, OVERVIEW_MODE_SAVED].includes(mode)
     ? mode
-    : OVERVIEW_MODE_MIXED;
+    : OVERVIEW_MODE_DAILY;
   state.overviewMode = next;
-  if (next === OVERVIEW_MODE_DAILY) {
-    ui.searchInput.placeholder = "搜索标题 / 来源 / 摘要";
-  } else if (next === OVERVIEW_MODE_SAVED) {
-    ui.searchInput.placeholder = "搜索收藏标题 / 来源 / 机制";
-  } else if (next === OVERVIEW_MODE_MIXED) {
-    ui.searchInput.placeholder = "搜索模块与新知";
-  } else {
-    ui.searchInput.placeholder = "搜索标题 / 场景 / 机制";
-  }
+  ui.searchInput.placeholder = getOverviewSearchPlaceholder(next);
   if (next !== OVERVIEW_MODE_SAVED && state.savedBatchMode) {
     state.savedBatchMode = false;
     state.savedSelection.clear();
@@ -871,7 +1498,7 @@ function setOverviewMode(mode) {
   // Keep canvas source in sync with overview source mode.
   if (state.engine && prevMode !== next) {
     buildEngineAndSeed();
-    showToast(`画布来源已切换为${getOverviewModeLabel(next)}`);
+    showToast(t("sourceSwitched", { mode: getOverviewModeLabel(next) }));
   }
 }
 
@@ -2145,10 +2772,10 @@ function buildSavedOverviewItems() {
 }
 
 function getOverviewModeLabel(mode = state.overviewMode) {
-  if (mode === OVERVIEW_MODE_CORE) return "核心模块库";
-  if (mode === OVERVIEW_MODE_DAILY) return "每日新知流";
-  if (mode === OVERVIEW_MODE_SAVED) return "收藏池";
-  return "混合";
+  if (mode === OVERVIEW_MODE_CORE) return t("modeCore");
+  if (mode === OVERVIEW_MODE_DAILY) return t("modeDaily");
+  if (mode === OVERVIEW_MODE_SAVED) return t("modeSaved");
+  return t("modeMixed");
 }
 
 function getOverviewItemsByMode() {
@@ -2454,7 +3081,15 @@ function buildEngineAndSeed() {
 
 function updateStatusText() {
   const visible = state.activeUnits.length;
-  ui.statusText.textContent = `画布 L${getLayerDepth()} · 循环 ${state.layerCycle} · 来源 ${getOverviewModeLabel()} · 活跃模块 ${visible} · 第 ${state.generationIndex} 代 · 节奏 ${formatGenerationMs(state.generationMs)} · 视图 ${Math.round(state.zoom * 100)}%`;
+  ui.statusText.textContent = t("statusLine", {
+    layer: getLayerDepth(),
+    cycle: state.layerCycle,
+    source: getOverviewModeLabel(),
+    active: visible,
+    generation: state.generationIndex,
+    pace: formatGenerationMs(state.generationMs),
+    zoom: Math.round(state.zoom * 100),
+  });
 }
 
 function drawBackground(ts) {
@@ -2732,7 +3367,7 @@ function openModelUnit(unit, source = "canvas") {
   if (!unit) return;
 
   const targetUrl = resolveUnitTargetUrl(unit);
-  const sourceLabel = source.startsWith("overview") ? getOverviewModeLabel() : "核心模块库";
+  const sourceLabel = source.startsWith("overview") ? getOverviewModeLabel() : t("modeCore");
   renderUnitPreview(unit, sourceLabel);
   revealCardsAndSchedule();
   showToast(`进入模块：${unit.title}`);
@@ -3041,7 +3676,7 @@ function renderRssColorLegend() {
 
   if (!seedItems || seedItems.length === 0) {
     for (let i = 0; i < targets.length; i += 1) {
-      targets[i].innerHTML = `<div class="overview-empty">暂无 RSS 源</div>`;
+      targets[i].innerHTML = `<div class="overview-empty">${t("noRssSource")}</div>`;
     }
     return;
   }
@@ -3056,7 +3691,7 @@ function renderRssColorLegend() {
     }
   }
   const pairs = [...labelMap.entries()];
-  pairs.sort((a, b) => String(a[1]).localeCompare(String(b[1]), "zh-CN"));
+  pairs.sort((a, b) => String(a[1]).localeCompare(String(b[1]), getCurrentLocale()));
 
   const markup = pairs
     .map(([key, name]) => {
@@ -3071,7 +3706,7 @@ function renderRssColorLegend() {
 
 function renderLegendPanel() {
   const rows = Object.entries(SCENE_COLORS)
-    .map(([scene, color]) => `<div class="legend-row"><span class="dot" style="background:${color}"></span><span>${scene}</span></div>`)
+    .map(([scene, color]) => `<div class="legend-row"><span class="dot" style="background:${color}"></span><span>${getSceneLabel(scene)}</span></div>`)
     .join("");
 
   ui.legendPanel.querySelector(".legend-content").innerHTML = rows;
@@ -3103,13 +3738,29 @@ function renderOverviewList() {
 
   const modeLabel = getOverviewModeLabel();
   const updatedAt = formatDateTime(state.dailyFeed.updatedAt);
-  const loadingText = state.dailyFeed.loading ? "正在更新 RSS..." : "";
-  const errorText = state.dailyFeed.errors.length > 0 ? `，失败源 ${state.dailyFeed.errors.length}` : "";
-  const capText = list.length > visibleList.length ? `，显示前 ${visibleList.length} 条` : "";
+  const loadingText = state.dailyFeed.loading ? t("overviewMetaLoading") : "";
+  const errorText = state.dailyFeed.errors.length > 0
+    ? t("overviewMetaErrorText", { count: state.dailyFeed.errors.length })
+    : "";
+  const capText = list.length > visibleList.length
+    ? t("overviewMetaCap", { count: visibleList.length })
+    : "";
   if (state.overviewMode === OVERVIEW_MODE_DAILY || state.overviewMode === OVERVIEW_MODE_MIXED) {
-    ui.overviewMeta.textContent = `${modeLabel} · 共 ${list.length} 条${capText} · ${loadingText || (updatedAt ? `更新于 ${updatedAt}${errorText}` : "等待首次加载")}`;
+    const tail = loadingText || (updatedAt
+      ? t("overviewMetaUpdated", { updatedAt, errorText })
+      : t("overviewMetaWaiting"));
+    ui.overviewMeta.textContent = t("overviewMetaDaily", {
+      mode: modeLabel,
+      count: list.length,
+      cap: capText,
+      tail,
+    });
   } else {
-    ui.overviewMeta.textContent = `${modeLabel} · 共 ${list.length} 条${capText}`;
+    ui.overviewMeta.textContent = t("overviewMetaBasic", {
+      mode: modeLabel,
+      count: list.length,
+      cap: capText,
+    });
   }
 
   ui.overviewList.innerHTML = "";
@@ -3117,13 +3768,13 @@ function renderOverviewList() {
     const empty = document.createElement("div");
     empty.className = "overview-empty";
     if (state.overviewMode === OVERVIEW_MODE_DAILY && state.dailyFeed.loading) {
-      empty.textContent = "正在拉取每日新知流，请稍候...";
+      empty.textContent = t("overviewEmptyLoadingDaily");
     } else if (state.overviewMode === OVERVIEW_MODE_DAILY) {
-      empty.textContent = "当前没有可展示的新知条目，请先在设置里配置并启用 RSS 源。";
+      empty.textContent = t("overviewEmptyDaily");
     } else if (state.overviewMode === OVERVIEW_MODE_SAVED) {
-      empty.textContent = "收藏池为空。先点击画布里的细胞，再点“保存这个细胞到收藏池”。";
+      empty.textContent = t("overviewEmptySaved");
     } else {
-      empty.textContent = "没有匹配结果，试试更短的关键词。";
+      empty.textContent = t("overviewEmptyNoMatch");
     }
     ui.overviewList.appendChild(empty);
     syncSavedBatchUi();
@@ -3145,8 +3796,8 @@ function renderOverviewList() {
       : (type === "core" ? "pill-core" : (isDaily ? "pill-daily" : "pill-mixed"));
     const timeValue = formatDateTime(item.publishedAt || item.savedAt);
     const sub = isDaily
-      ? `${item.sourceName || "RSS"} · ${timeValue || "未知时间"}`
-      : `${item.scene || "未分类"} · ${formatMechanisms(item.mechanisms)}`;
+      ? `${item.sourceName || "RSS"} · ${timeValue || t("unknownTime")}`
+      : `${getSceneLabel(item.scene || t("uncategorized"))} · ${formatMechanisms(item.mechanisms)}`;
     const summary = shortText(item.summary || "", 72);
     const modeForItem = isSaved
       ? OVERVIEW_MODE_SAVED
@@ -3155,15 +3806,15 @@ function renderOverviewList() {
       : (isDaily ? OVERVIEW_MODE_DAILY : OVERVIEW_MODE_CORE));
     const modeLabel = getOverviewModeLabel(modeForItem);
     const selectMarkup = batchMode
-      ? `<span class="overview-select"><input data-saved-select="1" type="checkbox" ${isSelected ? "checked" : ""} aria-label="选择此收藏" /></span>`
+      ? `<span class="overview-select"><input data-saved-select="1" type="checkbox" ${isSelected ? "checked" : ""} aria-label="${escapeHtml(t("selectSavedAria"))}" /></span>`
       : "";
     const removeMarkup = isSaved && !batchMode
-      ? `<span class="overview-remove" data-saved-remove="1" title="从收藏池删除">删除</span>`
+      ? `<span class="overview-remove" data-saved-remove="1" title="${escapeHtml(t("removeFromSavedTitle"))}">${escapeHtml(t("delete"))}</span>`
       : "";
     row.classList.toggle("is-batch-mode", batchMode);
     row.innerHTML = `
       ${selectMarkup}
-      <span class="overview-title">${escapeHtml(item.title || "未命名条目")}</span>
+      <span class="overview-title">${escapeHtml(item.title || t("unnamedEntry"))}</span>
       <span class="overview-sub">${escapeHtml(sub)}</span>
       <span class="overview-sub">${escapeHtml(summary)}</span>
       <span class="overview-tags">
@@ -3192,7 +3843,7 @@ function renderOverviewList() {
         ev.stopPropagation();
         const removed = removeSavedEntryById(item.savedId);
         if (!removed.removed) {
-          showToast("删除失败：未找到该收藏");
+          showToast(t("savedDeleteFailed"));
           return;
         }
         if (state.previewContext?.kind === "daily" && state.previewContext?.item?.link === item.link) {
@@ -3203,7 +3854,7 @@ function renderOverviewList() {
           syncContentModalSaveButton();
         }
         state.savedSelection.delete(String(item.savedId || ""));
-        showToast(`已删除收藏：${removed.entry?.title || "未命名条目"}`);
+        showToast(t("savedDeleted", { title: removed.entry?.title || t("unnamedEntry") }));
         renderOverviewList();
         if (state.engine && state.overviewMode === OVERVIEW_MODE_SAVED) {
           buildEngineAndSeed();
@@ -3212,7 +3863,7 @@ function renderOverviewList() {
       }
 
       openOverviewItem(item).catch(() => {
-        showToast("打开失败，请稍后重试");
+        showToast(t("openFailedRetry"));
       });
     });
     ui.overviewList.appendChild(row);
@@ -3270,7 +3921,7 @@ function getRssStatusForSource(source) {
     const hit = state.rssDiagnostics.get(sourceId);
     return {
       classification: hit.classification || "unknown",
-      label: RSS_STATUS_LABEL[hit.classification] || RSS_STATUS_LABEL.unknown,
+      label: getRssStatusLabel(hit.classification || "unknown"),
       reason: hit.reason || "",
       checkedAt: hit.checkedAt || "",
       itemCount: Number(hit.itemCount || 0),
@@ -3281,8 +3932,8 @@ function getRssStatusForSource(source) {
   if (!isHttpUrl(url)) {
     return {
       classification: "unavailable",
-      label: RSS_STATUS_LABEL.unavailable,
-      reason: "URL 非法",
+      label: getRssStatusLabel("unavailable"),
+      reason: t("rssReasonInvalidUrl"),
       checkedAt: "",
       itemCount: 0,
     };
@@ -3297,8 +3948,8 @@ function getRssStatusForSource(source) {
   if (protocol && protocol !== "https:") {
     return {
       classification: "proxy_needed",
-      label: RSS_STATUS_LABEL.proxy_needed,
-      reason: "HTTP 源在 HTTPS 页面会受限",
+      label: getRssStatusLabel("proxy_needed"),
+      reason: t("rssReasonHttpRestricted"),
       checkedAt: "",
       itemCount: 0,
     };
@@ -3307,8 +3958,8 @@ function getRssStatusForSource(source) {
   if (!canFetchSourceDirectly(source)) {
     return {
       classification: "proxy_needed",
-      label: RSS_STATUS_LABEL.proxy_needed,
-      reason: "当前前端直连受限",
+      label: getRssStatusLabel("proxy_needed"),
+      reason: t("rssReasonDirectRestricted"),
       checkedAt: "",
       itemCount: 0,
     };
@@ -3316,8 +3967,8 @@ function getRssStatusForSource(source) {
 
   return {
     classification: "unknown",
-    label: RSS_STATUS_LABEL.unknown,
-    reason: source?.enabled ? "等待刷新检测" : "源已停用",
+    label: getRssStatusLabel("unknown"),
+    reason: source?.enabled ? t("rssReasonWaitingCheck") : t("rssReasonSourceDisabled"),
     checkedAt: "",
     itemCount: 0,
   };
@@ -3361,7 +4012,7 @@ function renderRssRecommendedList() {
   if (recommended.length === 0) {
     const empty = document.createElement("div");
     empty.className = "overview-empty";
-    empty.textContent = "暂无推荐源";
+    empty.textContent = t("noRssSource");
     ui.rssRecommendedList.appendChild(empty);
     if (ui.rssAddRecommendedBtn) ui.rssAddRecommendedBtn.disabled = true;
     return;
@@ -3379,10 +4030,10 @@ function renderRssRecommendedList() {
     row.className = "rss-recommended-item";
     row.innerHTML = `
       <div class="rss-recommended-main">
-        <span class="rss-recommended-name">${escapeHtml(source.name || host || "未命名源")}</span>
+        <span class="rss-recommended-name">${escapeHtml(source.name || host || t("unnamedSource"))}</span>
         <span class="rss-recommended-url">${escapeHtml(host || source.url)}</span>
       </div>
-      <button type="button" class="mini-btn" ${added ? "disabled" : ""}>${added ? "已添加" : "添加"}</button>
+      <button type="button" class="mini-btn" ${added ? "disabled" : ""}>${added ? t("added") : t("add")}</button>
     `;
     const addBtn = row.querySelector("button");
     addBtn.addEventListener("click", async () => {
@@ -3392,7 +4043,7 @@ function renderRssRecommendedList() {
       renderRssSourceList();
       renderRssColorLegend();
       await reloadDailyFeed({ silent: true });
-      showToast(`已添加推荐源：${source.name}`);
+      showToast(`${t("rssAddAllRecommended")}: ${source.name}`);
     });
     ui.rssRecommendedList.appendChild(row);
   }
@@ -3423,7 +4074,15 @@ function renderRssSourceList() {
   }
 
   if (ui.rssSourceMeta) {
-    ui.rssSourceMeta.textContent = `显示 ${filtered.length}/${totalCount} · 启用 ${enabledCount} · 可直连 ${counts.direct_ok} · 需代理 ${counts.proxy_needed} · 不可用 ${counts.unavailable} · 待检测 ${counts.unknown}`;
+    ui.rssSourceMeta.textContent = t("rssMeta", {
+      shown: filtered.length,
+      total: totalCount,
+      enabled: enabledCount,
+      direct: counts.direct_ok,
+      proxy: counts.proxy_needed,
+      unavailable: counts.unavailable,
+      unknown: counts.unknown,
+    });
   }
 
   if (ui.rssEnableFilteredBtn) ui.rssEnableFilteredBtn.disabled = filtered.length === 0;
@@ -3433,7 +4092,7 @@ function renderRssSourceList() {
   if (totalCount === 0) {
     const empty = document.createElement("div");
     empty.className = "overview-empty";
-    empty.textContent = "暂无 RSS 源，点击上方输入框添加。";
+    empty.textContent = t("rssNoConfig");
     ui.rssSourceList.appendChild(empty);
     renderRssColorLegend();
     return;
@@ -3442,7 +4101,7 @@ function renderRssSourceList() {
   if (filtered.length === 0) {
     const empty = document.createElement("div");
     empty.className = "overview-empty";
-    empty.textContent = "当前筛选没有匹配的源。";
+    empty.textContent = t("rssNoMatch");
     ui.rssSourceList.appendChild(empty);
     renderRssColorLegend();
     return;
@@ -3452,7 +4111,7 @@ function renderRssSourceList() {
     const item = filtered[i];
     const source = item.source;
     const status = item.status;
-    const statusLabel = status.label || RSS_STATUS_LABEL.unknown;
+    const statusLabel = getRssStatusLabel(status.classification || "unknown");
     const statusReason = status.reason || "";
     const checkedText = status.checkedAt ? ` · ${formatDateTime(status.checkedAt)}` : "";
     const row = document.createElement("div");
@@ -3460,11 +4119,11 @@ function renderRssSourceList() {
     row.innerHTML = `
       <div class="rss-main">
         <input type="checkbox" ${source.enabled ? "checked" : ""} />
-        <span class="rss-name">${escapeHtml(source.name || "未命名源")}</span>
+        <span class="rss-name">${escapeHtml(source.name || t("unnamedSource"))}</span>
       </div>
       <div class="rss-actions">
         <span class="rss-status-pill is-${escapeHtml(status.classification || "unknown")}">${escapeHtml(statusLabel)}</span>
-        <button class="rss-delete" type="button">删除</button>
+        <button class="rss-delete" type="button">${escapeHtml(t("delete"))}</button>
       </div>
       <div class="rss-url">${escapeHtml(source.url)}</div>
       <div class="rss-status-detail">${escapeHtml(statusReason)}${escapeHtml(checkedText)}</div>
@@ -3486,7 +4145,7 @@ function renderRssSourceList() {
       saveAppSettings();
       renderRssSourceList();
       await reloadDailyFeed({ silent: true });
-      showToast(`已删除 RSS 源：${source.name}`);
+      showToast(`${t("delete")} RSS: ${source.name}`);
     });
 
     ui.rssSourceList.appendChild(row);
@@ -3519,7 +4178,7 @@ function bindUI() {
 
   ui.resetViewBtn.addEventListener("click", () => {
     resetView(false);
-    showToast("视图已重置");
+    showToast(t("resetViewDone"));
   });
 
   ui.legendBtn.addEventListener("click", () => {
@@ -3538,6 +4197,12 @@ function bindUI() {
     toggleSettings();
     eventTracker("open_settings", { open: ui.settingsDrawer.classList.contains("open") });
   });
+  if (ui.langToggleBtn) {
+    ui.langToggleBtn.addEventListener("click", () => {
+      const nextLang = state.lang === "zh" ? "en" : "zh";
+      setAppLanguage(nextLang);
+    });
+  }
 
   ui.overviewClose.addEventListener("click", closeOverview);
   ui.settingsClose.addEventListener("click", closeSettings);
@@ -4012,9 +4677,11 @@ async function init() {
   state.canvas = document.getElementById("lifeCanvas");
   state.ctx = state.canvas.getContext("2d", { alpha: false });
   state.canvas.style.cursor = "grab";
+  state.lang = loadAppLanguage();
   state.appSettings = loadAppSettings();
   state.savedPool = loadSavedPool();
-  void syncVisitCounter();
+  applyStaticLanguage();
+  void syncVisitCounter({ increment: true });
   syncSettingsFormFromState();
   syncContentModalSaveButton();
   setContentModalScale(1, { silent: true });
@@ -4039,7 +4706,7 @@ async function init() {
     });
     await reloadDailyFeed({ silent: true });
   } catch (err) {
-    showToast("模型索引加载失败，请检查本地服务路径");
+    showToast(t("modelLoadFailed"));
     // eslint-disable-next-line no-console
     console.error(err);
     return;
