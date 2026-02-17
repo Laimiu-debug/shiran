@@ -117,6 +117,17 @@ body {
   color: #9fb7d3;
 }
 
+.visit-counter {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(145, 181, 215, 0.28);
+  background: rgba(8, 18, 30, 0.54);
+  color: #d6ebff;
+  font-variant-numeric: tabular-nums;
+}
+
 .top-controls {
   display: flex;
   align-items: center;

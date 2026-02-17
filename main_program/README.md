@@ -30,3 +30,17 @@ Then open:
 - Current modules are placeholders (`status=draft`).
 - In production, homepage should filter `status=published`.
 - Telemetry currently logs to console and should later be wired to `/api/v1/events/batch`.
+
+## Global Visit Counter (Vercel)
+
+This repo now includes a server-side counter endpoint:
+
+- `GET /api/visits`: read current stats
+- `POST /api/visits`: increment page view and return latest stats
+
+Required environment variables in Vercel:
+
+- `KV_REST_API_URL`
+- `KV_REST_API_TOKEN`
+
+You can get them by creating a **Vercel KV** database and linking it to this project.

@@ -28,6 +28,8 @@ const CARD_AUTO_HIDE_DELAY_MS = 10000;
 const KEYBOARD_SPEED_STEP_MS = 80;
 const APP_SETTINGS_KEY = "shiran.home.settings.v2";
 const SAVED_POOL_KEY = "shiran.home.saved.pool.v1";
+const LOCAL_VISIT_FALLBACK_KEY = "shiran.home.visit.local.fallback.v1";
+const VISIT_COUNTER_ENDPOINT = "/api/visits";
 const OVERVIEW_MODE_CORE = "core";
 const OVERVIEW_MODE_DAILY = "daily";
 const OVERVIEW_MODE_MIXED = "mixed";
@@ -170,6 +172,7 @@ const ui = {
   settingsBtn: document.getElementById("btnSettings"),
   topControls: document.getElementById("topControls"),
   brandPanel: document.getElementById("brandPanel"),
+  visitCounter: document.getElementById("visitCounter"),
   legendPanel: document.getElementById("legendPanel"),
   overviewDrawer: document.getElementById("overviewDrawer"),
   overviewClose: document.getElementById("overviewClose"),
@@ -398,6 +401,65 @@ function saveAppSettings() {
     localStorage.setItem(APP_SETTINGS_KEY, JSON.stringify(state.appSettings));
   } catch (_err) {
     // ignore storage quota/private mode errors
+  }
+}
+
+function formatVisitCount(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n) || n < 0) return "0";
+  return Math.floor(n).toLocaleString("zh-CN");
+}
+
+function bumpLocalVisitFallbackCounter() {
+  let next = 1;
+  try {
+    const raw = localStorage.getItem(LOCAL_VISIT_FALLBACK_KEY);
+    const parsed = Number.parseInt(String(raw || "0"), 10);
+    const current = Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
+    next = current + 1;
+    localStorage.setItem(LOCAL_VISIT_FALLBACK_KEY, String(next));
+  } catch (_err) {
+    // ignore storage quota/private mode errors
+  }
+  return next;
+}
+
+function renderVisitCounterText(text) {
+  if (!ui.visitCounter) return;
+  ui.visitCounter.textContent = text;
+}
+
+async function syncVisitCounter() {
+  if (!ui.visitCounter) return;
+  renderVisitCounterText("全站访问：加载中...");
+
+  try {
+    const res = await fetch(VISIT_COUNTER_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        path: window.location.pathname,
+      }),
+      cache: "no-store",
+      keepalive: true,
+    });
+
+    if (!res.ok) {
+      throw new Error(`visit counter request failed: ${res.status}`);
+    }
+
+    const payload = await res.json();
+    const pageViews = Number(payload?.pageViews || 0);
+    const uniqueVisitors = Number(payload?.uniqueVisitors || 0);
+
+    renderVisitCounterText(
+      `全站访问：${formatVisitCount(pageViews)} · 独立访客：${formatVisitCount(uniqueVisitors)}`,
+    );
+  } catch (_err) {
+    const fallback = bumpLocalVisitFallbackCounter();
+    renderVisitCounterText(`本地访问：${formatVisitCount(fallback)}（全站统计暂不可用）`);
   }
 }
 
@@ -3952,6 +4014,7 @@ async function init() {
   state.canvas.style.cursor = "grab";
   state.appSettings = loadAppSettings();
   state.savedPool = loadSavedPool();
+  void syncVisitCounter();
   syncSettingsFormFromState();
   syncContentModalSaveButton();
   setContentModalScale(1, { silent: true });
