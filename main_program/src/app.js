@@ -158,6 +158,32 @@ const I18N = {
     contentModalSave: "收藏细胞",
     contentModalSaveEnabledTitle: "把当前细胞加入收藏池",
     contentModalSaveDisabledTitle: "当前弹窗内容无法关联到细胞",
+    previewFieldMechanisms: "机制",
+    previewFieldDescription: "说明",
+    previewOpenSource: "打开原文",
+    previewSaveCell: "保存这个细胞到收藏池",
+    dailyFeedTag: "每日新知",
+    titleModuleSource: "模块原文",
+    titleDailySource: "每日新知原文",
+    moduleSummaryPlaceholder: "模块占位符，内容待补充",
+    dailySummaryPlaceholder: "暂无摘要",
+    contentLoadingModule: "正文加载中...",
+    contentUnavailable: "暂无模块正文内容。",
+    contentEmpty: "正文为空。",
+    contentLoadFailedUseOpenSource: "正文加载失败，已展示摘要。你可以使用下方“打开原文”查看。",
+    contentModalLoadFailedNewTab: "弹窗加载失败，可尝试新页打开。",
+    contentModalFrameBlockedNewTab: "若页面拒绝嵌入，请使用新页打开。",
+    openInNewTab: "新页打开",
+    toastNoSourceUrl: "没有可打开的原文地址",
+    toastDailyLoaded: "载入新知：{title}",
+    toastDeadCellNearest: "这里是死细胞，最近活跃模块：{title}",
+    toastDailyOpened: "已打开新知：{title}",
+    toastDirectOpenFallback: "跳转失败，已回退为弹窗预览",
+    toastDailyNoLink: "该条新知暂无链接：{title}",
+    toastModalOpened: "弹窗打开：{title}",
+    toastDailyNoSourcePreview: "该条新知暂无原文链接，已展示预览",
+    toastCoreNoEmbeddableSource: "当前模块没有可嵌入的原文地址，已展示预览",
+    toastEnterModule: "进入模块：{title}",
     loading: "加载中...",
     hintAria: "首次引导",
     hintTitle: "轻引导",
@@ -319,6 +345,32 @@ const I18N = {
     contentModalSave: "Save Cell",
     contentModalSaveEnabledTitle: "Add current cell to saved pool",
     contentModalSaveDisabledTitle: "Current modal content is not linked to a cell",
+    previewFieldMechanisms: "Mechanisms",
+    previewFieldDescription: "Summary",
+    previewOpenSource: "Open Source",
+    previewSaveCell: "Save this cell to Saved Pool",
+    dailyFeedTag: "Daily Feed",
+    titleModuleSource: "Module Source",
+    titleDailySource: "Daily Feed Source",
+    moduleSummaryPlaceholder: "Module placeholder. Content coming soon.",
+    dailySummaryPlaceholder: "No summary available.",
+    contentLoadingModule: "Loading content...",
+    contentUnavailable: "No module content available.",
+    contentEmpty: "Content is empty.",
+    contentLoadFailedUseOpenSource: "Failed to load content. Summary is shown. Use \"Open Source\" below.",
+    contentModalLoadFailedNewTab: "Failed to load in modal. Try opening in a new tab.",
+    contentModalFrameBlockedNewTab: "If embedding is blocked, open it in a new tab.",
+    openInNewTab: "Open in New Tab",
+    toastNoSourceUrl: "No source URL available to open.",
+    toastDailyLoaded: "Loaded feed: {title}",
+    toastDeadCellNearest: "Dead cell here. Nearest active module: {title}",
+    toastDailyOpened: "Opened feed: {title}",
+    toastDirectOpenFallback: "Direct open failed. Switched to modal preview.",
+    toastDailyNoLink: "No link for this feed item: {title}",
+    toastModalOpened: "Modal opened: {title}",
+    toastDailyNoSourcePreview: "No source link for this feed item. Preview shown.",
+    toastCoreNoEmbeddableSource: "No embeddable source for this module. Preview shown.",
+    toastEnterModule: "Entered module: {title}",
     loading: "Loading...",
     hintAria: "First-time guide",
     hintTitle: "Quick Guide",
@@ -1646,9 +1698,9 @@ function looksLikeTextDocument(url) {
   return clean.endsWith(".md") || clean.endsWith(".txt") || clean.endsWith(".json") || clean.endsWith(".yaml") || clean.endsWith(".yml");
 }
 
-async function openContentModal(url, title = "原文", options = {}) {
+async function openContentModal(url, title = "", options = {}) {
   if (!url) {
-    showToast("没有可打开的原文地址");
+    showToast(t("toastNoSourceUrl"));
     return;
   }
 
@@ -1657,9 +1709,9 @@ async function openContentModal(url, title = "原文", options = {}) {
   syncContentModalSaveButton();
 
   const resolvedUrl = resolveFetchPath(url);
-  ui.contentModalTitle.textContent = title || "原文";
+  ui.contentModalTitle.textContent = String(title || "").trim() || t("contentModalTitle");
   ui.contentModalBody.classList.remove("is-iframe-mode", "is-text-mode");
-  ui.contentModalBody.innerHTML = "<p>加载中...</p>";
+  ui.contentModalBody.innerHTML = `<p>${escapeHtml(t("loading"))}</p>`;
   ui.contentModal.classList.add("open");
   ui.contentModal.setAttribute("aria-hidden", "false");
 
@@ -1675,8 +1727,8 @@ async function openContentModal(url, title = "原文", options = {}) {
     } catch (_err) {
       ui.contentModalBody.classList.add("is-text-mode");
       ui.contentModalBody.innerHTML = `
-        <p class="content-modal-note">弹窗加载失败，可尝试新页打开。</p>
-        <p><a class="source-open-link" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="noopener noreferrer">新页打开</a></p>
+        <p class="content-modal-note">${escapeHtml(t("contentModalLoadFailedNewTab"))}</p>
+        <p><a class="source-open-link" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("openInNewTab"))}</a></p>
       `;
       return;
     }
@@ -1688,8 +1740,8 @@ async function openContentModal(url, title = "原文", options = {}) {
       <iframe src="${escapeHtml(resolvedUrl)}" loading="lazy" referrerpolicy="no-referrer"></iframe>
     </div>
     <div class="content-modal-footer">
-      <p class="content-modal-note">若页面拒绝嵌入，请使用新页打开。</p>
-      <p><a class="source-open-link" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="noopener noreferrer">新页打开</a></p>
+      <p class="content-modal-note">${escapeHtml(t("contentModalFrameBlockedNewTab"))}</p>
+      <p><a class="source-open-link" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("openInNewTab"))}</a></p>
     </div>
   `;
 }
@@ -1700,7 +1752,7 @@ async function loadUnitBodyContent(unit, requestId) {
 
   const targetUrl = resolveUnitTargetUrl(unit);
   if (!targetUrl) {
-    contentSlot.innerHTML = "<p>暂无模块正文内容。</p>";
+    contentSlot.innerHTML = `<p>${escapeHtml(t("contentUnavailable"))}</p>`;
     return;
   }
 
@@ -1718,25 +1770,25 @@ async function loadUnitBodyContent(unit, requestId) {
     const buffer = await res.arrayBuffer();
     const decoded = decodeModuleText(buffer);
     const previewText = compactMarkdownForPreview(decoded);
-    const finalText = previewText || "正文为空。";
+    const finalText = previewText || t("contentEmpty");
     state.moduleContentCache.set(cacheKey, finalText);
     if (requestId !== state.previewRequestId) return;
     contentSlot.innerHTML = `<pre class="module-content">${escapeHtml(finalText)}</pre>`;
   } catch (_err) {
     if (requestId !== state.previewRequestId) return;
     contentSlot.innerHTML = `
-      <p>正文加载失败，已展示摘要。你可以使用下方“打开原文”查看。</p>
+      <p>${escapeHtml(t("contentLoadFailedUseOpenSource"))}</p>
     `;
   }
 }
 
-function renderUnitPreview(unit, sourceLabel = "核心模块库") {
+function renderUnitPreview(unit, sourceLabel = t("modeCore")) {
   if (!unit) return;
   const targetUrl = resolveUnitTargetUrl(unit);
   const linkMarkup = targetUrl
-    ? `<p><button type="button" class="source-open-btn inline-link-btn" data-inline-open="1" data-url="${escapeHtml(targetUrl)}" data-title="${escapeHtml(unit.title || "模块原文")}">打开原文</button></p>`
+    ? `<p><button type="button" class="source-open-btn inline-link-btn" data-inline-open="1" data-url="${escapeHtml(targetUrl)}" data-title="${escapeHtml(unit.title || t("titleModuleSource"))}">${escapeHtml(t("previewOpenSource"))}</button></p>`
     : "";
-  const saveMarkup = `<p><button type="button" class="source-open-btn preview-save-btn" data-preview-save="1">保存这个细胞到收藏池</button></p>`;
+  const saveMarkup = `<p><button type="button" class="source-open-btn preview-save-btn" data-preview-save="1">${escapeHtml(t("previewSaveCell"))}</button></p>`;
 
   state.previewContext = buildPreviewContextFromUnit(unit);
 
@@ -1744,13 +1796,13 @@ function renderUnitPreview(unit, sourceLabel = "核心模块库") {
   ui.unitPreviewBody.innerHTML = `
     <div class="preview-meta">
       <span class="preview-chip preview-chip-source">${escapeHtml(sourceLabel)}</span>
-      <span class="preview-chip">${escapeHtml(unit.scene || "未分类")}</span>
+      <span class="preview-chip">${escapeHtml(unit.scene || t("uncategorized"))}</span>
       <span class="preview-chip">${escapeHtml(unit.status || "draft")}</span>
     </div>
-    <p class="preview-line"><strong>机制：</strong>${escapeHtml(formatMechanisms(unit.mechanisms))}</p>
-    <p class="preview-line preview-summary"><strong>说明：</strong>${escapeHtml(shortText(unit.summary || "模块占位符，内容待补充", 120))}</p>
+    <p class="preview-line"><strong>${escapeHtml(t("previewFieldMechanisms"))}：</strong>${escapeHtml(formatMechanisms(unit.mechanisms))}</p>
+    <p class="preview-line preview-summary"><strong>${escapeHtml(t("previewFieldDescription"))}：</strong>${escapeHtml(shortText(unit.summary || t("moduleSummaryPlaceholder"), 120))}</p>
     <div data-module-content>
-      <p>正文加载中...</p>
+      <p>${escapeHtml(t("contentLoadingModule"))}</p>
     </div>
     ${linkMarkup}
     ${saveMarkup}
@@ -1765,20 +1817,20 @@ function renderDailyPreview(item) {
   const timeText = formatDateTime(item.publishedAt);
   const source = item.sourceName || "RSS";
   const linkMarkup = item.link
-    ? `<p><button type="button" class="source-open-btn inline-link-btn" data-inline-open="1" data-url="${escapeHtml(item.link)}" data-title="${escapeHtml(item.title || "每日新知原文")}">打开原文</button></p>`
+    ? `<p><button type="button" class="source-open-btn inline-link-btn" data-inline-open="1" data-url="${escapeHtml(item.link)}" data-title="${escapeHtml(item.title || t("titleDailySource"))}">${escapeHtml(t("previewOpenSource"))}</button></p>`
     : "";
-  const saveMarkup = `<p><button type="button" class="source-open-btn preview-save-btn" data-preview-save="1">保存这个细胞到收藏池</button></p>`;
+  const saveMarkup = `<p><button type="button" class="source-open-btn preview-save-btn" data-preview-save="1">${escapeHtml(t("previewSaveCell"))}</button></p>`;
 
   state.previewContext = buildPreviewContextFromDailyItem(item);
 
-  ui.unitPreviewTitle.textContent = item.title || "每日新知";
+  ui.unitPreviewTitle.textContent = item.title || t("dailyFeedTag");
   ui.unitPreviewBody.innerHTML = `
     <div class="preview-meta">
       <span class="preview-chip preview-chip-source">${escapeHtml(source)}</span>
       <span class="preview-chip">${escapeHtml(timeText || "未知时间")}</span>
-      <span class="preview-chip">每日新知</span>
+      <span class="preview-chip">${escapeHtml(t("dailyFeedTag"))}</span>
     </div>
-    <p class="preview-line preview-summary"><strong>说明：</strong>${escapeHtml(shortText(item.summary || "暂无摘要", 140))}</p>
+    <p class="preview-line preview-summary"><strong>${escapeHtml(t("previewFieldDescription"))}：</strong>${escapeHtml(shortText(item.summary || t("dailySummaryPlaceholder"), 140))}</p>
     ${linkMarkup}
     ${saveMarkup}
   `;
@@ -3370,7 +3422,7 @@ function openModelUnit(unit, source = "canvas") {
   const sourceLabel = source.startsWith("overview") ? getOverviewModeLabel() : t("modeCore");
   renderUnitPreview(unit, sourceLabel);
   revealCardsAndSchedule();
-  showToast(`进入模块：${unit.title}`);
+  showToast(t("toastEnterModule", { title: unit.title || t("unnamedEntry") }));
 
   eventTracker("jump_to_unit", {
     unit_id: unit.id,
@@ -3412,18 +3464,18 @@ function openDailyItem(item, source = "daily") {
   if (shouldDirectJump && link) {
     const opened = openExternalUrl(link);
     if (opened) {
-      showToast(`已打开新知：${item.title}`);
+      showToast(t("toastDailyOpened", { title: item.title || t("dailyFeedTag") }));
     } else {
       renderDailyPreview(item);
-      showToast("跳转失败，已回退为弹窗预览");
+      showToast(t("toastDirectOpenFallback"));
     }
   } else {
     renderDailyPreview(item);
     revealCardsAndSchedule();
     if (shouldDirectJump && !link) {
-      showToast(`该条新知暂无链接：${item.title}`);
+      showToast(t("toastDailyNoLink", { title: item.title || t("dailyFeedTag") }));
     } else {
-      showToast(`载入新知：${item.title}`);
+      showToast(t("toastDailyLoaded", { title: item.title || t("dailyFeedTag") }));
     }
   }
 
@@ -3440,7 +3492,7 @@ async function openUnitModalByOwner(ownerId, source = "cell_double_click") {
   const unit = state.ownerUnitMap.get(ownerId);
   if (!unit) return;
 
-  const title = unit.title || "原文";
+  const title = unit.title || t("contentModalTitle");
   if (unit.source_mode === "daily") {
     const link = unit.link || "";
     const dailyContext = buildPreviewContextFromDailyItem({
@@ -3455,7 +3507,7 @@ async function openUnitModalByOwner(ownerId, source = "cell_double_click") {
     });
     if (link) {
       await openContentModal(link, title, { context: dailyContext });
-      showToast(`弹窗打开：${title}`);
+      showToast(t("toastModalOpened", { title }));
     } else {
       openDailyItem(
         {
@@ -3468,7 +3520,7 @@ async function openUnitModalByOwner(ownerId, source = "cell_double_click") {
         },
         source,
       );
-      showToast("该条新知暂无原文链接，已展示预览");
+      showToast(t("toastDailyNoSourcePreview"));
     }
     eventTracker("open_unit_modal", {
       source,
@@ -3482,10 +3534,10 @@ async function openUnitModalByOwner(ownerId, source = "cell_double_click") {
   const targetUrl = resolveUnitTargetUrl(unit) || unit.link || "";
   if (targetUrl) {
     await openContentModal(targetUrl, title, { context: buildPreviewContextFromUnit(unit) });
-    showToast(`弹窗打开：${title}`);
+    showToast(t("toastModalOpened", { title }));
   } else {
     openModelUnit(unit, source);
-    showToast("当前模块没有可嵌入的原文地址，已展示预览");
+    showToast(t("toastCoreNoEmbeddableSource"));
   }
   eventTracker("open_unit_modal", {
     source,
@@ -3503,12 +3555,12 @@ async function openOverviewItem(item) {
   if (isDaily) {
     const link = item.link || "";
     if (link) {
-      await openContentModal(link, item.title || "每日新知原文", {
+      await openContentModal(link, item.title || t("titleDailySource"), {
         context: buildPreviewContextFromDailyItem(item),
       });
     } else {
       openDailyItem(item, "overview_daily");
-      showToast("该条新知暂无原文链接，已展示预览");
+      showToast(t("toastDailyNoSourcePreview"));
     }
     return;
   }
@@ -3517,7 +3569,7 @@ async function openOverviewItem(item) {
   if (!unit) return;
   const targetUrl = resolveUnitTargetUrl(unit) || item.link || "";
   if (targetUrl) {
-    await openContentModal(targetUrl, unit.title || item.title || "模块原文", {
+    await openContentModal(targetUrl, unit.title || item.title || t("titleModuleSource"), {
       context: buildPreviewContextFromUnit(unit),
     });
   } else {
@@ -3568,7 +3620,7 @@ function onCanvasClick(ev) {
   const fallbackOwner = nearestOwnerFromCentroid(hit.cellX, hit.cellY);
   if (fallbackOwner >= 0) {
     const unit = state.ownerUnitMap.get(fallbackOwner);
-    showToast(`这里是死细胞，最近活跃模块：${unit.title}`);
+    showToast(t("toastDeadCellNearest", { title: unit?.title || t("unnamedEntry") }));
   } else {
     showToast("当前附近无活跃模块，请稍后再试");
   }
@@ -4317,7 +4369,7 @@ function bindUI() {
     if (!trigger) return;
     e.preventDefault();
     const url = trigger.getAttribute("data-url") || "";
-    const title = trigger.getAttribute("data-title") || "原文";
+    const title = trigger.getAttribute("data-title") || t("contentModalTitle");
     await openContentModal(url, title, { context: state.previewContext });
   });
 
