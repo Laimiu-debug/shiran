@@ -43,9 +43,9 @@ body {
 
 .top-shell {
   position: fixed;
-  top: 12px;
-  left: 12px;
-  right: 12px;
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  left: calc(12px + env(safe-area-inset-left, 0px));
+  right: calc(12px + env(safe-area-inset-right, 0px));
   z-index: 22;
   display: flex;
   align-items: flex-start;
@@ -372,7 +372,7 @@ label.zoom-control {
   right: 0;
   top: 0;
   width: min(450px, 92vw);
-  height: 100vh;
+  height: 100dvh;
   z-index: 30;
   background: var(--bg-3);
   border-left: 1px solid var(--line-0);
@@ -392,7 +392,7 @@ label.zoom-control {
   right: 0;
   top: 0;
   width: min(450px, 92vw);
-  height: 100vh;
+  height: 100dvh;
   z-index: 31;
   background: var(--bg-3);
   border-left: 1px solid var(--line-0);
@@ -1069,7 +1069,7 @@ label.zoom-control {
 .unit-preview {
   position: fixed;
   right: 12px;
-  bottom: 40px;
+  bottom: calc(40px + env(safe-area-inset-bottom, 0px));
   z-index: 18;
   width: min(390px, calc(100vw - 24px));
   background: linear-gradient(160deg, rgba(18, 39, 62, 0.76), rgba(7, 16, 28, 0.9));
@@ -1108,8 +1108,8 @@ label.zoom-control {
 
 .status-text {
   position: fixed;
-  left: 14px;
-  bottom: 12px;
+  left: calc(14px + env(safe-area-inset-left, 0px));
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   z-index: 18;
   font-size: 12px;
   color: #a3c4e4;
@@ -1144,7 +1144,7 @@ label.zoom-control {
   top: 50%;
   transform: translate(-50%, -50%);
   width: min(calc(960px * var(--content-modal-scale)), calc(100vw - 24px));
-  height: min(calc(92vh * var(--content-modal-scale)), calc(100vh - 16px));
+  height: min(calc(92dvh * var(--content-modal-scale)), calc(100dvh - 16px));
   border: 1px solid var(--line-0);
   border-radius: var(--radius-lg);
   background: linear-gradient(160deg, rgba(14, 31, 50, 0.94), rgba(7, 16, 28, 0.97));
@@ -1326,7 +1326,7 @@ label.zoom-control {
 
 .toast {
   position: fixed;
-  top: 16px;
+  top: calc(16px + env(safe-area-inset-top, 0px));
   left: 50%;
   transform: translateX(-50%) translateY(-16px);
   z-index: 50;
@@ -1393,7 +1393,7 @@ label.zoom-control {
 
   .top-controls {
     width: 100%;
-    justify-content: flex-start;
+    justify-content: flex-end;
     flex-wrap: wrap;
   }
 
@@ -1422,16 +1422,59 @@ label.zoom-control {
   }
 
   .status-text {
-    bottom: 12px;
-    left: 10px;
-    max-width: calc(100vw - 20px);
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    left: calc(10px + env(safe-area-inset-left, 0px));
+    max-width: calc(100vw - 20px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 }
 
+@media (min-width: 641px) and (max-width: 1024px) {
+  .top-shell {
+    gap: 10px;
+  }
+
+  .brand-panel {
+    max-width: min(560px, calc(100vw - 300px));
+  }
+
+  .top-controls .icon-btn {
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+
+  .top-controls .lang-btn {
+    min-width: 52px;
+    height: 42px;
+  }
+
+  .overview-drawer,
+  .settings-drawer {
+    width: min(540px, 88vw);
+  }
+
+  .content-modal-panel {
+    width: min(calc(920px * var(--content-modal-scale)), calc(100vw - 20px));
+    height: min(calc(90dvh * var(--content-modal-scale)), calc(100dvh - 20px));
+  }
+
+  .content-modal-body iframe {
+    min-height: 420px;
+  }
+}
+
 @media (max-width: 640px) {
+  .top-shell {
+    top: calc(8px + env(safe-area-inset-top, 0px));
+    left: calc(8px + env(safe-area-inset-left, 0px));
+    right: calc(8px + env(safe-area-inset-right, 0px));
+    gap: 6px;
+  }
+
   .brand-panel {
     padding: 11px 12px;
   }
@@ -1445,10 +1488,28 @@ label.zoom-control {
     gap: 6px;
   }
 
+  .top-controls .icon-btn {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    font-size: 19px;
+  }
+
+  .top-controls .lang-btn {
+    min-width: 56px;
+    height: 44px;
+    font-size: 13px;
+  }
+
   .top-controls button,
   #overviewClose {
     padding: 7px 10px;
     font-size: 13px;
+  }
+
+  .floating-panel {
+    top: calc(142px + env(safe-area-inset-top, 0px));
+    max-height: min(56dvh, 430px);
   }
 
   .overview-drawer {
@@ -1459,7 +1520,114 @@ label.zoom-control {
     width: 100vw;
   }
 
+  .drawer-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .drawer-tab {
+    padding: 9px 8px;
+    font-size: 13px;
+  }
+
   .drawer-header h3 {
     font-size: 16px;
+  }
+
+  .settings-section {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .content-modal-panel {
+    width: calc(100vw - 8px);
+    height: calc(100dvh - 8px);
+    border-radius: 12px;
+  }
+
+  .content-modal-header {
+    padding: 9px 10px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .content-modal-header h3 {
+    font-size: 14px;
+  }
+
+  .content-modal-actions {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .content-modal-zoom-controls {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .content-modal-header button {
+    min-height: 38px;
+  }
+
+  .content-modal-body {
+    padding: 8px;
+  }
+
+  .content-modal-body iframe {
+    min-height: 300px;
+  }
+
+  .unit-preview {
+    left: calc(8px + env(safe-area-inset-left, 0px));
+    right: calc(8px + env(safe-area-inset-right, 0px));
+    width: auto;
+    bottom: calc(52px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .status-text {
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    left: calc(8px + env(safe-area-inset-left, 0px));
+  }
+
+  .hint-card {
+    width: calc(100vw - 16px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+    padding: 14px;
+  }
+
+  .hint-card h2 {
+    font-size: 19px;
+  }
+
+  .toast {
+    top: calc(10px + env(safe-area-inset-top, 0px));
+    width: calc(100vw - 16px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+    border-radius: 12px;
+    text-align: center;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 380px) {
+  .top-controls {
+    gap: 4px;
+  }
+
+  .top-controls .icon-btn {
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+  }
+
+  .top-controls .lang-btn {
+    min-width: 50px;
+    height: 42px;
+    font-size: 12px;
+  }
+
+  .brand-tip-mini {
+    font-size: 11px;
   }
 }
