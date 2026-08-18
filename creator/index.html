@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>世然 · 创作者投稿</title>
+    <style>
+      body { font-family: sans-serif; max-width: 760px; margin: 32px auto; padding: 0 16px; color: #102033; }
+      label { display: block; margin: 12px 0 6px; font-weight: 600; }
+      input, textarea { width: 100%; box-sizing: border-box; padding: 8px; }
+      textarea { min-height: 140px; font-family: ui-monospace, monospace; }
+      button { margin-top: 16px; padding: 10px 16px; }
+      pre { background: #f4f7fb; padding: 12px; overflow: auto; }
+      a { color: #24578a; }
+    </style>
+  </head>
+  <body>
+    <p><a href="/main_program/">返回首页</a></p>
+    <h1>创作者投稿</h1>
+    <p>提交到 <code>POST /api/v2/submissions</code>。需要已配置 Vercel KV。审核接口为 <code>POST /api/v2/submissions/{id}/review</code>。</p>
+    <form id="submitForm">
+      <label for="title">标题</label>
+      <input id="title" required maxlength="80" placeholder="探索单元标题" />
+      <label for="summary">一句话原理</label>
+      <input id="summary" required maxlength="240" placeholder="用一句话写出可带走的原理" />
+      <label for="scene">场景</label>
+      <input id="scene" required placeholder="日常决策 / 自然与物理 / ..." />
+      <label for="mechanisms">机制（逗号分隔，1-3 个）</label>
+      <input id="mechanisms" required placeholder="反馈,博弈" />
+      <label for="notes">备注</label>
+      <input id="notes" maxlength="200" placeholder="可选" />
+      <label for="simulation">simulation 源码（可选）</label>
+      <textarea id="simulation" placeholder="export function createModule(ctx) { ... }"></textarea>
+      <button type="submit">提交</button>
+    </form>
+    <pre id="result">等待提交…</pre>
+    <script>
+      const form = document.getElementById("submitForm");
+      const result = document.getElementById("result");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const title = document.getElementById("title").value.trim();
+        const slug = title.toLowerCase().replace(/\s+/g, "-").slice(0, 40) || "unit";
+        const payload = {
+          notes: document.getElementById("notes").value.trim(),
+          simulation: document.getElementById("simulation").value,
+          manifest: {
+            id: crypto.randomUUID(),
+            slug: `creator-${slug}`,
+            title,
+            summary: document.getElementById("summary").value.trim(),
+            scene: document.getElementById("scene").value.trim(),
+            mechanisms: document.getElementById("mechanisms").value.split(/[,，]/).map((s) => s.trim()).filter(Boolean).slice(0, 3),
+            category_legacy: document.getElementById("scene").value.trim(),
+            level: "B级",
+            duration_min: 8,
+            status: "review",
+          },
+        };
+        result.textContent = "提交中…";
+        try {
+          const res = await fetch("/api/v2/submissions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+          result.textContent = JSON.stringify(data, null, 2);
+        } catch (err) {
+          result.textContent = String(err);
+        }
+      });
+    </script>
+  </body>
+</html>

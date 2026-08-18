@@ -1,8 +1,2 @@
-﻿// Placeholder simulation module for ba344df1d85742a7add27f5e44bd46ab
-// Replace with real implementation when this unit is developed.
-export function initSimulation() {
-  return {
-    status: "todo",
-    unitId: "ba344df1d85742a7add27f5e44bd46ab"
-  };
-}
+// Runtime uses simulation.js. This file remains for the V1 package contract.
+export { createModule } from "./simulation.js";

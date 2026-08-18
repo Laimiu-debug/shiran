@@ -12,12 +12,14 @@
 
 ## 当前实现（V1 原型）
 
-- 生命游戏画布首页（主入口）
+- 生命游戏画布首页（主入口），缩放可循环下潜/上浮
 - 全览抽屉四种模式：`核心模块库 / 每日新知流 / 混合 / 收藏池`
 - 全览默认模式：`每日新知流`
 - 中英双语切换按钮（`中文 <-> English`）
-- RSS 源管理（添加、筛选、批量操作、OPML 导入、推荐源）
+- RSS 源管理（添加、筛选、批量操作、OPML 导入、推荐源；需代理源走 `/api/rss-proxy`）
 - 收藏池（保存、手动添加、批量删除）
+- 200 个可交互探索单元（按场景/机制套用运行时模板，点击细胞即可操作）
+- 创作者投稿：`POST /api/v2/submissions`，页面 `/creator/`
 - 全站访问计数（PV + UV）
   - 接口：`GET /api/visits`、`POST /api/visits`
   - 存储：Vercel KV（Upstash）
@@ -27,7 +29,8 @@
 
 ```text
 .
-├── api/                    # Vercel Serverless Functions（当前包含 visits 计数接口）
+├── api/                    # Vercel Serverless（visits、V1 查询、RSS 代理、创作者投稿）
+├── creator/                # 创作者投稿页
 ├── main_program/           # 首页主程序（生命游戏导航）
 ├── model_library/          # 探索单元运行时模块库
 ├── v1_foundation/          # V1 地基资产、规范、脚本与索引
@@ -41,13 +44,20 @@
 当前是静态页面 + Serverless API 的结构，前端可先本地静态启动：
 
 ```powershell
-cd SHIRAN
+cd E:\code\shiran
 python -m http.server 8787
 ```
 
 打开：
 
 - `http://localhost:8787/main_program/`
+- 投稿页：`http://localhost:8787/creator/`（API 需 Vercel / KV 才可真正提交）
+
+发布或重建 200 个探索单元：
+
+```powershell
+node scripts/publish-explore-units.mjs
+```
 
 ## 部署到 Vercel（含访问计数）
 

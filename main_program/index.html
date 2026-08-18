@@ -38,9 +38,9 @@
           <input
             id="zoomInput"
             type="range"
-            min="100"
-            max="52000"
-            step="20"
+            min="72"
+            max="6400"
+            step="8"
             value="100"
             aria-label="画布缩放百分比"
           />
@@ -172,12 +172,17 @@
       </section>
 
       <section class="settings-section" aria-label="开放API">
-        <h4>开放 API（V1）</h4>
-        <p class="section-tip">第三方模块接入可遵循统一契约，后续可升级到投稿审核流。</p>
+        <h4>开放 API</h4>
+        <p class="section-tip">第三方模块接入可遵循统一契约。创作者可通过投稿 API 提交探索单元。</p>
         <pre class="api-snippet">GET  /api/v1/units
 GET  /api/v1/units/{id_or_slug}
 GET  /api/v1/taxonomy
-POST /api/v1/events/batch</pre>
+GET  /api/v1/model-index
+POST /api/v1/events/batch
+POST /api/v2/submissions
+GET  /api/v2/submissions/{id}
+POST /api/v2/submissions/{id}/review</pre>
+        <p class="section-tip"><a href="/creator/" style="color: inherit;">打开投稿页</a></p>
       </section>
 
       <section class="settings-section" aria-label="打赏支持">

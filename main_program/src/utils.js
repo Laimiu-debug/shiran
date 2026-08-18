@@ -108,8 +108,15 @@ export function eventTracker(eventName, payload = {}) {
     ts: new Date().toISOString(),
     properties: payload,
   };
-  // V1: local console sink. Replace with /api/v1/events/batch integration.
   // eslint-disable-next-line no-console
   console.log("[telemetry]", event);
+  if (typeof fetch === "function") {
+    fetch("/api/v1/events/batch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ events: [event] }),
+      keepalive: true,
+    }).catch(() => {});
+  }
   return event;
 }

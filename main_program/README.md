@@ -17,7 +17,7 @@ This is the executable homepage main program for Shiran.
 Use any static file server from repo root. Example:
 
 ```powershell
-cd e:\Laimiu\SHIRAN
+cd e:\code\shiran
 python -m http.server 8787
 ```
 
@@ -27,9 +27,10 @@ Then open:
 
 ## Notes
 
-- Current modules are placeholders (`status=draft`).
-- In production, homepage should filter `status=published`.
-- Telemetry currently logs to console and should later be wired to `/api/v1/events/batch`.
+- Homepage modules load from `../v1_foundation/model-index.v1.json`.
+- Production prefers `status=published`; the current library is published.
+- Wheel / slider / keyboard zoom loops into child and parent layers instead of stopping at min/max.
+- Telemetry posts to `/api/v1/events/batch` and also logs to console.
 
 ## Global Visit Counter (Vercel)
 

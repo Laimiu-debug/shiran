@@ -10,7 +10,7 @@
   [string]$Level = 'B级'
 )
 
-$root = "e:\Laimiu\SHIRAN"
+$root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $unitDir = Join-Path $root ("model_library\units\{0}" -f $UnitId)
 
 if (Test-Path -LiteralPath $unitDir) {

@@ -27,6 +27,6 @@ To initialize modules from current snapshot data:
 
 ```powershell
 cd v1_foundation
-.\bootstrap-model-library.v1.ps1 -Root 'e:\Laimiu\SHIRAN'
-.\build-model-index.v1.ps1 -Root 'e:\Laimiu\SHIRAN'
+.\bootstrap-model-library.v1.ps1
+.\build-model-index.v1.ps1
 ```

@@ -1,5 +1,6 @@
 ﻿import { LifeEngine } from "./life-engine.js";
 import { loadModelIndex } from "./model-loader.js";
+import { disposeUnitSimulation, mountUnitSimulation } from "./module-host.js";
 import {
   ONBOARDING_KEY,
   normalizePath,
@@ -20,10 +21,11 @@ import {
 const ZOOM_STEP_FACTOR = 1.12;
 const CHILD_PREVIEW_START_RATIO = 0.68;
 const CHILD_ENTRY_SCREEN_RATIO = 1.08;
-const PARENT_ENTRY_ZOOM = 1.001;
-const LAYER_TRANSITION_STYLE = "instant";
-const LAYER_TRANSITION_DURATION_MS = 920;
-const LAYER_TRANSITION_SWAP_RATIO = 0.5;
+const PARENT_ENTRY_ZOOM = 0.995;
+const LAYER_TRANSITION_STYLE = "smooth";
+const LAYER_TRANSITION_DURATION_MS = 720;
+const LAYER_TRANSITION_SWAP_RATIO = 0.48;
+const ZOOM_SLIDER_MIN_PERCENT = 72;
 const CARD_AUTO_HIDE_DELAY_MS = 10000;
 const KEYBOARD_SPEED_STEP_MS = 80;
 const APP_SETTINGS_KEY = "shiran.home.settings.v2";
@@ -139,8 +141,9 @@ const I18N = {
     rssLegendTip: "RSS 源颜色图例",
     rssReset: "恢复默认源",
     openApiAria: "开放API",
-    openApiTitle: "开放 API（V1）",
-    openApiTip: "第三方模块接入可遵循统一契约，后续可升级到投稿审核流。",
+    openApiTitle: "开放 API",
+    openApiTip: "第三方模块接入可遵循统一契约。创作者可通过投稿 API 提交探索单元。",
+    openApiSnippet: "GET  /api/v1/units\nGET  /api/v1/units/{id_or_slug}\nGET  /api/v1/taxonomy\nGET  /api/v1/model-index\nPOST /api/v1/events/batch\nPOST /api/v2/submissions\nGET  /api/v2/submissions/{id}\nPOST /api/v2/submissions/{id}/review",
     donateAria: "打赏支持",
     donateTitle: "支持世然",
     donateTip: "如果这个站点对你有帮助，你可以赞助它持续迭代。",
@@ -326,8 +329,9 @@ const I18N = {
     rssLegendTip: "RSS source color legend",
     rssReset: "Restore Default Sources",
     openApiAria: "Open API",
-    openApiTitle: "Open API (V1)",
-    openApiTip: "Third-party modules can integrate through this contract and later evolve to submission review.",
+    openApiTitle: "Open API",
+    openApiTip: "Third-party modules can integrate through this contract. Creators can submit explore units via the upload API.",
+    openApiSnippet: "GET  /api/v1/units\nGET  /api/v1/units/{id_or_slug}\nGET  /api/v1/taxonomy\nGET  /api/v1/model-index\nPOST /api/v1/events/batch\nPOST /api/v2/submissions\nGET  /api/v2/submissions/{id}\nPOST /api/v2/submissions/{id}/review",
     donateAria: "Support",
     donateTitle: "Support Shiran",
     donateTip: "If this site helps you, consider supporting ongoing iterations.",
@@ -477,7 +481,7 @@ const state = {
   rows: 0,
   zoom: 1,
   minZoom: 1,
-  maxZoom: 520,
+  maxZoom: 64,
   panX: 0,
   panY: 0,
   isDragging: false,
@@ -505,6 +509,8 @@ const state = {
   cardHideTimer: null,
   layerSlot: 0,
   layerCycle: 0,
+  layerDepth: 0,
+  pendingZoom: null,
   layerSeedHint: null,
   overviewMode: OVERVIEW_MODE_DAILY,
   savedPool: [],
@@ -846,6 +852,8 @@ function applyStaticLanguage() {
     setAriaLabel(apiSection, t("openApiAria"));
     setTextContent(apiSection.querySelector("h4"), t("openApiTitle"));
     setTextContent(apiSection.querySelector(".section-tip"), t("openApiTip"));
+    const snippet = apiSection.querySelector(".api-snippet");
+    if (snippet) snippet.textContent = t("openApiSnippet");
   }
 
   const donateSection = settingsSections[3];
@@ -1014,25 +1022,24 @@ function adjustSpeedByKeyboard(direction) {
 }
 
 function adjustZoomByKeyboard(direction) {
-  if (state.transition.active) return;
+  if (state.transition.active) {
+    applyCanvasZoom(
+      direction === "in" ? state.zoom * ZOOM_STEP_FACTOR : state.zoom / ZOOM_STEP_FACTOR,
+      state.width / 2,
+      state.height / 2,
+    );
+    return;
+  }
   const anchorX = state.width / 2;
   const anchorY = state.height / 2;
   const focus = screenToCell(anchorX, anchorY);
   state.focusCellX = focus.x;
   state.focusCellY = focus.y;
-
-  if (direction === "in") {
-    setZoom(state.zoom * ZOOM_STEP_FACTOR, anchorX, anchorY);
-    maybeAutoLayerTransition(true, anchorX, anchorY);
-  } else {
-    const rawZoom = state.zoom / ZOOM_STEP_FACTOR;
-    if (canEnterParentLayer() && rawZoom < state.minZoom * PARENT_ENTRY_ZOOM) {
-      startLayerTransition("parent", anchorX, anchorY);
-    } else {
-      setZoom(rawZoom, anchorX, anchorY);
-      maybeAutoLayerTransition(false, anchorX, anchorY);
-    }
-  }
+  applyCanvasZoom(
+    direction === "in" ? state.zoom * ZOOM_STEP_FACTOR : state.zoom / ZOOM_STEP_FACTOR,
+    anchorX,
+    anchorY,
+  );
 
   eventTracker("canvas_zoom_change", {
     zoom: Number(state.zoom.toFixed(2)),
@@ -1414,6 +1421,12 @@ function closeContentModal() {
   ui.contentModalBody.classList.remove("is-iframe-mode", "is-text-mode");
   state.contentModalContext = null;
   syncContentModalSaveButton();
+  if (state.previewContext?.kind === "core" && state.previewContext.unit) {
+    const slot = ui.unitPreviewBody?.querySelector("[data-module-sim]");
+    if (slot) {
+      void mountUnitSimulation(slot, state.previewContext.unit, { lang: state.lang });
+    }
+  }
 }
 
 function buildPreviewContextFromUnit(unit) {
@@ -1801,6 +1814,7 @@ function renderUnitPreview(unit, sourceLabel = t("modeCore")) {
     </div>
     <p class="preview-line"><strong>${escapeHtml(t("previewFieldMechanisms"))}：</strong>${escapeHtml(formatMechanisms(unit.mechanisms))}</p>
     <p class="preview-line preview-summary"><strong>${escapeHtml(t("previewFieldDescription"))}：</strong>${escapeHtml(shortText(unit.summary || t("moduleSummaryPlaceholder"), 120))}</p>
+    <div class="module-sim-slot" data-module-sim></div>
     <div data-module-content>
       <p>${escapeHtml(t("contentLoadingModule"))}</p>
     </div>
@@ -1810,10 +1824,13 @@ function renderUnitPreview(unit, sourceLabel = t("modeCore")) {
 
   state.previewRequestId += 1;
   const requestId = state.previewRequestId;
+  const simSlot = ui.unitPreviewBody.querySelector("[data-module-sim]");
+  void mountUnitSimulation(simSlot, unit, { lang: state.lang });
   loadUnitBodyContent(unit, requestId);
 }
 
 function renderDailyPreview(item) {
+  disposeUnitSimulation();
   const timeText = formatDateTime(item.publishedAt);
   const source = item.sourceName || "RSS";
   const linkMarkup = item.link
@@ -1920,11 +1937,11 @@ function getSceneColor(scene) {
 }
 
 function getLayerDepth() {
-  return state.layerSlot;
+  return state.layerDepth;
 }
 
 function getLayerKey() {
-  return `L${state.layerSlot}|C${state.layerCycle}`;
+  return `L${state.layerDepth}|C${state.layerCycle}`;
 }
 
 function getLayerSeedKey() {
@@ -1956,6 +1973,22 @@ function getChildPreviewStartPx() {
 
 function getChildEntryPx() {
   return Math.max(state.width, state.height) * CHILD_ENTRY_SCREEN_RATIO;
+}
+
+function getChildEntryZoom() {
+  const cell = Math.max(1, state.baseCellSize);
+  return getChildEntryPx() / cell;
+}
+
+function syncZoomLimits() {
+  const entryZoom = getChildEntryZoom();
+  state.minZoom = 1;
+  state.maxZoom = Math.max(8, entryZoom);
+  if (ui.zoomInput) {
+    ui.zoomInput.min = String(ZOOM_SLIDER_MIN_PERCENT);
+    ui.zoomInput.max = String(Math.max(ZOOM_SLIDER_MIN_PERCENT + 80, Math.round(state.maxZoom * 100)));
+    ui.zoomInput.step = "8";
+  }
 }
 
 function getParentLandingZoom() {
@@ -2109,6 +2142,33 @@ function setZoom(newZoom, anchorScreenX = state.width / 2, anchorScreenY = state
   clampPan();
   syncZoomUi();
   updateStatusText();
+}
+
+function applyCanvasZoom(rawZoom, anchorX = state.width / 2, anchorY = state.height / 2) {
+  if (state.transition.active) {
+    const factor = rawZoom > state.zoom ? ZOOM_STEP_FACTOR : 1 / ZOOM_STEP_FACTOR;
+    state.pendingZoom = { factor, anchorX, anchorY };
+    return true;
+  }
+
+  const entryZoom = getChildEntryZoom();
+  if (rawZoom >= entryZoom * 0.985) {
+    return startLayerTransition("child", anchorX, anchorY);
+  }
+
+  if (rawZoom < state.minZoom * PARENT_ENTRY_ZOOM) {
+    return startLayerTransition("parent", anchorX, anchorY);
+  }
+
+  setZoom(rawZoom, anchorX, anchorY);
+  return false;
+}
+
+function flushPendingZoom() {
+  const pending = state.pendingZoom;
+  state.pendingZoom = null;
+  if (!pending) return;
+  applyCanvasZoom(state.zoom * pending.factor, pending.anchorX, pending.anchorY);
 }
 
 function screenToCell(screenX, screenY) {
@@ -2291,6 +2351,7 @@ function drawLayerTransition(ts) {
     state.running = t.wasRunning;
     t.captureCanvas = null;
     showToast(`切换到画布 L${getLayerDepth()} · 循环 ${state.layerCycle}`);
+    flushPendingZoom();
   }
 }
 
@@ -2298,10 +2359,14 @@ function maybeAutoLayerTransition(zoomIn, anchorX, anchorY) {
   if (state.transition.active) return true;
 
   if (zoomIn) {
-    if (getRenderCellSize() >= getChildEntryPx()) {
+    if (state.zoom >= getChildEntryZoom() * 0.985 || getRenderCellSize() >= getChildEntryPx()) {
       return startLayerTransition("child", anchorX, anchorY);
     }
     return false;
+  }
+
+  if (state.zoom <= state.minZoom * PARENT_ENTRY_ZOOM) {
+    return startLayerTransition("parent", anchorX, anchorY);
   }
 
   return false;
@@ -2616,8 +2681,28 @@ async function fetchRssDirect(source) {
   return parseFeedXml(xmlText, source);
 }
 
+async function fetchRssViaProxy(source) {
+  const res = await fetch(`/api/rss-proxy?url=${encodeURIComponent(source.url)}`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`proxy: ${res.status}`);
+  const xmlText = await res.text();
+  if (!xmlText || xmlText.trim().length === 0) throw new Error("rss empty response");
+  return parseFeedXml(xmlText, source);
+}
+
 async function fetchDailyItemsForSource(source) {
-  const items = await fetchRssDirect(source);
+  const tryDirect = canFetchSourceDirectly(source);
+  if (tryDirect) {
+    try {
+      const items = await fetchRssDirect(source);
+      if (items.length === 0) throw new Error("feed empty");
+      return items.slice(0, MAX_DAILY_ITEMS_PER_SOURCE);
+    } catch (_err) {
+      const items = await fetchRssViaProxy(source);
+      if (items.length === 0) throw new Error("feed empty");
+      return items.slice(0, MAX_DAILY_ITEMS_PER_SOURCE);
+    }
+  }
+  const items = await fetchRssViaProxy(source);
   if (items.length === 0) throw new Error("feed empty");
   return items.slice(0, MAX_DAILY_ITEMS_PER_SOURCE);
 }
@@ -2671,17 +2756,15 @@ async function reloadDailyFeed({ silent = false } = {}) {
   renderOverviewList();
 
   const enabledSources = state.appSettings.rssSources.filter((s) => s.enabled && isHttpUrl(s.url));
-  const directSources = enabledSources.filter((s) => canFetchSourceDirectly(s));
   const blockedSources = enabledSources.filter((s) => !canFetchSourceDirectly(s));
-  const preErrors = blockedSources.map((s) => {
-    markDiagnostic(s, "proxy_needed", "当前站点前端直连受限，需后端代理");
-    return `${s.name}: 当前站点前端直连受限，需后端代理`;
+  blockedSources.forEach((s) => {
+    markDiagnostic(s, "proxy_needed", "前端直连受限，尝试后端代理");
   });
 
-  if (directSources.length === 0) {
+  if (enabledSources.length === 0) {
     state.dailyFeed.items = buildDailyFallbackItems();
     state.dailyFeed.loading = false;
-    state.dailyFeed.errors = preErrors;
+    state.dailyFeed.errors = [];
     state.dailyFeed.updatedAt = checkedAt;
     state.rssDiagnostics = diagnostics;
     renderOverviewList();
@@ -2690,28 +2773,28 @@ async function reloadDailyFeed({ silent = false } = {}) {
     if (state.engine && state.overviewMode !== OVERVIEW_MODE_CORE) {
       buildEngineAndSeed();
     }
-    if (!silent) {
-      if (enabledSources.length === 0) {
-        showToast("未启用 RSS 源，已使用占位新知流");
-      } else {
-        showToast("可直连 RSS 源为 0，已使用占位新知流");
-      }
-    }
+    if (!silent) showToast("未启用 RSS 源，已使用占位新知流");
     return;
   }
 
-  const jobs = directSources.map((source) => fetchDailyItemsForSource(source)
+  const jobs = enabledSources.map((source) => fetchDailyItemsForSource(source)
     .then((items) => ({ ok: true, source, items }))
     .catch((err) => ({ ok: false, source, err })));
   const results = await Promise.all(jobs);
 
   const merged = [];
-  const errors = [...preErrors];
+  const errors = [];
   for (let i = 0; i < results.length; i += 1) {
     const res = results[i];
     if (res.ok) {
       merged.push(...res.items);
-      markDiagnostic(res.source, "direct_ok", `抓取成功，条目 ${res.items.length}`, res.items.length);
+      const viaProxy = !canFetchSourceDirectly(res.source);
+      markDiagnostic(
+        res.source,
+        viaProxy ? "proxy_needed" : "direct_ok",
+        viaProxy ? `代理抓取成功，条目 ${res.items.length}` : `抓取成功，条目 ${res.items.length}`,
+        res.items.length,
+      );
     } else {
       const reason = res.err?.message || "抓取失败";
       markDiagnostic(res.source, "unavailable", reason, 0);
@@ -3091,6 +3174,7 @@ function resizeCanvas() {
   state.cols = Math.max(1, Math.ceil(state.width / state.baseCellSize) + 2);
   state.rows = Math.max(1, Math.ceil(state.height / state.baseCellSize) + 2);
 
+  syncZoomLimits();
   buildEngineAndSeed();
   resetView(true);
 }
@@ -3346,6 +3430,7 @@ function enterChildLayer(anchorX = state.width / 2, anchorY = state.height / 2, 
 
   state.layerSlot = state.layerSlot === 0 ? 1 : 0;
   state.layerCycle += 1;
+  state.layerDepth += 1;
 
   buildEngineAndSeed();
   resetView(false);
@@ -3382,6 +3467,7 @@ function enterParentLayer(options = {}) {
   const fromSlot = state.layerSlot;
   state.layerSlot = state.layerSlot === 0 ? 1 : 0;
   state.layerCycle += 1;
+  state.layerDepth -= 1;
   buildEngineAndSeed();
   const entryCell = resolveEntryCellFromOwner(state.layerSeedHint?.owner ?? owner);
   setViewAroundCell(entryCell.x, entryCell.y, entryZoom, anchorX, anchorY);
@@ -3532,13 +3618,33 @@ async function openUnitModalByOwner(ownerId, source = "cell_double_click") {
   }
 
   const targetUrl = resolveUnitTargetUrl(unit) || unit.link || "";
+  state.contentModalContext = buildPreviewContextFromUnit(unit);
+  syncContentModalSaveButton();
+  ui.contentModalTitle.textContent = title;
+  ui.contentModal.classList.add("open");
+  ui.contentModal.setAttribute("aria-hidden", "false");
+  ui.contentModalBody.classList.remove("is-iframe-mode");
+  ui.contentModalBody.classList.add("is-text-mode");
+  ui.contentModalBody.innerHTML = `
+    <div class="module-sim-slot module-sim-slot-lg" data-module-sim></div>
+    <div data-module-content><p>${escapeHtml(t("contentLoadingModule"))}</p></div>
+  `;
+  void mountUnitSimulation(ui.contentModalBody.querySelector("[data-module-sim]"), unit, { lang: state.lang });
   if (targetUrl) {
-    await openContentModal(targetUrl, title, { context: buildPreviewContextFromUnit(unit) });
-    showToast(t("toastModalOpened", { title }));
-  } else {
-    openModelUnit(unit, source);
-    showToast(t("toastCoreNoEmbeddableSource"));
+    try {
+      const res = await fetch(resolveFetchPath(targetUrl), { cache: "no-store" });
+      if (res.ok) {
+        const buffer = await res.arrayBuffer();
+        const decoded = decodeModuleText(buffer);
+        const slot = ui.contentModalBody.querySelector("[data-module-content]");
+        if (slot) slot.innerHTML = `<pre class="module-content">${escapeHtml(normalizeTextForPreview(decoded))}</pre>`;
+      }
+    } catch (_err) {
+      const slot = ui.contentModalBody.querySelector("[data-module-content]");
+      if (slot) slot.innerHTML = `<p>${escapeHtml(t("contentLoadFailedUseOpenSource"))}</p>`;
+    }
   }
+  showToast(t("toastModalOpened", { title }));
   eventTracker("open_unit_modal", {
     source,
     unit_id: unit.id,
@@ -3650,8 +3756,6 @@ async function onCanvasDoubleClick(ev) {
 
 function onCanvasWheel(ev) {
   ev.preventDefault();
-  if (state.transition.active) return;
-
   const rect = state.canvas.getBoundingClientRect();
   const sx = ev.clientX - rect.left;
   const sy = ev.clientY - rect.top;
@@ -3660,15 +3764,7 @@ function onCanvasWheel(ev) {
   state.focusCellY = focus.y;
   const zoomIn = ev.deltaY < 0;
   const factor = zoomIn ? ZOOM_STEP_FACTOR : 1 / ZOOM_STEP_FACTOR;
-
-  const rawZoom = state.zoom * factor;
-  if (!zoomIn && canEnterParentLayer() && rawZoom < state.minZoom * PARENT_ENTRY_ZOOM) {
-    startLayerTransition("parent", sx, sy);
-    return;
-  }
-
-  setZoom(rawZoom, sx, sy);
-  maybeAutoLayerTransition(zoomIn, sx, sy);
+  applyCanvasZoom(state.zoom * factor, sx, sy);
 }
 
 function onCanvasPointerDown(ev) {
@@ -4213,18 +4309,11 @@ function bindUI() {
   });
 
   ui.zoomInput.addEventListener("input", () => {
-    if (state.transition.active) return;
     const focus = screenToCell(state.width / 2, state.height / 2);
     state.focusCellX = focus.x;
     state.focusCellY = focus.y;
     const percent = Number(ui.zoomInput.value);
-    const prevZoom = state.zoom;
-    setZoom(percent / 100);
-    if (state.zoom > prevZoom) {
-      maybeAutoLayerTransition(true, state.width / 2, state.height / 2);
-    } else if (state.zoom < prevZoom) {
-      maybeAutoLayerTransition(false, state.width / 2, state.height / 2);
-    }
+    applyCanvasZoom(percent / 100, state.width / 2, state.height / 2);
     eventTracker("canvas_zoom_change", { zoom: Number(state.zoom.toFixed(2)), source: "slider" });
   });
 
@@ -4651,8 +4740,7 @@ function bindUI() {
       const focus = screenToCell(state.width / 2, state.height / 2);
       state.focusCellX = focus.x;
       state.focusCellY = focus.y;
-      setZoom(state.zoom * ZOOM_STEP_FACTOR);
-      maybeAutoLayerTransition(true, state.width / 2, state.height / 2);
+      applyCanvasZoom(state.zoom * ZOOM_STEP_FACTOR, state.width / 2, state.height / 2);
       return;
     }
 
@@ -4661,13 +4749,7 @@ function bindUI() {
       const focus = screenToCell(state.width / 2, state.height / 2);
       state.focusCellX = focus.x;
       state.focusCellY = focus.y;
-      const rawZoom = state.zoom / ZOOM_STEP_FACTOR;
-      if (canEnterParentLayer() && rawZoom < state.minZoom * PARENT_ENTRY_ZOOM) {
-        startLayerTransition("parent", state.width / 2, state.height / 2);
-      } else {
-        setZoom(rawZoom);
-        maybeAutoLayerTransition(false, state.width / 2, state.height / 2);
-      }
+      applyCanvasZoom(state.zoom / ZOOM_STEP_FACTOR, state.width / 2, state.height / 2);
       return;
     }
 

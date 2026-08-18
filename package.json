@@ -1,0 +1,12 @@
+{
+  "name": "shiran",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "世然 Shiran — interactive explorable explanations",
+  "scripts": {
+    "dev": "python -m http.server 8787",
+    "build:index": "node scripts/publish-explore-units.mjs --index-only",
+    "publish:units": "node scripts/publish-explore-units.mjs"
+  }
+}

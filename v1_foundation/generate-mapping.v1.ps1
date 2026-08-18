@@ -1,5 +1,5 @@
 ﻿param(
-  [string]$Root = "e:\Laimiu\SHIRAN",
+  [string]$Root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path,
   [string]$CsvPath = ""
 )
 
